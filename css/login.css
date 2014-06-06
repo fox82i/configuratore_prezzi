@@ -1,0 +1,38 @@
+body {
+	background: #4090ba;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #4d4d4d;
+}
+
+/* General */
+
+a{
+	color: #FFF;
+	text-decoration: none;
+}
+
+a:hover{
+	color: #CCC;
+	text-decoration: none;
+}
+
+/* Login form */
+
+#login{
+	background: #FFF;
+	margin: 160px auto 20px auto;
+	padding: 20px;
+	width: 300px;
+}
+
+.login-header{
+	margin-bottom: 20px;
+}
+
+
+/* Footer */
+#footer{
+	color: #F5F5F5;
+	text-align: center;
+}
