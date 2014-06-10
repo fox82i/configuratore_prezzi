@@ -82,7 +82,7 @@
 
                                              <div style='margin-top: 40px;'>
                                                 <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Lunghezza:</span>
-                                                <input type="text" style="margin-left: 5px; float: left;" id="lunghezza" />
+                                                <input type="text" style="margin-left: 5px; float: left;" id="lunghezza" maxlength="4" />
                                             </div>
                                             <div style='margin-top: 90px;'>
                                                 <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Motore Led:</span>
@@ -259,7 +259,8 @@
                                                 ],
                                                 root:'rows',
                                                 id:'id_sistema_accensione',
-                                                url: 'data/enumerate_sistema_accensione.php'
+                                                url: 'data/enumerate_sistema_accensione.php',
+                                              
                                             };
                             var sistemaAccensioneAdapter = new $.jqx.dataAdapter(sistemaAccensioneSource);
 
@@ -290,7 +291,7 @@
                                     //attivo la selezione della scelta per il sistema di fissaggio
                                     $("#sistema_fissaggio").jqxComboBox({ disabled: false, selectedIndex: -1});
                                     sistemaFissaggioSource.data = {prodotto: nome_prodotto};
-                                    motoreLedAdapter = new $.jqx.dataAdapter(sistemaFissaggioSource);
+                                    sistemaFissaggioAdapter = new $.jqx.dataAdapter(sistemaFissaggioSource);
                                     $("#sistema_fissaggio").jqxComboBox({source: sistemaFissaggioAdapter});
                                 }
                             });  
@@ -301,6 +302,7 @@
                                     var lunghezza_prodotto= $('#lunghezza').val();
                                     var nome_prodotto=$("#prodotto").jqxComboBox('getSelectedItem').value;
                                     var codice_motore_led=$("#motore_led").jqxComboBox('getSelectedItem').value;
+                                    var vdc=motoreLedAdapter.records[$("#motore_led").jqxComboBox('getSelectedIndex')]['VDC'];
 
                                     $("#sistema_accensione").jqxComboBox({ disabled: false, selectedIndex: -1});
                                     
@@ -308,14 +310,17 @@
                                         prodotto:nome_prodotto,
                                         motore_led:codice_motore_led,
                                         lunghezza_lampada:lunghezza_prodotto,
-                                        sistema_fissaggio:sistema_fissaggio
+                                        sistema_fissaggio:sistema_fissaggio,
+                                        vdc:vdc
                                     };
 
                                     sistemaAccensioneAdapter=new $.jqx.dataAdapter(sistemaAccensioneSource);
                                      $("#sistema_accensione").jqxComboBox({   source: sistemaAccensioneAdapter});
 
-                                  }
 
+
+                                  }
+                                  console.log(sistemaAccensioneAdapter);
                             });      
 
 

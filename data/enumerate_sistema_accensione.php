@@ -15,16 +15,18 @@
  	$motore_led=$_REQUEST['motore_led'];
  	$lunghezza_lampada=$_REQUEST['lunghezza_lampada'];
  	$sistema_fissaggio=$_REQUEST['sistema_fissaggio'];
+ 	$vdc=$_REQUEST['vdc'];
 
  	#determino il vdc -- capire come farlo passare dal form
- 	$sql_vdc=$dbh->query( "	SELECT VDC
+ /*	$sql_vdc=$dbh->query( "	SELECT VDC
  							FROM motore_led
  							WHERE codice_motore_led='".$motore_led."'
  							 AND obsoleta<>1;
  						");
  	$sql_vdc->execute();
 	$tensione=$sql_vdc->fetchAll(PDO::FETCH_ASSOC);
-	
+	*/
+
 	## DOPO AVER RECUPERATO IL VOLTAGGIO
 	# 1. eseguo un calcolo della potenza nominale includendo gli ingombri senza elementi 
 	# 2. ricerco tutti i sistemi di accensione dove la potenza per quel voltaggio è minore di quella stabilita
@@ -38,7 +40,7 @@
 	$lunghezza_reel=return_lunghezza_reel($LU,$motore_led);
 	$potenza_reel=return_potenza_reel($lunghezza_reel,$motore_led);
  	
-	if ($tensione[0]['VDC']=='12Vdc'){
+	if (/*$tensione[0]['VDC']*/$vdc=='12Vdc'){
 		$nome_campo_portata_max='portata_max_12V';
 	}else{
 		$nome_campo_portata_max='portata_max_24V';
@@ -82,7 +84,7 @@
 	
 		array_push($crud, $row);  
 	}  
-	$results["potenza_reel"]=$potenza_reel;
+	#$results["potenza_reel"]=$potenza_reel;
 	$results["rows"]=$crud;	
 
 	echo json_encode($results);  
