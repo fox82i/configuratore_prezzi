@@ -92,16 +92,19 @@
                                                 <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Colore luce:</span>
                                                 <div style="margin-left: 5px; float: left;" id="colore_luce"></div>
                                             </div>
-
-                                             <div style='margin-top: 190px;'>
+                                             <div style='margin-top: 200px;'>
                                                 <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Sistema fissaggio:</span>
                                                 <div style="margin-left: 5px; float: left;" id="sistema_fissaggio"></div>
                                             </div>
-                                             <div style='margin-top: 230px;'>
+                                             <div style='margin-top: 250px;'>
                                                 <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Sistema accensione:</span>
                                                 <div style="margin-left: 5px; float: left;" id="sistema_accensione"></div>
                                             </div>
-                                            <div style='margin-top: 280px;'>
+                                             <div style='margin-top: 300px;'>
+                                                <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Connettore alimentazione:</span>
+                                                <div style="margin-left: 5px; float: left;" id="connettore_alimentazione"></div>
+                                            </div>
+                                            <div style='margin-top: 350px;'>
                                              <input type="button" value="Determina prezzo" id="sendButton" />
                                             </div>
                                         </form>
@@ -264,6 +267,19 @@
                                             };
                             var sistemaAccensioneAdapter = new $.jqx.dataAdapter(sistemaAccensioneSource);
 
+                            var connettoreAlimentazioneSource ={
+                                                dataType: "json",
+                                                dataFields: [
+                                                    { name: 'id_connettore'},
+                                                    { name: 'descrizione_connettore'}                                                   
+
+                                                ],
+                                                root:'rows',
+                                                id:'id_connettore',
+                                                url: 'data/enumerate_connettore_alimentazione.php',
+                                              
+                                            };
+                            var connettoreAlimentazioneAdapter = new $.jqx.dataAdapter(connettoreAlimentazioneSource);
 
                              $("#prodotto").bind('select', function(event){
                                 if (event.args) {
@@ -302,6 +318,7 @@
                                     var lunghezza_prodotto= $('#lunghezza').val();
                                     var nome_prodotto=$("#prodotto").jqxComboBox('getSelectedItem').value;
                                     var codice_motore_led=$("#motore_led").jqxComboBox('getSelectedItem').value;
+                                    
                                     var vdc=motoreLedAdapter.records[$("#motore_led").jqxComboBox('getSelectedIndex')]['VDC'];
 
                                     $("#sistema_accensione").jqxComboBox({ disabled: false, selectedIndex: -1});
@@ -320,8 +337,36 @@
 
 
                                   }
-                                  console.log(sistemaAccensioneAdapter);
-                            });      
+                               
+                            });    
+
+                            $("#sistema_accensione").bind('select', function(event){
+                                  if (event.args) {
+                                    var sistema_accensione = event.args.item.value;
+                                    var sistema_fissaggio = $("#sistema_fissaggio").jqxComboBox('getSelectedItem').value;
+                                    var lunghezza_prodotto= $('#lunghezza').val();
+                                    var nome_prodotto=$("#prodotto").jqxComboBox('getSelectedItem').value;
+                                    var codice_motore_led=$("#motore_led").jqxComboBox('getSelectedItem').value;
+                                    
+                                    var vdc=motoreLedAdapter.records[$("#motore_led").jqxComboBox('getSelectedIndex')]['VDC'];
+                                    
+                                    $("#connettore_alimentazione").jqxComboBox({ disabled: false, selectedIndex: -1});
+                                   
+                                    connettoreAlimentazioneSource.data={
+                                        prodotto:nome_prodotto,
+                                        motore_led:codice_motore_led,
+                                        lunghezza_lampada:lunghezza_prodotto,
+                                        sistema_fissaggio:sistema_fissaggio,
+                                        vdc:vdc,
+                                        sistema_accensione:sistema_accensione
+                                    };
+
+                                    connettoreAlimentazioneAdapter=new $.jqx.dataAdapter(connettoreAlimentazioneSource);
+                                     $("#connettore_alimentazione").jqxComboBox({   source: connettoreAlimentazioneAdapter});
+
+                                        
+                                  }
+                            });  
 
 
 
@@ -368,6 +413,14 @@
                                 promptText: "Select type of ignition system...",
                                 displayMember: 'descrizione',
                                 valueMember: 'id_sistema_accensione'
+                            });    
+                            $("#connettore_alimentazione").jqxComboBox({            
+                                width: 300,
+                                height: 25,
+                                disabled: true,
+                                promptText: "Select type of connector...",
+                                displayMember: 'descrizione_connettore',
+                                valueMember: 'id_connettore'
                             });    
   
 

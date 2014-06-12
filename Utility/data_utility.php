@@ -40,7 +40,7 @@
 		$sql->execute();
 		$ingombro=$sql->fetchAll(PDO::FETCH_ASSOC);
 
-		if (count($ingombro)>0){
+		if (count($ingombro)==1){
 			return $ingombro[0]['ingombro_tecnico'];
 		}
 
