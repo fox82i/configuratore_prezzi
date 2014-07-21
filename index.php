@@ -100,11 +100,23 @@
                                                 <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Sistema accensione:</span>
                                                 <div style="margin-left: 5px; float: left;" id="sistema_accensione"></div>
                                             </div>
-                                             <div style='margin-top: 300px;'>
+                                            <div style='margin-top: 300px;'>
                                                 <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Connettore alimentazione:</span>
                                                 <div style="margin-left: 5px; float: left;" id="connettore_alimentazione"></div>
                                             </div>
                                             <div style='margin-top: 350px;'>
+                                                <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Lunghezza cavo alimentazione:</span>
+                                               <input type="text" style="margin-left: 5px; float: left;" id="lunghezza_cavo_alim" disabled="true" value="" maxlength="4" />
+                                            </div>
+                                            <div style='margin-top: 400px;'>
+                                                <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Giunzione M/F:</span>
+                                               <input type="checkbox" style="margin-left: 5px; float: left;" id="giunzione_MF" disabled="true"  />
+                                            </div>
+                                            <div style='margin-top: 450px;'>
+                                                <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Uscita Cavo:</span>
+                                               <input type="text" style="margin-left: 5px; float: left;" id="uscita_cavo" disabled="true"  maxlength="4" />
+                                            </div>
+                                            <div style='margin-top: 500px;'>
                                              <input type="button" value="Determina prezzo" id="sendButton" />
                                             </div>
                                         </form>
@@ -367,6 +379,20 @@
                                         
                                   }
                             });  
+                            $("#connettore_alimentazione").bind('select',function(event){
+                                /*in sequenza devo riempire:
+                                    lunghezza cavo alimentazione
+                                    giunzione M/F
+                                    Uscita cavo
+                                */
+                                var lunghezza_cavo=$("#connettore_alimentazione").jqxComboBox('getSelectedIndex')['lunghezza_cavo'];
+                                var giunzione_MF=$("#connettore_alimentazione").jqxComboBox('getSelectedIndex')['giunzione_MF'];
+                                var uscita_cavo=$("#connettore_alimentazione").jqxComboBox('getSelectedIndex')['uscita_cavo'];
+
+                               
+
+
+                            });
 
 
 

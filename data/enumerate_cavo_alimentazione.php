@@ -41,9 +41,7 @@
                                                         prodotto_lineare_motore_led_accensione.id_sistema_fissaggio,
                                                         prodotto_lineare_motore_led_accensione.id_sistema_accensione,
                                                         prodotto_lineare_motore_led_accensione.giunzione_MF,
-                                                        prodotto_lineare_motore_led_accensione.uscita_cavo,
-                                                        connettore_alimentazione.lunghezza_cavo,
-                                                        connettore_alimentazione.sdoppiabile
+                                                        prodotto_lineare_motore_led_accensione.uscita_cavo
 
             
 												FROM 	prodotto_lineare_motore_led_accensione,connettore_alimentazione
