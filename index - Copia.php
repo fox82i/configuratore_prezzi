@@ -11,15 +11,25 @@
                     <html lang="en">
                     <head>
                         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-                        <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css" type="text/css" />                       
-                        <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
-           
-                        <title>Configuratore prodotti L&amp;S</title>
-                        <style type="text/css">                    
-                         
-                          body {
-                            padding-top: 10px; /* 60px to make the container go all the way to the bottom of the topbar */
-                          }
+                        <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css" type="text/css" />
+                        <link rel="stylesheet" href="js/jqwidgets/styles/jqx.energyblue.css" type="text/css" />
+                        <link rel="stylesheet" href="js/jqwidgets/styles/jqx.bootstrap.css" type="text/css" />
+                        <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css" />
+                        <title>Gestione preventivi L&amp;S</title>
+                        <style type="text/css">
+                            html, body
+                            {
+                                height: 100%;
+                                width: 100%;
+                                margin: 0px;
+                                padding: 0px;
+                                overflow: hidden;
+                            },
+                            .text-input
+                            {
+                                height: 21px;
+                                width: 150px;
+                            }
                         </style>
 
                     </head>
@@ -34,7 +44,7 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                               </button>
-                              <a class="navbar-brand" href="#">Configuratore L&amp;S </a>                              
+                              <a class="navbar-brand" href="#">Gestione preventivi L&amp;S </a>                              
                             </div>
                             <div class="collapse navbar-collapse">
                               <ul class="nav navbar-nav">
@@ -52,108 +62,90 @@
                         <br />
                         <br />
                         <br />
-                        <div class="container">
-                             <div id="createPrice" style="font-family: Verdana; font-size: 13px;">
-                                 <div><strong>Configuratore prezzi</strong></div>
-                                
-                                   <div style="font-family: Verdana; font-size: 13px;">
-                                        <form id="calcolo_prezzo" style="overflow: hidden; margin: 10px;" action="./">
-                                            <table>
-                                                <tr>
-                                                    <td>Prodotto:</td>
-                                                </tr>     
-                                                <tr>
-                                                    <td><div  id="prodotto"></div></td>
-                                                
-                                                </tr>   
-                                                
-                                                <tr>
-                                                    <td>Lunghezza:</td>
-                                                </tr>     
-                                                <tr>
-                                                    <td><input type="text"  id="lunghezza" maxlength="4" /></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Motore Led:</td>
-                                                </tr>     
-                                                <tr>
-                                                    <td><div id="motore_led"> </div></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Colore luce:</td>
-                                                </tr>     
-                                                <tr>
-                                                    <td><div  id="colore_luce"> </div></td>
-                                                </tr>
-                                                 <tr>
-                                                    <td>Sistema fissaggio:</td>
-                                                </tr>     
-                                                <tr>
-                                                    <td><div  id="sistema_fissaggio"> </div></td>
-                                                </tr>
-                                                 <tr>
-                                                    <td>Sistema accensione:</td>
-                                                </tr>     
-                                                <tr>
-                                                    <td><div  id="sistema_accensione"> </div></td>
-                                                 </tr>
-                                                <tr>
-                                                    <td>Connettore alimentazione:</td>
-                                                </tr>     
-                                                <tr>
-                                                    <td><div  id="connettore_alimentazione"> </div></td>
-                                                 </tr>
-                                                <tr>
-                                                    <td>Lunghezza cavo alimentazione:</td>
-                                                </tr>     
-                                                <tr>
-                                                   <td><input type="text"  id="lunghezza_cavo_alim"   disabled maxlength="4" /></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Giunzione M/F:</td>
-                                                </tr>     
-                                                <tr>
-                                                   <!--<input type="checkbox"  id="giunzione_MF" disabled="true"  />-->
-                                                   <td><div  id='giunzione_MF'> </div></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Uscita Cavo:</td>
-                                                </tr>     
-                                                <tr>
-                                                   <td><div  id="uscita_cavo"> </div></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Schermo:</td>
-                                                </tr>     
-                                                <tr>
-                                                   <td><div  id="tipo_schermo"> </div></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Quantit&agrave; richiesta:</td>
-                                                </tr>     
-                                                <tr>
-                                                   <td><input type="text"  id="qta"   maxlength="3" /></td>
-                                                </tr>
-                                                <tr colspan="2">
-                                                    <td><input type="button" value="Determina prezzo" id="sendButton" /></td>
-                                                </tr>
-                                            </table>
+                       
+                        <div id="mainSplitter">
+                            <div class="splitter-panel">
+                                   <?php include ("layout/menu/menu_ricerche.php");?>
+                            </div>
+                            <div class="splitter-panel">
+                                <div id='jqxTabs' style="float: left;">
+                                    <ul style="margin-left: 10px;" id="unorderedList">
+                                        <li hasclosebutton='false'>Configuratore</li>                               
+                                    </ul>
+                                  
+                                    <div style="margin-top: 15px; margin-left: 10px;">
+                                        <form id="calcolo_prezzo" action="./">
+                                             <span style="margin-top: 25px; font-size: 12px; font-family: verdana; float: left;">Prodotto:</span>
+                                             <div style="margin-left: 5px; float: left;margin-top: 20px;" id="prodotto"></div>
+                                           
+                                             <div style='clear: both;'></div>
+
+                                             <div style='margin-top: 40px;'>
+                                                <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Lunghezza:</span>
+                                                <input type="text" style="margin-left: 5px; float: left;" id="lunghezza" maxlength="4" />
+                                            </div>
+                                            <div style='margin-top: 90px;'>
+                                                <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Motore Led:</span>
+                                                <div style="margin-left: 5px; float: left;" id="motore_led"></div>
+                                            </div>
+                                             <div style='margin-top: 140px;'>
+                                                <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Colore luce:</span>
+                                                <div style="margin-left: 5px; float: left;" id="colore_luce"></div>
+                                            </div>
+                                             <div style='margin-top: 200px;'>
+                                                <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Sistema fissaggio:</span>
+                                                <div style="margin-left: 5px; float: left;" id="sistema_fissaggio"></div>
+                                            </div>
+                                             <div style='margin-top: 250px;'>
+                                                <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Sistema accensione:</span>
+                                                <div style="margin-left: 5px; float: left;" id="sistema_accensione"></div>
+                                            </div>
+                                            <div style='margin-top: 300px;'>
+                                                <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Connettore alimentazione:</span>
+                                                <div style="margin-left: 5px; float: left;" id="connettore_alimentazione"></div>
+                                            </div>
+                                            <div style='margin-top: 350px;'>
+                                                <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Lunghezza cavo alimentazione:</span>
+                                               <input type="text" style="margin-left: 5px; float: left;" id="lunghezza_cavo_alim"   disabled maxlength="4" />
+                                            </div>
+                                            <div style='margin-top: 400px;'>
+                                                <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Giunzione M/F:</span>
+                                               <!--<input type="checkbox" style="margin-left: 5px; float: left;" id="giunzione_MF" disabled="true"  />-->
+                                               <div style="margin-left: 5px; float: left;" id='giunzione_MF'></div>
+                                            </div>
+                                            <div style='margin-top: 450px;'>
+                                                <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Uscita Cavo:</span>
+                                               <div style="margin-left: 5px; float: left;" id="uscita_cavo"></div>
+                                            </div>
+                                             <div style='margin-top: 500px;'>
+                                                <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Schermo:</span>
+                                               <div style="margin-left: 5px; float: left;" id="tipo_schermo"></div>
+                                            </div>
+                                            <div style='margin-top: 550px;'>
+                                                <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Quantit&agrave; richiesta:</span>
+                                               <input type="text" style="margin-left: 5px; float: left;" id="qta"   maxlength="3" />
+                                            </div>
+                                            <div style='margin-top: 600px;'>
+                                             <input type="button" value="Determina prezzo" id="sendButton" />
+                                            </div>
                                         </form>
-                                          
-                                    </div>
-                                </div>
-                                <div style='font-size: 12px; font-family: Verdana; margin-top: 10px;'>
-                                                <div>Events:</div>
-                                                <div id='events'></div>
+                                          <div style='font-size: 12px; font-family: Verdana; margin-top: 10px;'>
+                                        <div>Events:</div>
+                                        <div id='events'>
                                         </div>
+                                    </div>
+                                    </div>
+
+                                    
+                                </div>
+                            </div>
                         </div>
-                               
                        
 
                     </body>
 
                         <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
-                    <!--    <script type="text/javascript" src="js/jqwidgets/jqxcore.js"></script>
+                        <script type="text/javascript" src="js/jqwidgets/jqxcore.js"></script>
                         <script type="text/javascript" src="js/jqwidgets/jqxdata.js"></script>
                         <script type="text/javascript" src="js/jqwidgets/jqxsplitter.js"></script>
                         <script type="text/javascript" src="js/jqwidgets/jqxnavigationbar.js"></script>
@@ -179,8 +171,7 @@
                         <script type="text/javascript" src="js/jqwidgets/jqxgrid.filter.js"></script> 
                         <script type="text/javascript" src="js/jqwidgets/jqxgrid.sort.js"></script> 
                         
-                        <script type="text/javascript" src="js/jqwidgets/jqxgrid.columnsresize.js"></script> -->
-                        <script type="text/javascript" src="js/jqwidgets/jqx-all.js"></script> 
+                        <script type="text/javascript" src="js/jqwidgets/jqxgrid.columnsresize.js"></script> 
                      
                         <script type="text/javascript" src="js/bootstrap/bootstrap.min.js"></script>
                         <script type="text/javascript">
@@ -221,11 +212,18 @@
 
                             }
                             $(document).ready(function () {
-                               
-                               
-                               $("#createPrice").jqxExpander({  toggleMode: 'none', width: '550px', showArrow: false });
+                                $('#mainSplitter').jqxSplitter({width: '100%', height: '100%', panels: [{ size: '260', min: 150 }, { size: '80%'}] });
+                                $("#jqxnavigationbar_richerche").jqxNavigationBar({ width: '100%', expandMode: 'multiple', expandedIndexes: [0, 0]});
+                                $('#jqxTabs').jqxTabs({ height: '100%', width: '100%', showCloseButtons: true, animationType: 'fade',scrollPosition: 'both'});
                                 $("#giunzione_MF").jqxCheckBox({ width: 150, height: 25, disabled:true });
-                              
+                                $('#calcolo_prezzo').jqxValidator({
+                                    hintType: 'label',
+                                    animationDuration: 0,
+                                    rules:[
+                                            {input:'#lunghezza',  message: 'La lunghezza &egrave; richiesta!', action: 'keyup', rule: 'required' }
+                                        ],
+                                   
+                                });
                                 $('#sendButton').on('click', function () {
                                      $('#calcolo_prezzo').jqxValidator('validate');
                                });
