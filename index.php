@@ -106,17 +106,26 @@
                                             </div>
                                             <div style='margin-top: 350px;'>
                                                 <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Lunghezza cavo alimentazione:</span>
-                                               <input type="text" style="margin-left: 5px; float: left;" id="lunghezza_cavo_alim" disabled="true" value="" maxlength="4" />
+                                               <input type="text" style="margin-left: 5px; float: left;" id="lunghezza_cavo_alim"   disabled maxlength="4" />
                                             </div>
                                             <div style='margin-top: 400px;'>
                                                 <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Giunzione M/F:</span>
-                                               <input type="checkbox" style="margin-left: 5px; float: left;" id="giunzione_MF" disabled="true"  />
+                                               <!--<input type="checkbox" style="margin-left: 5px; float: left;" id="giunzione_MF" disabled="true"  />-->
+                                               <div style="margin-left: 5px; float: left;" id='giunzione_MF'></div>
                                             </div>
                                             <div style='margin-top: 450px;'>
                                                 <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Uscita Cavo:</span>
-                                               <input type="text" style="margin-left: 5px; float: left;" id="uscita_cavo" disabled="true"  maxlength="4" />
+                                               <div style="margin-left: 5px; float: left;" id="uscita_cavo"></div>
                                             </div>
-                                            <div style='margin-top: 500px;'>
+                                             <div style='margin-top: 500px;'>
+                                                <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Schermo:</span>
+                                               <div style="margin-left: 5px; float: left;" id="tipo_schermo"></div>
+                                            </div>
+                                            <div style='margin-top: 550px;'>
+                                                <span style="margin-top: 6px; font-size: 12px; font-family: verdana; float: left;">Quantit&agrave; richiesta:</span>
+                                               <input type="text" style="margin-left: 5px; float: left;" id="qta"   maxlength="3" />
+                                            </div>
+                                            <div style='margin-top: 600px;'>
                                              <input type="button" value="Determina prezzo" id="sendButton" />
                                             </div>
                                         </form>
@@ -153,6 +162,7 @@
                         <script type="text/javascript" src="js/jqwidgets/jqxvalidator.js"></script> 
                       
                         <script type="text/javascript" src="js/jqwidgets/jqxinput.js"></script>
+                        <script type="text/javascript" src="JS/jqwidgets/jqxcheckbox.js"></script>
 
                         <script type="text/javascript" src="js/jqwidgets/jqxgrid.selection.js"></script>
                         <script type="text/javascript" src="js/jqwidgets/jqxgrid.pager.js"></script>
@@ -205,6 +215,7 @@
                                 $('#mainSplitter').jqxSplitter({width: '100%', height: '100%', panels: [{ size: '260', min: 150 }, { size: '80%'}] });
                                 $("#jqxnavigationbar_richerche").jqxNavigationBar({ width: '100%', expandMode: 'multiple', expandedIndexes: [0, 0]});
                                 $('#jqxTabs').jqxTabs({ height: '100%', width: '100%', showCloseButtons: true, animationType: 'fade',scrollPosition: 'both'});
+                                $("#giunzione_MF").jqxCheckBox({ width: 150, height: 25, disabled:true });
                                 $('#calcolo_prezzo').jqxValidator({
                                     hintType: 'label',
                                     animationDuration: 0,
@@ -283,7 +294,11 @@
                                                 dataType: "json",
                                                 dataFields: [
                                                     { name: 'id_connettore'},
-                                                    { name: 'descrizione_connettore'}                                                   
+                                                    { name: 'descrizione_connettore'} ,                                                  
+                                                    { name: 'giunzione_MF'} ,                                                  
+                                                    { name: 'uscita_cavo'} ,                                                  
+                                                    { name: 'lunghezza_cavo'} ,                                                  
+                                                    { name: 'sdoppiabile'}                                           
 
                                                 ],
                                                 root:'rows',
@@ -353,7 +368,7 @@
                             });    
 
                             $("#sistema_accensione").bind('select', function(event){
-                                  if (event.args) {
+                                if (event.args) {
                                     var sistema_accensione = event.args.item.value;
                                     var sistema_fissaggio = $("#sistema_fissaggio").jqxComboBox('getSelectedItem').value;
                                     var lunghezza_prodotto= $('#lunghezza').val();
@@ -385,13 +400,49 @@
                                     giunzione M/F
                                     Uscita cavo
                                 */
-                                var lunghezza_cavo=$("#connettore_alimentazione").jqxComboBox('getSelectedIndex')['lunghezza_cavo'];
-                                var giunzione_MF=$("#connettore_alimentazione").jqxComboBox('getSelectedIndex')['giunzione_MF'];
-                                var uscita_cavo=$("#connettore_alimentazione").jqxComboBox('getSelectedIndex')['uscita_cavo'];
+                                if (event.args) {
+                                    var connettore_alimentazione= connettoreAlimentazioneAdapter.records[$('#connettore_alimentazione').jqxComboBox('getSelectedIndex')]['descrizione_connettore'];
+                                    var lunghezza_cavo  = connettoreAlimentazioneAdapter.records[$('#connettore_alimentazione').jqxComboBox('getSelectedIndex')]['lunghezza_cavo'];
+                                    var giunzione_MF    = connettoreAlimentazioneAdapter.records[$('#connettore_alimentazione').jqxComboBox('getSelectedIndex')]['giunzione_MF'];
+                                    var uscita_cavo     = connettoreAlimentazioneAdapter.records[$('#connettore_alimentazione').jqxComboBox('getSelectedIndex')]['uscita_cavo'];
+                                  
 
-                               
+                                    switch (connettore_alimentazione){
+                                        case 'Sliding':
+                                            break;
+                                        default:
+                                            if(lunghezza_cavo !=""){
+                                                $('#lunghezza_cavo_alim').jqxInput({disabled: false });
+                                                $('#lunghezza_cavo_alim').val(lunghezza_cavo);
+                                            }
 
+                                            switch(giunzione_MF){
+                                                case 'SI':
+                                                    $("#giunzione_MF").jqxCheckBox({disabled:false});
+                                                    break;
+                                                case 'STD':
+                                                    $('#giunzione_MF').jqxCheckBox('check');
+                                                    break;
+                                            }
+                                            switch (uscita_cavo){
+                                                case 'REVER':
+                                                    var source_cable=['sinistra','destra'];
+                                                    
+                                                    $("#uscita_cavo").jqxComboBox({   source: source_cable});
+                                                    $("#uscita_cavo").jqxComboBox({ disabled: false, selectedIndex:0});                                  
+                                                    break;
+                                                default:
+                                                    var source_cable=['sinistra'];
+                                                    
+                                                    $("#uscita_cavo").jqxComboBox({   source: source_cable});
+                                                      $("#uscita_cavo").jqxComboBox({selectedIndex: 0});   
 
+                                                    break;
+                                            }
+                                        break;
+                                    }
+                                    
+                                }
                             });
 
 
@@ -447,7 +498,22 @@
                                 promptText: "Select type of connector...",
                                 displayMember: 'descrizione_connettore',
                                 valueMember: 'id_connettore'
-                            });    
+                            });  
+                             $("#uscita_cavo").jqxComboBox({            
+                                width: 300,
+                                height: 25,
+                                disabled: true,
+                                promptText: "Select type of cable exit..."
+                                
+                            }); 
+                            $("#tipo_schermo").jqxComboBox({            
+                                width: 300,
+                                height: 25,
+                                disabled: true,
+                                promptText: "Select type of screen...",
+                                displayMember: 'descrizione_schermo',
+                                valueMember: 'id_schermo'
+                            });      
   
 
 
