@@ -22,17 +22,20 @@
                                 width: 100%;
                                 margin: 0px;
                                 padding: 0px;
-                                overflow: hidden;
-                            },
-                            .text-input
+                            }
+                            body{
+                                position: relative;
+                                top: 71px;
+                            }
+                         /*   .text-input
                             {
                                 height: 21px;
                                 width: 150px;
-                            }
+                            }*/
                         </style>
 
                     </head>
-                    <body class='default'>
+                    <body role="document">
                        
                         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
                           <div class="container">
@@ -58,76 +61,69 @@
 
                           </div>
                         </div>
-                        <br />
-                        <br />
-                        <br />
-                         <div class="container">
                        
-                                        <form  role="form" id="calcolo_prezzo" action="./">
-                                            <div class="form-group">
-                                                 <label for="prodotto">Prodotto:</label>
-                                                 <div  class="form-control"  id="prodotto"></div>
-                                            </div>   
-                                            
-                                            <div class="form-group">
-                                                <label for="lunghezza">Lunghezza:</label>
-                                                <input type="text" class="form-control" style="width:300px"   id="lunghezza" maxlength="4" />
-                                            </div>
-                                           <div class="form-group">
-                                                <label for="motore_led">Motore Led:</label>
-                                                <div class="form-control"   id="motore_led"></div>
-                                            </div>
-                                           <div class="form-group">
-                                                <label for="colore_luce">Colore luce:</label>
-                                                <div class="form-control"   id="colore_luce"></div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="sistema_fissaggio">Sistema fissaggio:</label>
-                                                <div class="form-control"   id="sistema_fissaggio"></div>
-                                            </div>
-                                           <div class="form-group">
-                                                <label for="sistema_accensione">Sistema accensione:</label>
-                                                <div class="form-control"   id="sistema_accensione"></div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="connettore_alimentazione">Connettore alimentazione:</label>
-                                                <div class="form-control"   id="connettore_alimentazione"></div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="lunghezza_cavo_alim">Lunghezza cavo alimentazione:</label>
-                                               <input type="text" class="form-control"   id="lunghezza_cavo_alim"   style="width:300px" disabled maxlength="4" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="giunzione_MF">
-                                                Giunzione M/F: </label>
-                                                   <!-- <input type="checkbox"  id="giunzione_MF" disabled>-->
-                                                <div id='giunzione_MF'></div>
-                                              
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="uscita_cavo">Uscita Cavo:</label>
-                                               <div class="form-control"   id="uscita_cavo"></div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="tipo_schermo">Schermo:</label>
-                                               <div class="form-control"   id="tipo_schermo"></div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="qta">Quantit&agrave; richiesta:</span>
-                                               <input type="text" class="form-control"   id="qta"   maxlength="3" />
-                                            </div>
-                                            <p>
-                                                <input type="button"  class="btn btn-primary" value="Determina prezzo" id="sendButton" />
-                                            </p>
-                                        </form>
-                                        <div style='font-size: 12px; font-family: Verdana; margin-top: 10px;'>
-                                        
-                                            <div id='events'></div>                                    
-                                        </div>
+                         <div class="container theme-showcase" role="main">
+                            <form  role="form" id="calcolo_prezzo" action="./">
+                                <div class="form-group">
+                                    <label for="prodotto">Prodotto:</label>
+                                    <div class="form-control" id="prodotto"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lunghezza">Lunghezza:</label>
+                                    <input type="text" class="form-control" style="width:300px"   id="lunghezza" maxlength="4" />
+                                </div>
+                               <div class="form-group">
+                                    <label for="motore_led">Motore Led:</label>
+                                    <div class="form-control"   id="motore_led"></div>
+                                </div>
+                               <div class="form-group">
+                                    <label for="colore_luce">Colore luce:</label>
+                                    <div class="form-control"   id="colore_luce"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sistema_fissaggio">Sistema fissaggio:</label>
+                                    <div class="form-control"   id="sistema_fissaggio"></div>
+                                </div>
+                               <div class="form-group">
+                                    <label for="sistema_accensione">Sistema accensione:</label>
+                                    <div class="form-control"   id="sistema_accensione"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="connettore_alimentazione">Connettore alimentazione:</label>
+                                    <div class="form-control"   id="connettore_alimentazione"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lunghezza_cavo_alim">Lunghezza cavo alimentazione:</label>
+                                    <input type="text" class="form-control"   id="lunghezza_cavo_alim"   style="width:300px" disabled maxlength="4" />
+                                </div>
+                                <div class="form-group" >
+                                    <label for="giunzione_MF">
+                                    Giunzione M/F: </label>
+                                       <!-- <input type="checkbox"  id="giunzione_MF" disabled>-->
+                                    <div id='giunzione_MF' ></div>
+                                  
+                                </div>
+                                <div class="form-group">
+                                    <label for="uscita_cavo">Uscita Cavo:</label>
+                                   <div class="form-control"   id="uscita_cavo"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tipo_schermo">Schermo:</label>
+                                   <div class="form-control"   id="tipo_schermo"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="qta">Quantit&agrave; richiesta:</span>
+                                   <input type="text" class="form-control"   id="qta"   maxlength="3" />
+                                </div>
+                                <p>
+                                    <input type="button"  class="btn btn-primary" value="Determina prezzo" id="sendButton" />
+                                </p>
+                            </form>
+                            <div style='font-size: 12px; font-family: Verdana; margin-top: 10px;'>
                             
+                                <div id='events'></div>                                    
+                            </div>
                         </div>
-                       
-
                     </body>
 
                         <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
@@ -136,7 +132,7 @@
                         <script type="text/javascript">
                             
                             $(document).ready(function () {
-                                $('#mainSplitter').jqxSplitter({width: '100%', height: '100%', panels: [{ size: '260', min: 150 }, { size: '80%'}] });
+                                //$('#mainSplitter').jqxSplitter({width: '100%', height: '100%', panels: [{ size: '260', min: 150 }, { size: '80%'}] });
                               
                                 $("#giunzione_MF").jqxCheckBox({ width: 150, height: 25, disabled:true });
                                 
