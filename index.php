@@ -26,12 +26,7 @@
                             body{
                                 position: relative;
                                 top: 71px;
-                            }
-                         /*   .text-input
-                            {
-                                height: 21px;
-                                width: 150px;
-                            }*/
+                            }                            
                         </style>
 
                     </head>
@@ -57,85 +52,105 @@
 
                               </ul>
                       
-                            </div><!--/.nav-collapse -->
+                            </div   ><!--/.nav-collapse -->
 
                           </div>
                         </div>
                        
                          <div class="container theme-showcase" role="main">
-                            <form  role="form" id="calcolo_prezzo" action="./">
-                                <div class="form-group">
-                                    <label for="prodotto">Prodotto:</label>
-                                    <div class="form-control" id="prodotto"></div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <form  role="form" id="calcolo_prezzo" action="./">
+                                        <div class="form-group">
+                                            <label for="prodotto">Prodotto:</label>
+                                            <div class="form-control" id="prodotto"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lunghezza">Lunghezza:</label>
+                                            <input type="text"  class="form-control" style="width:300px"   id="lunghezza" maxlength="4" />
+                                           
+                                        </div>
+                                       <div class="form-group">
+                                            <label for="motore_led">Motore Led:</label>
+                                            <div class="form-control"   id="motore_led"></div>
+                                        </div>
+                                       <div class="form-group">
+                                            <label for="colore_luce">Colore luce:</label>
+                                            <div class="form-control"   id="colore_luce"></div>
+                                        </div>
+                                         <div class="form-group">
+                                            <label for="tipo_schermo">Schermo:</label>
+                                            <div class="form-control"   id="tipo_schermo"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sistema_fissaggio">Sistema fissaggio:</label>
+                                            <div class="form-control"   id="sistema_fissaggio"></div>
+                                        </div>
+                                       <div class="form-group">
+                                            <label for="sistema_accensione">Sistema accensione:</label>
+                                            <div class="form-control"   id="sistema_accensione"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="connettore_alimentazione">Connettore alimentazione:</label>
+                                            <div class="form-control"   id="connettore_alimentazione"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lunghezza_cavo_alim">Lunghezza cavo alimentazione:</label>
+                                            <input type="text" class="form-control"   id="lunghezza_cavo_alim"   style="width:300px" disabled maxlength="4" />
+                                        </div>
+                                        <div class="form-group" >
+                                            <label for="giunzione_MF"> Giunzione M/F: </label>
+                                               <!-- <input type="checkbox"  id="giunzione_MF" disabled>-->
+                                            <div id='giunzione_MF' ></div>
+                                          
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="uscita_cavo">Uscita Cavo:</label>
+                                           <div class="form-control"   id="uscita_cavo"></div>
+                                        </div>
+                                       
+                                        <div class="form-group">
+                                            <label for="qta">Quantit&agrave; richiesta:</label>
+                                            <input type="text" class="form-control"   style="width:300px" id="qta"   maxlength="3" />
+                                        </div>
+                                        <p>
+                                            <input type="button"  class="btn btn-primary" value="Determina prezzo" id="sendButton" />
+                                        </p>
+                                    </form>
                                 </div>
-                                <div class="form-group">
-                                    <label for="lunghezza">Lunghezza:</label>
-                                    <input type="text" class="form-control" style="width:300px"   id="lunghezza" maxlength="4" />
+                                <div class="col-md-6 col-sm-6">
+                                    <div style='font-size: 12px; font-family: Verdana; margin-left: 20px; margin-top: 10px; float: left;'>
+                                        <span>
+                                            Costruzione prezzo:</span>
+                                        <div id='events'></div> 
+                                    </div>
                                 </div>
-                               <div class="form-group">
-                                    <label for="motore_led">Motore Led:</label>
-                                    <div class="form-control"   id="motore_led"></div>
-                                </div>
-                               <div class="form-group">
-                                    <label for="colore_luce">Colore luce:</label>
-                                    <div class="form-control"   id="colore_luce"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="sistema_fissaggio">Sistema fissaggio:</label>
-                                    <div class="form-control"   id="sistema_fissaggio"></div>
-                                </div>
-                               <div class="form-group">
-                                    <label for="sistema_accensione">Sistema accensione:</label>
-                                    <div class="form-control"   id="sistema_accensione"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="connettore_alimentazione">Connettore alimentazione:</label>
-                                    <div class="form-control"   id="connettore_alimentazione"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="lunghezza_cavo_alim">Lunghezza cavo alimentazione:</label>
-                                    <input type="text" class="form-control"   id="lunghezza_cavo_alim"   style="width:300px" disabled maxlength="4" />
-                                </div>
-                                <div class="form-group" >
-                                    <label for="giunzione_MF">
-                                    Giunzione M/F: </label>
-                                       <!-- <input type="checkbox"  id="giunzione_MF" disabled>-->
-                                    <div id='giunzione_MF' ></div>
-                                  
-                                </div>
-                                <div class="form-group">
-                                    <label for="uscita_cavo">Uscita Cavo:</label>
-                                   <div class="form-control"   id="uscita_cavo"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="tipo_schermo">Schermo:</label>
-                                   <div class="form-control"   id="tipo_schermo"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="qta">Quantit&agrave; richiesta:</span>
-                                   <input type="text" class="form-control"   id="qta"   maxlength="3" />
-                                </div>
-                                <p>
-                                    <input type="button"  class="btn btn-primary" value="Determina prezzo" id="sendButton" />
-                                </p>
-                            </form>
-                            <div style='font-size: 12px; font-family: Verdana; margin-top: 10px;'>
-                            
-                                <div id='events'></div>                                    
                             </div>
+                                                              
+                           
                         </div>
+
                     </body>
 
                         <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
                         <script type="text/javascript" src="js/jqwidgets/jqx-all.js"></script>                     
                         <script type="text/javascript" src="js/bootstrap/bootstrap.min.js"></script>
                         <script type="text/javascript">
-                            
+                            var costo_prodotto=0;
                             $(document).ready(function () {
                                 //$('#mainSplitter').jqxSplitter({width: '100%', height: '100%', panels: [{ size: '260', min: 150 }, { size: '80%'}] });
                               
                                 $("#giunzione_MF").jqxCheckBox({ width: 150, height: 25, disabled:true });
-                                
+                                $('#events').jqxPanel({  height: '250px', width: '200px' });
+                                $('#events').css('border', 'none');
+                                $('#calcolo_prezzo').jqxValidator({
+                                    hintType: 'label',
+                                    animationDuration: 0,
+                                    rules: [
+                                            { input: '#lunghezza', message: 'La lunghezza lampada &egrave; richiesta!', action: 'keyup, blur', rule: 'required' }
+                                            ]
+                                });
+
                                 $('#sendButton').on('click', function () {
                                      $('#calcolo_prezzo').jqxValidator('validate');
                                });
@@ -146,7 +161,8 @@
                                                     dataType: "json",
                                                     dataFields: [
                                                         { name: 'prodotto'},
-                                                        { name: 'prodotto'}
+                                                        { name: 'lunghezza_massima_accettata'},
+                                                        { name: 'lunghezza_minima_accettata'}
                                                     ],
                                                     id:'prodotto',
                                                     root:'rows',
@@ -176,6 +192,16 @@
                                                 url: 'data/enumerate_temperatura_luce.php'
                                             };
                             var coloreLuceAdapter = new $.jqx.dataAdapter(coloreLuceSource);
+
+                            var schermoSource ={
+                                                dataType: "json",
+                                                dataFields: [
+                                                    { name: 'codice_schermo'},
+                                                    { name: 'descrizione_schermo'}
+                                                ],
+                                                url: 'data/enumerate_schermo.php'
+                                            };
+                            var schermoAdapter = new $.jqx.dataAdapter(schermoSource);
 
                             var sistemaFissaggioSource ={
                                                 dataType: "json",
@@ -229,6 +255,11 @@
                                     motoreLedSource.data = {prodotto: value};
                                     motoreLedAdapter = new $.jqx.dataAdapter(motoreLedSource);
                                     $("#motore_led").jqxComboBox({source: motoreLedAdapter});
+                                    
+                                    if (value != null) {
+                                            $('#events').jqxPanel('clearcontent');
+                                            $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px;">Avanzamento: ' + costo_prodotto + '</div>');
+                                    }
                                 }
                             });                              
 
@@ -243,14 +274,22 @@
                                     coloreLuceAdapter = new $.jqx.dataAdapter(coloreLuceSource);
                                     $("#colore_luce").jqxComboBox({source: coloreLuceAdapter});
 
+                                    //attivo la selezione della scelta per lo schermo
+                                    $("#tipo_schermo").jqxComboBox({ disabled: false, selectedIndex: -1});        
+                                    schermoSource.data = {prodotto: nome_prodotto};
+                                    schermoAdapter = new $.jqx.dataAdapter(schermoSource);
+                                    $("#tipo_schermo").jqxComboBox({source: schermoAdapter});
+
                                     //attivo la selezione della scelta per il sistema di fissaggio
                                     $("#sistema_fissaggio").jqxComboBox({ disabled: false, selectedIndex: -1});
                                     sistemaFissaggioSource.data = {prodotto: nome_prodotto};
                                     sistemaFissaggioAdapter = new $.jqx.dataAdapter(sistemaFissaggioSource);
                                     $("#sistema_fissaggio").jqxComboBox({source: sistemaFissaggioAdapter});
+                                   
                                 }
-                            });  
-                            
+                            }); 
+
+
                             $("#sistema_fissaggio").bind('select', function(event){
                                   if (event.args) {
                                     var sistema_fissaggio = event.args.item.value;
@@ -272,8 +311,6 @@
 
                                     sistemaAccensioneAdapter=new $.jqx.dataAdapter(sistemaAccensioneSource);
                                      $("#sistema_accensione").jqxComboBox({   source: sistemaAccensioneAdapter});
-
-
 
                                   }
                                
@@ -399,7 +436,7 @@
                                 width: 300,
                                 height: 25,
                                 disabled: true,
-                                promptText: "Select type of ignition system...",
+                                promptText: "Select type of switching system...",
                                 displayMember: 'descrizione',
                                 valueMember: 'id_sistema_accensione'
                             });    
@@ -424,7 +461,7 @@
                                 disabled: true,
                                 promptText: "Select type of screen...",
                                 displayMember: 'descrizione_schermo',
-                                valueMember: 'id_schermo'
+                                valueMember: 'codice_schermo'
                             });      
   
 
