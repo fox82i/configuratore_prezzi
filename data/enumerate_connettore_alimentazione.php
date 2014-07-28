@@ -84,6 +84,11 @@
 			2. sommo i costi per tutti pz per la qta e costo 
 			3. esegueo le somme per le clips di fissaggio 
 			4. eseguo le somme anche per il sistema di accensione dove disponibile
+			5. eseguo le somme per il costo manodopera:
+				a. assemblaggio
+				b. taglio schermo
+				c. taglio reel plate
+				d. taglio verga
 	*/
 
 	// DIBA
@@ -149,6 +154,22 @@
 	$sistema_di_accensione=$accensione->fetchAll(PDO::FETCH_ASSOC);	
 
 	$costo_prodotto=$costo_prodotto+$sistema_di_accensione[0]['costo'];
+
+
+	// LAVORAZIONE
+	$lavorazione=$dbh->query(" 	SELECT 	SUM(costo) as costo_lavorazione
+								FROM  	costo_assemblaggio_lampada
+								WHERE (		tipo_lavorazione='ASSEMBLAGGIO' 
+								       OR 	tipo_lavorazione='TAGLIO SCHERMO' 
+								       OR 	tipo_lavorazione='TAGLIO VERGA' 
+								       OR 	tipo_lavorazione='TAGLIO REELPLATE')
+								AND '".$lunghezza_lampada."'>=da and '".$lunghezza_lampada."'<=a
+						 
+					");
+	$lavorazione_assemblaggio=$lavorazione->fetchAll(PDO::FETCH_ASSOC);	
+
+	$costo_prodotto=$costo_prodotto+$lavorazione_assemblaggio[0]['costo_lavorazione'];
+
 
 	$results["costo"]=$costo_prodotto;
 

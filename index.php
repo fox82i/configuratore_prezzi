@@ -151,9 +151,7 @@
                                             ]
                                 });
 
-                                $('#sendButton').on('click', function () {
-                                     $('#calcolo_prezzo').jqxValidator('validate');
-                               });
+
                                
                             });
 
@@ -330,7 +328,7 @@
                                     var lunghezza_prodotto= $('#lunghezza').val();
                                     var nome_prodotto=$("#prodotto").jqxComboBox('getSelectedItem').value;
                                     var codice_motore_led=$("#motore_led").jqxComboBox('getSelectedItem').value;
-                                     var schermo=$("#tipo_schermo").jqxComboBox('getSelectedItem').value;
+                                    var schermo=$("#tipo_schermo").jqxComboBox('getSelectedItem').value;
 
                                     
                                     var vdc=motoreLedAdapter.records[$("#motore_led").jqxComboBox('getSelectedIndex')]['VDC'];
@@ -368,9 +366,11 @@
                                   
                                     $('#events').jqxPanel('clearcontent');
                                     $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px;">Avanzamento: ' + connettoreAlimentazioneSource.costo + '</div>');
+                                    $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px;">Potenza lampada: ' + connettoreAlimentazioneSource.potenza_reel + 'W</div>');
                               
                                     switch (connettore_alimentazione){
                                         case 'Sliding':
+                                            alert('Procedi pure alla determinazione del prezzo');
                                             break;
                                         default:
                                             if(lunghezza_cavo !=""){
@@ -407,6 +407,39 @@
                                 }
                             });
 
+                             $('#sendButton').on('click', function () {
+                                    if($('#calcolo_prezzo').jqxValidator('validate')){  
+                                        var nome_prodotto=$("#prodotto").jqxComboBox('getSelectedItem').value;
+                                        var lunghezza_prodotto= $('#lunghezza').val();
+                                        var codice_motore_led=$("#motore_led").jqxComboBox('getSelectedItem').value;
+                                        var schermo=$("#tipo_schermo").jqxComboBox('getSelectedItem').value;
+                                        var sistema_fissaggio = $("#sistema_fissaggio").jqxComboBox('getSelectedItem').value;                                      
+                                        var sistema_accensione = $("#sistema_accensione").jqxComboBox('getSelectedItem').value;    
+                                        var connettore_alimentazione= $('#connettore_alimentazione').jqxComboBox('getSelectedIndex').value;
+                                        var lunghezza_cavo  = $('#connettore_alimentazione').jqxComboBox('getSelectedIndex').value;
+                                        var giunzione_MF    = $('#giunzione_MF').jqxCheckBox('checked');
+                                        
+                                       
+                                        
+                                        
+
+                                        var productResult={
+                                                    dataType: "json",
+                                                    dataFields: [
+                                                        { name: 'potenza_reel'},
+                                                        { name: 'prezzo'},
+                                                        { name: 'descrizione_aggiuntiva'}
+                                                    ],
+                                                    
+                                                    root:'rows',
+
+                                                    url: 'data/determina_prezzo.php'
+                                        }
+
+                                    }else{
+                                        $('#calcolo_prezzo').jqxValidator('validate');
+                                    }
+                               });
 
 
                             $("#prodotto").jqxComboBox({
