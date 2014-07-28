@@ -18,6 +18,7 @@
  	$lunghezza_lampada=$_REQUEST['lunghezza_lampada'];
  	$sistema_fissaggio=$_REQUEST['sistema_fissaggio'];
  	$sistema_accensione=$_REQUEST['sistema_accensione'];
+ 	$tipo_schermo=$_REQUEST['tipo_schermo'];
  	$vdc=$_REQUEST['vdc'];
 
  	#eseguo calcolo per la lunghezza di taglio reel e sua relativa potenza in funzione delle scelti precedenti
@@ -85,6 +86,7 @@
 			4. eseguo le somme anche per il sistema di accensione dove disponibile
 	*/
 
+	// DIBA
 	$diba=$dbh->query("	SELECT diba.*, MAX(diba.inizio_validita) as validita
 					FROM diba
 					WHERE diba.nome_prodotto='".$nome_prodotto."'
@@ -109,6 +111,20 @@
 		
 		
 	}
+
+	//SCHERMO
+	$schermo=$dbh->query("	SELECT 	regole_schermo.*,MAX(regole_schermo.inizio_validita)as validita 
+							FROM 	regole_schermo
+							WHERE 	regole_schermo.nome_prodotto='".$nome_prodotto."'
+								AND regole_schermo.codice_schermo='".$tipo_schermo."'
+							GROUP BY regole_schermo.nome_prodotto,regole_schermo.codice_articolo_schermo,regole_schermo.codice_schermo
+					");
+	$schermo_prodotto=$schermo->fetchAll(PDO::FETCH_ASSOC);
+
+	foreach ($schermo_prodotto as $row) {
+		$costo_prodotto=$costo_prodotto + round($row['costo']/floor(3000/return_lunghezza_profilo_plastico($lunghezza_lampada,$nome_prodotto,$sistema_fissaggio)),2);
+	}
+
 	//CLIPS FISSAGGIO
 	$clips=$dbh->query(" SELECT *,MAX(inizio_validita) as validita
 						fROM regole_sistema_fissaggio

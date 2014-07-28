@@ -73,7 +73,6 @@
  				return floor($LU/25)*25;
  				break;
  		}
-
  	}
 
  	function return_potenza_reel($LU_reel,$motore_led){
@@ -104,6 +103,76 @@
  				return Round($LU_reel*0.0155,1);
  				break;
  		}
+ 	}
+
+ 	function return_lunghezza_profilo_plastico($lunghezza_lampada,$nome_prodotto,$tipo_fissaggio){
+ 		$app=0;
+ 		switch ($nome_prodotto) {
+ 			case 'LEDO': 
+ 				$app=13;
+ 				break;
+ 			case 'BORNEO': 
+ 				$app=0;
+ 				break;
+ 			case 'BRASILIA': 
+ 				switch ($tipo_fissaggio) {
+ 					case '1':
+ 						$app=24;
+ 						break;
+ 					case '2':
+ 						$app=16;
+ 						break;
+ 					case '3':
+ 						$app=32;
+ 						break; 					
+ 				} 				
+ 				break;
+ 			case 'SKYLINE': 
+ 				switch ($tipo_fissaggio) {
+ 					case '1':
+ 						$app=22;
+ 						break;
+ 					case '2':
+ 						$app=12;
+ 						break;
+ 					case '3':
+ 						$app=30;
+ 						break; 					
+ 				} 				
+ 			
+ 				break;
+ 			case 'DERBY': 
+ 				$app=8;
+ 				break;
+ 			case 'PERTH': 
+ 				$app=8;
+ 				break;
+ 			case 'LUGANO': 
+ 				$app=4;
+ 				break; 			
+ 			case 'GENEVE': 
+ 				$app=4;
+ 				break;
+ 			case 'BALI': 
+ 				$app=49;
+ 				break;
+ 			case 'MANILA': 
+ 				$app=57;
+ 				break;
+ 			case 'MALINDI': 
+ 				$app=0;
+ 				break;
+ 			case 'MALINDI-in': 
+ 				$app=0;
+ 				break;
+ 			case 'TIFANY': 
+ 				$app=0;
+ 				break;
+ 			case 'MISKA': 
+ 				$app=0;
+ 				break;
+ 		}
+ 		return ($lunghezza_lampada-$app);
 
  	}
 

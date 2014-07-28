@@ -242,9 +242,14 @@
                                                 root:'rows',
                                                 id:'id_connettore',
                                                 url: 'data/enumerate_connettore_alimentazione.php',
+
+                                                beforeprocessing: function (data) {
+                                                  connettoreAlimentazioneSource.costo = data.costo;
+                                                  connettoreAlimentazioneSource.potenza_reel=data.potenza_reel;
+                                                } 
                                               
                                             };
-                            var connettoreAlimentazioneAdapter = new $.jqx.dataAdapter(connettoreAlimentazioneSource);
+                            var connettoreAlimentazioneAdapter = new $.jqx.dataAdapter(connettoreAlimentazioneSource) ;
 
                              $("#prodotto").bind('select', function(event){
                                 if (event.args) {
@@ -296,6 +301,7 @@
                                     var lunghezza_prodotto= $('#lunghezza').val();
                                     var nome_prodotto=$("#prodotto").jqxComboBox('getSelectedItem').value;
                                     var codice_motore_led=$("#motore_led").jqxComboBox('getSelectedItem').value;
+                                   
                                     
                                     var vdc=motoreLedAdapter.records[$("#motore_led").jqxComboBox('getSelectedIndex')]['VDC'];
 
@@ -317,12 +323,15 @@
                             });    
 
                             $("#sistema_accensione").bind('select', function(event){
+
                                 if (event.args) {
                                     var sistema_accensione = event.args.item.value;
                                     var sistema_fissaggio = $("#sistema_fissaggio").jqxComboBox('getSelectedItem').value;
                                     var lunghezza_prodotto= $('#lunghezza').val();
                                     var nome_prodotto=$("#prodotto").jqxComboBox('getSelectedItem').value;
                                     var codice_motore_led=$("#motore_led").jqxComboBox('getSelectedItem').value;
+                                     var schermo=$("#tipo_schermo").jqxComboBox('getSelectedItem').value;
+
                                     
                                     var vdc=motoreLedAdapter.records[$("#motore_led").jqxComboBox('getSelectedIndex')]['VDC'];
                                     
@@ -334,28 +343,32 @@
                                         lunghezza_lampada:lunghezza_prodotto,
                                         sistema_fissaggio:sistema_fissaggio,
                                         vdc:vdc,
-                                        sistema_accensione:sistema_accensione
+                                        sistema_accensione:sistema_accensione,
+                                        tipo_schermo:schermo
                                     };
 
                                     connettoreAlimentazioneAdapter=new $.jqx.dataAdapter(connettoreAlimentazioneSource);
                                      $("#connettore_alimentazione").jqxComboBox({   source: connettoreAlimentazioneAdapter});
-
-                                        
-                                  }
+                                }
+                                 
                             });  
+                           
                             $("#connettore_alimentazione").bind('select',function(event){
                                 /*in sequenza devo riempire:
                                     lunghezza cavo alimentazione
                                     giunzione M/F
                                     Uscita cavo
                                 */
+
                                 if (event.args) {
                                     var connettore_alimentazione= connettoreAlimentazioneAdapter.records[$('#connettore_alimentazione').jqxComboBox('getSelectedIndex')]['descrizione_connettore'];
                                     var lunghezza_cavo  = connettoreAlimentazioneAdapter.records[$('#connettore_alimentazione').jqxComboBox('getSelectedIndex')]['lunghezza_cavo'];
                                     var giunzione_MF    = connettoreAlimentazioneAdapter.records[$('#connettore_alimentazione').jqxComboBox('getSelectedIndex')]['giunzione_MF'];
                                     var uscita_cavo     = connettoreAlimentazioneAdapter.records[$('#connettore_alimentazione').jqxComboBox('getSelectedIndex')]['uscita_cavo'];
                                   
-
+                                    $('#events').jqxPanel('clearcontent');
+                                    $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px;">Avanzamento: ' + connettoreAlimentazioneSource.costo + '</div>');
+                              
                                     switch (connettore_alimentazione){
                                         case 'Sliding':
                                             break;
