@@ -119,11 +119,13 @@
                                     </form>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
-                                    <div style='font-size: 12px; font-family: Verdana; margin-left: 20px; margin-top: 10px; float: left;'>
+                                    <div style='font-size: 12px; font-family: Verdana; margin-left: 5px; margin-top: 10px; float: left;'>
                                         <span>
                                             Costruzione prezzo:</span>
-                                        <div id='events'></div> 
+                                            <div id='events'></div>                                         
+                                            <div id='tab_result'></div>
                                     </div>
+                                   
                                 </div>
                             </div>
                                                               
@@ -141,7 +143,7 @@
                                 //$('#mainSplitter').jqxSplitter({width: '100%', height: '100%', panels: [{ size: '260', min: 150 }, { size: '80%'}] });
                               
                                 $("#giunzione_MF").jqxCheckBox({ width: 150, height: 25, disabled:true });
-                                $('#events').jqxPanel({  height: '250px', width: '200px' });
+                                $('#events').jqxPanel({  height: '50px', width: '250px' });
                                 $('#events').css('border', 'none');
                                 $('#calcolo_prezzo').jqxValidator({
                                     hintType: 'label',
@@ -342,7 +344,7 @@
                                         sistema_fissaggio:sistema_fissaggio,
                                         vdc:vdc,
                                         sistema_accensione:sistema_accensione,
-                                        tipo_schermo:schermo
+                                      
                                     };
 
                                     connettoreAlimentazioneAdapter=new $.jqx.dataAdapter(connettoreAlimentazioneSource);
@@ -364,10 +366,10 @@
                                     var giunzione_MF    = connettoreAlimentazioneAdapter.records[$('#connettore_alimentazione').jqxComboBox('getSelectedIndex')]['giunzione_MF'];
                                     var uscita_cavo     = connettoreAlimentazioneAdapter.records[$('#connettore_alimentazione').jqxComboBox('getSelectedIndex')]['uscita_cavo'];
                                   
-                                    $('#events').jqxPanel('clearcontent');
+                                  /*  $('#events').jqxPanel('clearcontent');
                                     $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px;">Avanzamento: ' + connettoreAlimentazioneSource.costo + '</div>');
                                     $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px;">Potenza lampada: ' + connettoreAlimentazioneSource.potenza_reel + 'W</div>');
-                              
+                              */
                                     switch (connettore_alimentazione){
                                         case 'Sliding':
                                             alert('Procedi pure alla determinazione del prezzo');
@@ -409,32 +411,65 @@
 
                              $('#sendButton').on('click', function () {
                                     if($('#calcolo_prezzo').jqxValidator('validate')){  
-                                        var nome_prodotto=$("#prodotto").jqxComboBox('getSelectedItem').value;
-                                        var lunghezza_prodotto= $('#lunghezza').val();
-                                        var codice_motore_led=$("#motore_led").jqxComboBox('getSelectedItem').value;
-                                        var schermo=$("#tipo_schermo").jqxComboBox('getSelectedItem').value;
-                                        var sistema_fissaggio = $("#sistema_fissaggio").jqxComboBox('getSelectedItem').value;                                      
-                                        var sistema_accensione = $("#sistema_accensione").jqxComboBox('getSelectedItem').value;    
-                                        var connettore_alimentazione= $('#connettore_alimentazione').jqxComboBox('getSelectedIndex').value;
-                                        var lunghezza_cavo  = $('#connettore_alimentazione').jqxComboBox('getSelectedIndex').value;
-                                        var giunzione_MF    = $('#giunzione_MF').jqxCheckBox('checked');
+                                      
+                                        var nome_prodotto=              $("#prodotto").jqxComboBox('getSelectedItem').value;
+                                        var lunghezza_prodotto=         $('#lunghezza').val();
+                                        var codice_motore_led=          $("#motore_led").jqxComboBox('getSelectedItem').value;
+                                        var tipo_schermo=               $("#tipo_schermo").jqxComboBox('getSelectedItem').value;
+                                        var sistema_fissaggio =         $("#sistema_fissaggio").jqxComboBox('getSelectedItem').value;                                      
+                                        var sistema_accensione =        $("#sistema_accensione").jqxComboBox('getSelectedItem').value;    
+                                        var connettore_alimentazione=   $('#connettore_alimentazione').jqxComboBox('getSelectedItem').value;
+                                        var lunghezza_cavo  =           $('#lunghezza_cavo_alim').val();
+                                        var giunzione_MF    =           $('#giunzione_MF').jqxCheckBox('checked');
+                                        var qta_richiesta   =           $('#qta').val();
                                         
-                                       
-                                        
-                                        
-
-                                        var productResult={
+                                        var productResultSource={
                                                     dataType: "json",
                                                     dataFields: [
+
                                                         { name: 'potenza_reel'},
+                                                        { name: 'costo'},
+                                                        { name: 'preventivo'},
                                                         { name: 'prezzo'},
-                                                        { name: 'descrizione_aggiuntiva'}
+                                                        { name: 'descrizione_aggiuntiva'},
+                                                        { name: 'lunghezza_reel'}
                                                     ],
                                                     
                                                     root:'rows',
+                                                    url: 'data/determina_prezzo.php',
+                                                    data:{
+                                                        prodotto:nome_prodotto,
+                                                        lunghezza_lampada:lunghezza_prodotto,
+                                                        motore_led:codice_motore_led,
+                                                        tipo_schermo:tipo_schermo,
+                                                        sistema_fissaggio:sistema_fissaggio,
+                                                        sistema_accensione:sistema_accensione,
+                                                        connettore_alimentazione:connettore_alimentazione,
+                                                        lunghezza_cavo:lunghezza_cavo,
+                                                        giunzione_MF:giunzione_MF,
+                                                        qta_richiesta:qta_richiesta
 
-                                                    url: 'data/determina_prezzo.php'
-                                        }
+                                                    }
+                                        }                                        
+                                        risultatoFinaleAdapter=new $.jqx.dataAdapter(productResultSource);
+
+                                        $("#tab_result").jqxGrid({ 
+                                            source: risultatoFinaleAdapter,
+                                            autoheight: true,
+                                            columnsresize: true,
+                                            
+                                            columns: 
+                                            [
+                                                
+                                                {datafield: "costo",  text: "Costo (&euro;/pz)"},
+                                                {datafield: "prezzo", text: "Prezzo lordo (&euro;/pz)"},
+                                                {datafield: "preventivo", text: "Preventivo (&euro;)"},
+                                                {datafield: "potenza_reel",  text: "Potenza reel (W)"},                                             
+                                                {datafield: "lunghezza_reel",  text: "Lunghezza reel (mm)"}/*,
+                                                {datafield: "descrizione_aggiuntiva", text: "Note"}*/
+                                              
+                                            ]
+                                        });
 
                                     }else{
                                         $('#calcolo_prezzo').jqxValidator('validate');

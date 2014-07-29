@@ -26,7 +26,9 @@
 		}
 		return $columns;
  	}
-
+    
+    # da capire se in futuro mettere anche il tipo di connettore. 
+    # è stato messo un GROUP BY altrimenti il risultato veniva sdoppiato (appunto perchè manca il tipo connettore)
  	function return_ingombro_tecnico($dbh,$nome_prodotto,$motore_led,$sistema_accensione,$sistema_fissaggio){
 
  		$sql=$dbh->query("	SELECT  ingombro_tecnico
@@ -35,6 +37,7 @@
  								AND motore_led='".$motore_led."'
  								AND id_sistema_accensione='".$sistema_accensione."'
  								AND id_sistema_fissaggio='".$sistema_fissaggio."'
+ 							 GROUP BY ingombro_tecnico
 					 ");
 
 		$sql->execute();

@@ -75,7 +75,7 @@
 	
 		array_push($crud, $row);  
 	}  
-	#$results["potenza_reel"]=$potenza_reel;
+	$results["potenza_reel"]=$potenza_reel;
 	$results["rows"]=$crud;	
 
 	
