@@ -15,10 +15,11 @@
  	$sistema_fissaggio=$_REQUEST['sistema_fissaggio'];
  	$sistema_accensione=$_REQUEST['sistema_accensione'];
  	$vdc=$_REQUEST['vdc'];
+ 	$sdoppiabile=$_REQUEST['sdoppiabile'];
 
 
  	$nome_campo_portata_max='';
- 	
+ 	$sql="";
  	#eseguo calcolo per la lunghezza di taglio reel e sua relativa potenza in funzione delle scelti precedenti
  	$ingombro=return_ingombro_tecnico($dbh,$nome_prodotto,$motore_led,$sistema_accensione,$sistema_fissaggio);
  	#lunghezza lampada effettiva
@@ -34,33 +35,58 @@
 	}else{
 		$nome_campo_portata_max='portata_max_24V';
 	}
+	#controllo se vado in doppia alimentazione o meno
+	if ($sdoppiabile=='SI'){
+		$sql="	SELECT 	prodotto_lineare_motore_led_accensione.id_connettore,
+						connettore_alimentazione.descrizione_connettore,
+						connettore_alimentazione.".$nome_campo_portata_max.",
+                        prodotto_lineare_motore_led_accensione.prodotto_lineare,
+                        prodotto_lineare_motore_led_accensione.motore_led,
+                        prodotto_lineare_motore_led_accensione.id_sistema_fissaggio,
+                        prodotto_lineare_motore_led_accensione.id_sistema_accensione,
+                        prodotto_lineare_motore_led_accensione.giunzione_MF,
+                        prodotto_lineare_motore_led_accensione.uscita_cavo,
+                        connettore_alimentazione.lunghezza_cavo,
+                        connettore_alimentazione.sdoppiabile
 
-	$sql_connettore_alimentazione=$dbh->query("	SELECT 	prodotto_lineare_motore_led_accensione.id_connettore,
-														connettore_alimentazione.descrizione_connettore,
-            											connettore_alimentazione.".$nome_campo_portata_max.",
-                                                        prodotto_lineare_motore_led_accensione.prodotto_lineare,
-                                                        prodotto_lineare_motore_led_accensione.motore_led,
-                                                        prodotto_lineare_motore_led_accensione.id_sistema_fissaggio,
-                                                        prodotto_lineare_motore_led_accensione.id_sistema_accensione,
-                                                        prodotto_lineare_motore_led_accensione.giunzione_MF,
-                                                        prodotto_lineare_motore_led_accensione.uscita_cavo,
-                                                        connettore_alimentazione.lunghezza_cavo,
-                                                        connettore_alimentazione.sdoppiabile
 
-            
-												FROM 	prodotto_lineare_motore_led_accensione,connettore_alimentazione
-												WHERE 	prodotto_lineare_motore_led_accensione.id_connettore=connettore_alimentazione.id_connettore
-												
-												HAVING 	prodotto_lineare_motore_led_accensione.prodotto_lineare='".$nome_prodotto."'
-													AND prodotto_lineare_motore_led_accensione.motore_led='".$motore_led."'	
-													AND connettore_alimentazione.".$nome_campo_portata_max.">=".$potenza_reel."
-													AND prodotto_lineare_motore_led_accensione.id_sistema_fissaggio='".$sistema_fissaggio."'
-                                                    AND prodotto_lineare_motore_led_accensione.id_sistema_accensione='".$sistema_accensione."'
-												ORDER BY    prodotto_lineare_motore_led_accensione.id_connettore asc
-											
-												
-										
-											");	
+				FROM 	prodotto_lineare_motore_led_accensione,connettore_alimentazione
+				WHERE 	prodotto_lineare_motore_led_accensione.id_connettore=connettore_alimentazione.id_connettore
+				
+				    AND prodotto_lineare_motore_led_accensione.prodotto_lineare='".$nome_prodotto."'
+					AND prodotto_lineare_motore_led_accensione.motore_led='".$motore_led."'	
+					AND connettore_alimentazione.sdoppiabile=1
+					AND prodotto_lineare_motore_led_accensione.id_sistema_fissaggio='".$sistema_fissaggio."'
+                    AND prodotto_lineare_motore_led_accensione.id_sistema_accensione='".$sistema_accensione."'
+				ORDER BY    prodotto_lineare_motore_led_accensione.id_connettore asc;
+
+		";
+	}else{
+		$sql="	SELECT 	prodotto_lineare_motore_led_accensione.id_connettore,
+						connettore_alimentazione.descrizione_connettore,
+						connettore_alimentazione.".$nome_campo_portata_max.",
+                        prodotto_lineare_motore_led_accensione.prodotto_lineare,
+                        prodotto_lineare_motore_led_accensione.motore_led,
+                        prodotto_lineare_motore_led_accensione.id_sistema_fissaggio,
+                        prodotto_lineare_motore_led_accensione.id_sistema_accensione,
+                        prodotto_lineare_motore_led_accensione.giunzione_MF,
+                        prodotto_lineare_motore_led_accensione.uscita_cavo,
+                        connettore_alimentazione.lunghezza_cavo,
+                        connettore_alimentazione.sdoppiabile
+
+
+				FROM 	prodotto_lineare_motore_led_accensione,connettore_alimentazione
+				WHERE 	prodotto_lineare_motore_led_accensione.id_connettore=connettore_alimentazione.id_connettore
+				
+				HAVING 	prodotto_lineare_motore_led_accensione.prodotto_lineare='".$nome_prodotto."'
+					AND prodotto_lineare_motore_led_accensione.motore_led='".$motore_led."'	
+					AND connettore_alimentazione.".$nome_campo_portata_max.">=".$potenza_reel."
+					AND prodotto_lineare_motore_led_accensione.id_sistema_fissaggio='".$sistema_fissaggio."'
+                    AND prodotto_lineare_motore_led_accensione.id_sistema_accensione='".$sistema_accensione."'
+				ORDER BY    prodotto_lineare_motore_led_accensione.id_connettore asc";
+	}
+
+	$sql_connettore_alimentazione=$dbh->query($sql);	
 	$sql_connettore_alimentazione->execute();
 	$connettore_alimentazione=$sql_connettore_alimentazione->fetchAll(PDO::FETCH_ASSOC);
 

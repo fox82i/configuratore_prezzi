@@ -98,20 +98,41 @@
 
 	$costo_prodotto=$costo_prodotto+$sistema_di_accensione[0]['costo'];
 
-
+	$app="";
 	// LAVORAZIONE
+	if ($giunzione_MF==true){
+		$app=" OR tipo_lavorazione='GIUNZIONE MF'";
+	}
 	$lavorazione=$dbh->query(" 	SELECT 	SUM(costo) as costo_lavorazione
 								FROM  	costo_assemblaggio_lampada
 								WHERE (		tipo_lavorazione='ASSEMBLAGGIO' 
 								       OR 	tipo_lavorazione='TAGLIO SCHERMO' 
 								       OR 	tipo_lavorazione='TAGLIO VERGA' 
-								       OR 	tipo_lavorazione='TAGLIO REELPLATE')
+								       OR 	tipo_lavorazione='TAGLIO REELPLATE'
+								       ".$app.")
 								AND '".$lunghezza_lampada."'>=da and '".$lunghezza_lampada."'<=a
 						 
 					");
 	$lavorazione_assemblaggio=$lavorazione->fetchAll(PDO::FETCH_ASSOC);	
 	$costo_prodotto=$costo_prodotto+$lavorazione_assemblaggio[0]['costo_lavorazione'];
 
+	//CONNETTORE
+	$connettore=$dbh->query(" SELECT costo
+							  FROM connettore_alimentazione
+							  WHERE id_connettore='".$connettore_alimentazione."';");
+
+	$tipo_connettore=$connettore->fetchAll(PDO::FETCH_ASSOC);
+	$costo_prodotto=$costo_prodotto+$tipo_connettore[0]['costo'];
+
+	//IMBALLAGGIO
+
+	$imballo=$dbh->query(" SELECT costo
+							FROM regole_imballi
+							WHERE ".$lunghezza_lampada.">=da and a <=".$lunghezza_lampada.";
+
+						");
+	$tipo_imballo=$imballo->fetchAll(PDO::FETCH_ASSOC);
+	$costo_prodotto=$costo_prodotto+$tipo_imballo[0]['costo'];
 
 	//MOQ
 	$moq=$dbh->query("  SELECT MOQ
@@ -121,15 +142,16 @@
 	$sovraprezzo=$moq->fetchAll(PDO::FETCH_ASSOC);	
 
 
-
+	$prezzo_prodotto=$costo_prodotto + $sovraprezzo[0]['MOQ'];
 	
 
-	$crud["prezzo"]=$costo_prodotto+ $sovraprezzo[0]['MOQ'];
-	$crud["preventivo"]=$costo_prodotto*$qta_richiesta + $sovraprezzo[0]['MOQ'];
+	$crud["prezzo"]=$prezzo_prodotto;
+	$crud["preventivo"]=$prezzo_prodotto*$qta_richiesta ;
 	$crud["costo"]=$costo_prodotto;
 	$crud["potenza_reel"] = $potenza_reel;
 	$crud["lunghezza_reel"]= $lunghezza_reel;
 	$crud["descrizione_aggiuntiva"]="";
+	$crud["nome_prodotto"]=$nome_prodotto;
 	
 
 	$results["rows"]=$crud;

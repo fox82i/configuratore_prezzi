@@ -10,10 +10,11 @@
                     <!DOCTYPE html>
                     <html lang="en">
                     <head>
-                        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+                        <link rel="icon" href="favicon.ico" type="image/x-icon">                       
+                        <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css" />
                         <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css" type="text/css" />
                         
-                        <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css" />
+                        
                         <title>Gestione preventivi L&amp;S</title>
                         <style type="text/css">
                             html, body
@@ -41,7 +42,8 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                               </button>
-                              <a class="navbar-brand" href="#">Gestione preventivi L&amp;S </a>                              
+                              <a class="navbar-brand" href="#">Gestione preventivi </a>      
+                             <img height="50" width="45" src="images/logo.jpg"/>                        
                             </div>
                             <div class="collapse navbar-collapse">
                               <ul class="nav navbar-nav">
@@ -66,7 +68,7 @@
                                             <div class="form-control" id="prodotto"></div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="lunghezza">Lunghezza:</label>
+                                            <label for="lunghezza">Lunghezza(mm):</label>
                                             <input type="text"  class="form-control" style="width:300px"   id="lunghezza" maxlength="4" />
                                            
                                         </div>
@@ -122,9 +124,14 @@
                                     <div style='font-size: 12px; font-family: Verdana; margin-left: 5px; margin-top: 10px; float: left;'>
                                         <span>
                                             Messaggi server:</span>
-                                            <div id='events'></div>                                         
-                                            <div id='tab_result'></div>
+                                            <div id='events'></div>      
+                                                                         
+                                           
                                     </div>
+                                     
+                                    <div id='results'>
+                                       <div id='tab_risultati'></div>                                        
+                                    </div> 
                                    
                                 </div>
                             </div>
@@ -143,8 +150,12 @@
                                 //$('#mainSplitter').jqxSplitter({width: '100%', height: '100%', panels: [{ size: '260', min: 150 }, { size: '80%'}] });
                               
                                 $("#giunzione_MF").jqxCheckBox({ width: 150, height: 25, disabled:true });
-                                $('#events').jqxPanel({  height: '100px', width: '500px' });
+                                $('#events').jqxPanel({  height: '100px', width: '800px' });
                                 $('#events').css('border', 'none');
+
+                                $('#results').jqxPanel({ height: '150px' , width: '800px' });
+                                $('#results').css('border', 'none');
+
                                 $('#calcolo_prezzo').jqxValidator({
                                     hintType: 'label',
                                     animationDuration: 0,
@@ -155,7 +166,12 @@
                                 });
 
 
-                               
+                                $("#tab_risultati").on('columnresized', function (event) {
+                                                        var column = event.args.columntext;
+                                                        var newwidth = event.args.newwidth
+                                                        var oldwidth = event.args.oldwidth;
+                                                        console.log("Column: " + column + ", " + "New Width: " + newwidth + ", Old Width: " + oldwidth);
+                                                    });
                             });
 
                             var productsSource ={
@@ -221,7 +237,9 @@
                                                     { name: 'id_sistema_accensione'},
                                                     { name: 'descrizione'}  ,
                                                     {name : 'potenza_reel'} ,                                                
-                                                    {name : 'portata_max'}                                                 
+                                                    {name : 'portata_max'}  ,
+                                                    {name: 'errore'} ,                                                  
+                                                    { name: 'sdoppiabile'}                                                  
 
                                                 ],
                                                 root:'rows',
@@ -238,8 +256,8 @@
                                                     { name: 'descrizione_connettore'} ,                                                  
                                                     { name: 'giunzione_MF'} ,                                                  
                                                     { name: 'uscita_cavo'} ,                                                  
-                                                    { name: 'lunghezza_cavo'} ,                                                  
-                                                    { name: 'sdoppiabile'}                                           
+                                                    { name: 'lunghezza_cavo'}                                      
+                                                                                            
 
                                                 ],
                                                 root:'rows',
@@ -264,10 +282,10 @@
                                     motoreLedAdapter = new $.jqx.dataAdapter(motoreLedSource);
                                     $("#motore_led").jqxComboBox({source: motoreLedAdapter});
                                     
-                                    if (value != null) {
+                                /*    if (value != null) {
                                             $('#events').jqxPanel('clearcontent');
                                             $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px;">Avanzamento: ' + costo_prodotto + '</div>');
-                                    }
+                                    }*/
                                 }
                             });                              
 
@@ -326,23 +344,26 @@
                                         sistemaAccensioneAdapter=new $.jqx.dataAdapter(sistemaAccensioneSource);
                                         $("#sistema_accensione").jqxComboBox({   source: sistemaAccensioneAdapter});
                                         $("#sistema_accensione").on('bindingComplete', function (event) {
-                                                
-                                               var reel_w=sistemaAccensioneAdapter.records['0']['potenza_reel'];
-                                               var portata=sistemaAccensioneAdapter.records['0']['portata_max'];
 
-                                               if (reel_w >= portata){
-                                                    if ( reel_w/2 >= portata){
-                                                        $('#events').jqxPanel('clearcontent');
-                                                        $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px; color:red">Attenzione: La potenza risultante &egrave; maggiore della portata massima del cavo di alimentazione. Passare ai 24V. Potenza reel nominale rilevata:' + reel_w +'W</div>');
-                                                    }else{
-                                                        $('#events').jqxPanel('clearcontent');
-                                                        $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px; color:red">Attenzione: ci sar&agrave; una doppia alimentazione. Se non si vuole la doppia alimentazione provare a passare ai 24V. Potenza reel nominale rilevata:' + reel_w +'W</div>'); 
-                                                    }
+                                            var messaggio=sistemaAccensioneAdapter.records['0']['errore'];
+                                            var sdoppiato=sistemaAccensioneAdapter.records['0']['sdoppiabile'];
+                                            var reel_w=sistemaAccensioneAdapter.records['0']['potenza_reel'];
 
-                                               }else{
-                                                $('#events').jqxPanel('clearcontent');
-                                                $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px;">Potenza nominale reel:'+ reel_w + 'W</div>');
-                                               }
+
+                                             $('#events').jqxPanel('clearcontent');
+
+                                             switch(sdoppiato){
+                                                case 'errore':
+                                                    $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px;color:red">'+ messaggio + '</div>');
+                                                    break;
+                                                case 'SI':
+                                                    $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px;color:red">'+ messaggio + '</div>');
+                                                    break;
+                                                default:
+                                                    $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px;">Potenza reel nominale rilevata ' + reel_w + 'W </div>');
+                                                    break;
+                                             }
+                                           
                                           });
 
                                     }
@@ -368,6 +389,7 @@
                                         var vdc=motoreLedAdapter.records[$("#motore_led").jqxComboBox('getSelectedIndex')]['VDC'];
                                         
                                         $("#connettore_alimentazione").jqxComboBox({ disabled: false, selectedIndex: -1});
+                                        var sdoppiato=sistemaAccensioneAdapter.records[$('#sistema_accensione').jqxComboBox('getSelectedIndex')]['sdoppiabile'];
                                        
                                         connettoreAlimentazioneSource.data={
                                             prodotto:nome_prodotto,
@@ -376,11 +398,13 @@
                                             sistema_fissaggio:sistema_fissaggio,
                                             vdc:vdc,
                                             sistema_accensione:sistema_accensione,
+                                            sdoppiabile:sdoppiato
+
                                           
                                         };
 
                                         connettoreAlimentazioneAdapter=new $.jqx.dataAdapter(connettoreAlimentazioneSource);
-                                         $("#connettore_alimentazione").jqxComboBox({   source: connettoreAlimentazioneAdapter});
+                                        $("#connettore_alimentazione").jqxComboBox({   source: connettoreAlimentazioneAdapter});
 
                                     }
                                 }
@@ -464,9 +488,9 @@
                                                         { name: 'potenza_reel'},
                                                         { name: 'costo'},
                                                         { name: 'preventivo'},
-                                                        { name: 'prezzo'},
-                                                        { name: 'descrizione_aggiuntiva'},
-                                                        { name: 'lunghezza_reel'}
+                                                        { name: 'prezzo'},                                                       
+                                                        { name: 'lunghezza_reel'},
+                                                        { name: 'nome_prodotto'}
                                                     ],
                                                     
                                                     root:'rows',
@@ -484,26 +508,32 @@
                                                         qta_richiesta:qta_richiesta
 
                                                     }
-                                        }                                        
-                                        risultatoFinaleAdapter=new $.jqx.dataAdapter(productResultSource);
+                                        };
 
-                                        $("#tab_result").jqxGrid({ 
-                                            source: risultatoFinaleAdapter,
-                                            autoheight: true,
+                                        risultatoFinaleAdapter=new $.jqx.dataAdapter(productResultSource);
+                                        var imagerenderer = function (row, datafield, value) {
+                                            return '<img style="margin-left: 5px;  margin-top: 5px" height="100" width="100" src="images/prodotti/' + value + '.jpg"/>';
+                                        };
+
+                                        $("#tab_risultati").jqxGrid({ 
+                                            source: risultatoFinaleAdapter,                                           
                                             columnsresize: true,
-                                            
+                                            rowsheight: 110,
+                                            autoheight: true,
+                                            width: '100%',
                                             columns: 
                                             [
-                                                
-                                                {datafield: "costo",  text: "Costo (&euro;/pz)"},
-                                                {datafield: "prezzo", text: "Prezzo lordo (&euro;/pz)"},
-                                                {datafield: "preventivo", text: "Preventivo (&euro;)"},
-                                                {datafield: "potenza_reel",  text: "Potenza reel (W)"},                                             
-                                                {datafield: "lunghezza_reel",  text: "Lunghezza reel (mm)"}/*,
+                                                {datafield: "nome_prodotto",text: '<strong>Foto ' + nome_prodotto +'</strong>', width:110, cellsrenderer: imagerenderer },
+                                                {datafield: "costo",  text: "<strong>Costo (&euro;/pz)</strong>"},
+                                                {datafield: "prezzo", text: "<strong>Prezzo lordo (&euro;/pz)</strong>"},
+                                              //  {datafield: "preventivo", text: "Preventivo (&euro;)"},
+                                                {datafield: "potenza_reel",  text: "<strong>Potenza (W)</strong>"},                                             
+                                                {datafield: "lunghezza_reel",  text: "<strong>Lunghezza reel (mm)</strong>"}/*,
                                                 {datafield: "descrizione_aggiuntiva", text: "Note"}*/
                                               
                                             ]
                                         });
+                                       
 
                                     }else{
                                         $('#calcolo_prezzo').jqxValidator('validate');
@@ -517,7 +547,14 @@
                                 height: 25,
                                 promptText: "Select a products...",
                                 displayMember: 'prodotto',
-                                valueMember: 'prodotto'
+                                valueMember: 'prodotto',
+                                animationType:'slide',
+                                renderer: function (index, label, value) {                                  
+                                    var imgurl = 'images/prodotti/' + value + '.jpg';
+                                    var img = '<img height="50" width="45" src="' + imgurl + '"/>';
+                                    var table = '<table style="min-width: 150px;"><tr><td style="width: 55px;" rowspan="2">' + img + '</td><td>' + value + '</td></tr></table>';
+                                    return table;                                   
+                                }
                             }); 
 
                             $("#motore_led").jqxComboBox({            
@@ -535,7 +572,8 @@
                                 disabled: true,
                                 promptText: "Select type of led color...",
                                 displayMember: 'descrizione_colore',
-                                valueMember: 'id_tipo_luce'
+                                valueMember: 'id_tipo_luce',
+                                animationType:'slide'
                             });  
 
                             $("#sistema_fissaggio").jqxComboBox({            
@@ -544,7 +582,8 @@
                                 disabled: true,
                                 promptText: "Select type of fix system...",
                                 displayMember: 'descrizione_sistema_fissaggio',
-                                valueMember: 'id_sistema_fissaggio'
+                                valueMember: 'id_sistema_fissaggio',
+                                animationType:'slide'
                             });  
 
                             $("#sistema_accensione").jqxComboBox({            
@@ -553,7 +592,8 @@
                                 disabled: true,
                                 promptText: "Select type of switching system...",
                                 displayMember: 'descrizione',
-                                valueMember: 'id_sistema_accensione'
+                                valueMember: 'id_sistema_accensione',
+                                animationType:'slide'
                             });    
                             $("#connettore_alimentazione").jqxComboBox({            
                                 width: 300,
@@ -561,13 +601,15 @@
                                 disabled: true,
                                 promptText: "Select type of connector...",
                                 displayMember: 'descrizione_connettore',
-                                valueMember: 'id_connettore'
+                                valueMember: 'id_connettore',
+                                animationType:'slide'
                             });  
                              $("#uscita_cavo").jqxComboBox({            
                                 width: 300,
                                 height: 25,
                                 disabled: true,
-                                promptText: "Select type of cable exit..."
+                                promptText: "Select type of cable exit...",
+                                animationType:'slide'
                                 
                             }); 
                             $("#tipo_schermo").jqxComboBox({            
@@ -576,7 +618,8 @@
                                 disabled: true,
                                 promptText: "Select type of screen...",
                                 displayMember: 'descrizione_schermo',
-                                valueMember: 'codice_schermo'
+                                valueMember: 'codice_schermo',
+                                animationType:'slide'
                             });      
   
 
