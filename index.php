@@ -121,7 +121,7 @@
                                 <div class="col-md-6 col-sm-6">
                                     <div style='font-size: 12px; font-family: Verdana; margin-left: 5px; margin-top: 10px; float: left;'>
                                         <span>
-                                            Costruzione prezzo:</span>
+                                            Messaggi server:</span>
                                             <div id='events'></div>                                         
                                             <div id='tab_result'></div>
                                     </div>
@@ -143,13 +143,14 @@
                                 //$('#mainSplitter').jqxSplitter({width: '100%', height: '100%', panels: [{ size: '260', min: 150 }, { size: '80%'}] });
                               
                                 $("#giunzione_MF").jqxCheckBox({ width: 150, height: 25, disabled:true });
-                                $('#events').jqxPanel({  height: '50px', width: '250px' });
+                                $('#events').jqxPanel({  height: '100px', width: '500px' });
                                 $('#events').css('border', 'none');
                                 $('#calcolo_prezzo').jqxValidator({
                                     hintType: 'label',
                                     animationDuration: 0,
                                     rules: [
-                                            { input: '#lunghezza', message: 'La lunghezza lampada &egrave; richiesta!', action: 'keyup, blur', rule: 'required' }
+                                            { input: '#lunghezza', message: 'La lunghezza lampada &egrave; richiesta!', action: 'keyup, blur', rule: 'required' },
+                                            { input: '#qta', message: 'Inserire la quantit&agrave; richiesta dal cliente!', action: 'keyup, blur', rule: 'required' }
                                             ]
                                 });
 
@@ -180,7 +181,7 @@
                                                 ],
                                                 url: 'data/enumerate_motore_led.php'
                                             };
-                            var motoreLedAdapter = new $.jqx.dataAdapter(motoreLedSource);
+                           // var motoreLedAdapter = new $.jqx.dataAdapter(motoreLedSource);
 
 
                             var coloreLuceSource ={
@@ -191,7 +192,7 @@
                                                 ],
                                                 url: 'data/enumerate_temperatura_luce.php'
                                             };
-                            var coloreLuceAdapter = new $.jqx.dataAdapter(coloreLuceSource);
+                          //  var coloreLuceAdapter = new $.jqx.dataAdapter(coloreLuceSource);
 
                             var schermoSource ={
                                                 dataType: "json",
@@ -201,7 +202,7 @@
                                                 ],
                                                 url: 'data/enumerate_schermo.php'
                                             };
-                            var schermoAdapter = new $.jqx.dataAdapter(schermoSource);
+                           // var schermoAdapter = new $.jqx.dataAdapter(schermoSource);
 
                             var sistemaFissaggioSource ={
                                                 dataType: "json",
@@ -211,14 +212,16 @@
                                                 ],
                                                 url: 'data/enumerate_sistema_fissaggio.php'
                                             };
-                            var sistemaFissaggioAdapter = new $.jqx.dataAdapter(sistemaFissaggioSource);
+                          //  var sistemaFissaggioAdapter = new $.jqx.dataAdapter(sistemaFissaggioSource);
 
 
                             var sistemaAccensioneSource ={
                                                 dataType: "json",
                                                 dataFields: [
                                                     { name: 'id_sistema_accensione'},
-                                                    { name: 'descrizione'}                                                   
+                                                    { name: 'descrizione'}  ,
+                                                    {name : 'potenza_reel'} ,                                                
+                                                    {name : 'portata_max'}                                                 
 
                                                 ],
                                                 root:'rows',
@@ -226,7 +229,7 @@
                                                 url: 'data/enumerate_sistema_accensione.php',
                                               
                                             };
-                            var sistemaAccensioneAdapter = new $.jqx.dataAdapter(sistemaAccensioneSource);
+                           // var sistemaAccensioneAdapter = new $.jqx.dataAdapter(sistemaAccensioneSource);
 
                             var connettoreAlimentazioneSource ={
                                                 dataType: "json",
@@ -243,13 +246,13 @@
                                                 id:'id_connettore',
                                                 url: 'data/enumerate_connettore_alimentazione.php',
 
-                                                beforeprocessing: function (data) {
+                                              /*  beforeprocessing: function (data) {
                                                   connettoreAlimentazioneSource.costo = data.costo;
                                                   connettoreAlimentazioneSource.potenza_reel=data.potenza_reel;
-                                                } 
+                                                } */
                                               
                                             };
-                            var connettoreAlimentazioneAdapter = new $.jqx.dataAdapter(connettoreAlimentazioneSource) ;
+                       //     var connettoreAlimentazioneAdapter = new $.jqx.dataAdapter(connettoreAlimentazioneSource) ;
 
                              $("#prodotto").bind('select', function(event){
                                 if (event.args) {
@@ -270,26 +273,29 @@
 
                             $("#motore_led").bind('select', function(event){
                                 if (event.args) {
-                                    var codice_motore_led = event.args.item.value;
-                                    var nome_prodotto=$("#prodotto").jqxComboBox('getSelectedItem').value;  
+                                    var index = $("#motore_led").jqxComboBox('selectedIndex');  
+                                    if (index != -1){
+                                        var codice_motore_led = event.args.item.value;
+                                        var nome_prodotto=$("#prodotto").jqxComboBox('getSelectedItem').value;  
 
-                                    //attivo la selezione del colore della luce
-                                    $("#colore_luce").jqxComboBox({ disabled: false, selectedIndex: -1});        
-                                    coloreLuceSource.data = {motore_led: codice_motore_led};
-                                    coloreLuceAdapter = new $.jqx.dataAdapter(coloreLuceSource);
-                                    $("#colore_luce").jqxComboBox({source: coloreLuceAdapter});
+                                        //attivo la selezione del colore della luce
+                                        $("#colore_luce").jqxComboBox({ disabled: false, selectedIndex: -1});        
+                                        coloreLuceSource.data = {motore_led: codice_motore_led};
+                                        coloreLuceAdapter = new $.jqx.dataAdapter(coloreLuceSource);
+                                        $("#colore_luce").jqxComboBox({source: coloreLuceAdapter});
 
-                                    //attivo la selezione della scelta per lo schermo
-                                    $("#tipo_schermo").jqxComboBox({ disabled: false, selectedIndex: -1});        
-                                    schermoSource.data = {prodotto: nome_prodotto};
-                                    schermoAdapter = new $.jqx.dataAdapter(schermoSource);
-                                    $("#tipo_schermo").jqxComboBox({source: schermoAdapter});
+                                        //attivo la selezione della scelta per lo schermo
+                                        $("#tipo_schermo").jqxComboBox({ disabled: false, selectedIndex: -1});        
+                                        schermoSource.data = {prodotto: nome_prodotto};
+                                        schermoAdapter = new $.jqx.dataAdapter(schermoSource);
+                                        $("#tipo_schermo").jqxComboBox({source: schermoAdapter});
 
-                                    //attivo la selezione della scelta per il sistema di fissaggio
-                                    $("#sistema_fissaggio").jqxComboBox({ disabled: false, selectedIndex: -1});
-                                    sistemaFissaggioSource.data = {prodotto: nome_prodotto};
-                                    sistemaFissaggioAdapter = new $.jqx.dataAdapter(sistemaFissaggioSource);
-                                    $("#sistema_fissaggio").jqxComboBox({source: sistemaFissaggioAdapter});
+                                        //attivo la selezione della scelta per il sistema di fissaggio
+                                        $("#sistema_fissaggio").jqxComboBox({ disabled: false, selectedIndex: -1});
+                                        sistemaFissaggioSource.data = {prodotto: nome_prodotto};
+                                        sistemaFissaggioAdapter = new $.jqx.dataAdapter(sistemaFissaggioSource);
+                                        $("#sistema_fissaggio").jqxComboBox({source: sistemaFissaggioAdapter});
+                                    }
                                    
                                 }
                             }); 
@@ -297,58 +303,86 @@
 
                             $("#sistema_fissaggio").bind('select', function(event){
                                   if (event.args) {
-                                    var sistema_fissaggio = event.args.item.value;
-                                    var lunghezza_prodotto= $('#lunghezza').val();
-                                    var nome_prodotto=$("#prodotto").jqxComboBox('getSelectedItem').value;
-                                    var codice_motore_led=$("#motore_led").jqxComboBox('getSelectedItem').value;
-                                   
-                                    
-                                    var vdc=motoreLedAdapter.records[$("#motore_led").jqxComboBox('getSelectedIndex')]['VDC'];
+                                    var index = $("#sistema_fissaggio").jqxComboBox('selectedIndex');  
+                                    if (index != -1){
+                                        var sistema_fissaggio = event.args.item.value;
+                                        var lunghezza_prodotto= $('#lunghezza').val();
+                                        var nome_prodotto=$("#prodotto").jqxComboBox('getSelectedItem').value;
+                                        var codice_motore_led=$("#motore_led").jqxComboBox('getSelectedItem').value;
+                                       
+                                        
+                                        var vdc=motoreLedAdapter.records[$("#motore_led").jqxComboBox('getSelectedIndex')]['VDC'];
 
-                                    $("#sistema_accensione").jqxComboBox({ disabled: false, selectedIndex: -1});
-                                    
-                                    sistemaAccensioneSource.data={
-                                        prodotto:nome_prodotto,
-                                        motore_led:codice_motore_led,
-                                        lunghezza_lampada:lunghezza_prodotto,
-                                        sistema_fissaggio:sistema_fissaggio,
-                                        vdc:vdc
-                                    };
+                                        $("#sistema_accensione").jqxComboBox({ disabled: false, selectedIndex: -1});
+                                        
+                                        sistemaAccensioneSource.data={
+                                            prodotto:nome_prodotto,
+                                            motore_led:codice_motore_led,
+                                            lunghezza_lampada:lunghezza_prodotto,
+                                            sistema_fissaggio:sistema_fissaggio,
+                                            vdc:vdc
+                                        };
 
-                                    sistemaAccensioneAdapter=new $.jqx.dataAdapter(sistemaAccensioneSource);
-                                     $("#sistema_accensione").jqxComboBox({   source: sistemaAccensioneAdapter});
+                                        sistemaAccensioneAdapter=new $.jqx.dataAdapter(sistemaAccensioneSource);
+                                        $("#sistema_accensione").jqxComboBox({   source: sistemaAccensioneAdapter});
+                                        $("#sistema_accensione").on('bindingComplete', function (event) {
+                                                
+                                               var reel_w=sistemaAccensioneAdapter.records['0']['potenza_reel'];
+                                               var portata=sistemaAccensioneAdapter.records['0']['portata_max'];
+
+                                               if (reel_w >= portata){
+                                                    if ( reel_w/2 >= portata){
+                                                        $('#events').jqxPanel('clearcontent');
+                                                        $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px; color:red">Attenzione: La potenza risultante &egrave; maggiore della portata massima del cavo di alimentazione. Passare ai 24V. Potenza reel nominale rilevata:' + reel_w +'W</div>');
+                                                    }else{
+                                                        $('#events').jqxPanel('clearcontent');
+                                                        $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px; color:red">Attenzione: ci sar&agrave; una doppia alimentazione. Se non si vuole la doppia alimentazione provare a passare ai 24V. Potenza reel nominale rilevata:' + reel_w +'W</div>'); 
+                                                    }
+
+                                               }else{
+                                                $('#events').jqxPanel('clearcontent');
+                                                $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px;">Potenza nominale reel:'+ reel_w + 'W</div>');
+                                               }
+                                          });
+
+                                    }
 
                                   }
                                
                             });    
 
                             $("#sistema_accensione").bind('select', function(event){
-
+                              
                                 if (event.args) {
-                                    var sistema_accensione = event.args.item.value;
-                                    var sistema_fissaggio = $("#sistema_fissaggio").jqxComboBox('getSelectedItem').value;
-                                    var lunghezza_prodotto= $('#lunghezza').val();
-                                    var nome_prodotto=$("#prodotto").jqxComboBox('getSelectedItem').value;
-                                    var codice_motore_led=$("#motore_led").jqxComboBox('getSelectedItem').value;
-                                    var schermo=$("#tipo_schermo").jqxComboBox('getSelectedItem').value;
+                                    var index = $("#sistema_accensione").jqxComboBox('selectedIndex');  
+                                    if (index != -1){
 
-                                    
-                                    var vdc=motoreLedAdapter.records[$("#motore_led").jqxComboBox('getSelectedIndex')]['VDC'];
-                                    
-                                    $("#connettore_alimentazione").jqxComboBox({ disabled: false, selectedIndex: -1});
-                                   
-                                    connettoreAlimentazioneSource.data={
-                                        prodotto:nome_prodotto,
-                                        motore_led:codice_motore_led,
-                                        lunghezza_lampada:lunghezza_prodotto,
-                                        sistema_fissaggio:sistema_fissaggio,
-                                        vdc:vdc,
-                                        sistema_accensione:sistema_accensione,
-                                      
-                                    };
+                                        var sistema_accensione = event.args.item.value;
+                                        var sistema_fissaggio = $("#sistema_fissaggio").jqxComboBox('getSelectedItem').value;
+                                        var lunghezza_prodotto= $('#lunghezza').val();
+                                        var nome_prodotto=$("#prodotto").jqxComboBox('getSelectedItem').value;
+                                        var codice_motore_led=$("#motore_led").jqxComboBox('getSelectedItem').value;
+                                        var schermo=$("#tipo_schermo").jqxComboBox('getSelectedItem').value;
 
-                                    connettoreAlimentazioneAdapter=new $.jqx.dataAdapter(connettoreAlimentazioneSource);
-                                     $("#connettore_alimentazione").jqxComboBox({   source: connettoreAlimentazioneAdapter});
+                                        
+                                        var vdc=motoreLedAdapter.records[$("#motore_led").jqxComboBox('getSelectedIndex')]['VDC'];
+                                        
+                                        $("#connettore_alimentazione").jqxComboBox({ disabled: false, selectedIndex: -1});
+                                       
+                                        connettoreAlimentazioneSource.data={
+                                            prodotto:nome_prodotto,
+                                            motore_led:codice_motore_led,
+                                            lunghezza_lampada:lunghezza_prodotto,
+                                            sistema_fissaggio:sistema_fissaggio,
+                                            vdc:vdc,
+                                            sistema_accensione:sistema_accensione,
+                                          
+                                        };
+
+                                        connettoreAlimentazioneAdapter=new $.jqx.dataAdapter(connettoreAlimentazioneSource);
+                                         $("#connettore_alimentazione").jqxComboBox({   source: connettoreAlimentazioneAdapter});
+
+                                    }
                                 }
                                  
                             });  

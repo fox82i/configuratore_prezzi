@@ -8,7 +8,7 @@
 
  	$crud=array();
  	$results=array();
-
+ 	$app=array();
 	$nome_campo_portata_max='';
 	
 
@@ -37,13 +37,15 @@
 		$nome_campo_portata_max='portata_max_24V';
 	}
 
-	$sql_sistema_accensione=$dbh->query("SELECT *
+
+	$sql_sistema_accensione=$dbh->query("SELECT *, ".$potenza_reel." as potenza_reel
 										FROM (
 												SELECT 	prodotto_lineare_motore_led_accensione.id_sistema_accensione,
 														sistemi_accensione.descrizione,
             											prodotto_lineare_motore_led_accensione.prodotto_lineare,
             											prodotto_lineare_motore_led_accensione.motore_led,
-            											sistemi_accensione.".$nome_campo_portata_max."
+            											sistemi_accensione.".$nome_campo_portata_max." as portata_max
+            											
             
 												FROM 	prodotto_lineare_motore_led_accensione,sistemi_accensione
 												WHERE 		prodotto_lineare_motore_led_accensione.id_sistema_accensione=sistemi_accensione.id_accensione
@@ -56,7 +58,7 @@
 															sistemi_accensione.descrizione,
 												            prodotto_lineare_motore_led_accensione.prodotto_lineare,
 												            prodotto_lineare_motore_led_accensione.motore_led,
-												            sistemi_accensione.".$nome_campo_portata_max."
+												            sistemi_accensione.".$nome_campo_portata_max." as portata_max
 												            
 												FROM 		prodotto_lineare_motore_led_accensione,sistemi_accensione
 												WHERE 		prodotto_lineare_motore_led_accensione.id_sistema_accensione=sistemi_accensione.id_accensione
@@ -75,7 +77,7 @@
 	
 		array_push($crud, $row);  
 	}  
-	$results["potenza_reel"]=$potenza_reel;
+	
 	$results["rows"]=$crud;	
 
 	
