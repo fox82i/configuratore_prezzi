@@ -573,8 +573,31 @@
                                 promptText: "Select type of led color...",
                                 displayMember: 'descrizione_colore',
                                 valueMember: 'id_tipo_luce',
-                                animationType:'slide'
+                                animationType:'slide',
+                                renderer: function (index, label, value) {    
+                               
+                                    var imgurl = 'images/temperatura_colore/' + label + '.jpg';
+                                    var img = '<img height="50" width="45" src="' + imgurl + '"/>';
+                                    var table = '<table style="min-width: 150px;"><tr><td style="width: 55px;" rowspan="2">' + img + '</td><td>' + label + '</td></tr></table>';
+                                    return table;                                   
+                                }
                             });  
+                            $("#tipo_schermo").jqxComboBox({            
+                                width: 300,
+                                height: 25,
+                                disabled: true,
+                                promptText: "Select type of screen...",
+                                displayMember: 'descrizione_schermo',
+                                valueMember: 'codice_schermo',
+                                animationType:'slide',
+                                renderer: function (index, label, value) {    
+                               
+                                    var imgurl = 'images/schermi/' + label + '.jpg';
+                                    var img = '<img height="50" width="45" src="' + imgurl + '"/>';
+                                    var table = '<table style="min-width: 150px;"><tr><td style="width: 55px;" rowspan="2">' + img + '</td><td>' + label + '</td></tr></table>';
+                                    return table;                                   
+                                }
+                            });     
 
                             $("#sistema_fissaggio").jqxComboBox({            
                                 width: 300,
@@ -583,7 +606,14 @@
                                 promptText: "Select type of fix system...",
                                 displayMember: 'descrizione_sistema_fissaggio',
                                 valueMember: 'id_sistema_fissaggio',
-                                animationType:'slide'
+                                animationType:'slide',
+                                renderer: function (index, label, value) {    
+                               
+                                    var imgurl = 'images/sistema_fissaggio/' + label + '.jpg';
+                                    var img = '<img height="50" width="45" src="' + imgurl + '"/>';
+                                    var table = '<table style="min-width: 150px;"><tr><td style="width: 55px;" rowspan="2">' + img + '</td><td>' + label + '</td></tr></table>';
+                                    return table;                                   
+                                }
                             });  
 
                             $("#sistema_accensione").jqxComboBox({            
@@ -612,15 +642,7 @@
                                 animationType:'slide'
                                 
                             }); 
-                            $("#tipo_schermo").jqxComboBox({            
-                                width: 300,
-                                height: 25,
-                                disabled: true,
-                                promptText: "Select type of screen...",
-                                displayMember: 'descrizione_schermo',
-                                valueMember: 'codice_schermo',
-                                animationType:'slide'
-                            });      
+                             
   
 
 
