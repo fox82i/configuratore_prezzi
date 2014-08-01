@@ -12,6 +12,7 @@
 
  	$costo_prodotto=0;
  	$lunghezza_reel=0;
+ //	$giunzione_MF=false;
 
  	$nome_prodotto=$_REQUEST['prodotto'];
  	$lunghezza_lampada=$_REQUEST['lunghezza_lampada'];
@@ -23,7 +24,7 @@
  	$lunghezza_cavo=$_REQUEST['lunghezza_cavo'];
  	$giunzione_MF=$_REQUEST['giunzione_MF'];
  	$qta_richiesta=$_REQUEST['qta_richiesta'];
- 		
+ 	$prezzo_prodotto=0;
 
  	#eseguo calcolo per la lunghezza di taglio reel e sua relativa potenza in funzione delle scelti precedenti
  	$ingombro=return_ingombro_tecnico($dbh,$nome_prodotto,$motore_led,$sistema_accensione,$sistema_fissaggio);
@@ -48,9 +49,10 @@
 		switch ($row['posizione']){
 			case '10'://verga alluminio
 					$costo_prodotto=$costo_prodotto + round($row['costo']/floor(4300/$LU),2);
+					
 				break;
-			case '20'://lunghezza reel plate == reel
-					$costo_prodotto=$costo_prodotto + round($row['costo']*$lunghezza_reel,2);
+			case '11'://lunghezza reel plate == reel
+					$costo_prodotto=$costo_prodotto + round(($row['costo']/4300)*$lunghezza_reel,2);
 				break;
 			default:
 					$costo_prodotto=$costo_prodotto + round($row['costo']*$row['quantita'],2);
@@ -59,6 +61,16 @@
 		
 		
 	}
+
+	//REEL
+
+	$reel=$dbh->query(" SELECT (costo_bobina_reel/lunghezza_bobina)as costo,max(data_inserimento)as validita
+						FROM motore_led
+						WHERE codice_motore_led='".$motore_led."'
+				");
+
+	$costo_reel=$reel->fetchAll(PDO::FETCH_ASSOC);
+	$costo_prodotto=$costo_prodotto+(round($lunghezza_reel*$costo_reel[0]['costo'],2));
 
 	//SCHERMO
 	$schermo=$dbh->query("	SELECT 	regole_schermo.*,MAX(regole_schermo.inizio_validita)as validita 
@@ -85,7 +97,7 @@
 	$clips_fissaggio=$clips->fetchAll(PDO::FETCH_ASSOC);	
 
 	foreach ($clips_fissaggio as $row) {
-		$costo_prodotto=$costo_prodotto+ (round($row['costo']+$row['qta'],2));
+		$costo_prodotto=$costo_prodotto+ (round($row['costo']*$row['qta'],2));
 	}
 
 	//SISTEMA ACCENSIONE
@@ -99,9 +111,10 @@
 	$costo_prodotto=$costo_prodotto+$sistema_di_accensione[0]['costo'];
 
 	$app="";
+
 	// LAVORAZIONE
 	if ($giunzione_MF==true){
-		$app=" OR tipo_lavorazione='GIUNZIONE MF'";
+	//	$app=" OR tipo_lavorazione='GIUNZIONE MF'";
 	}
 	$lavorazione=$dbh->query(" 	SELECT 	SUM(costo) as costo_lavorazione
 								FROM  	costo_assemblaggio_lampada
@@ -126,7 +139,7 @@
 
 	//IMBALLAGGIO
 
-	$imballo=$dbh->query(" SELECT costo
+	$imballo=$dbh->query(" SELECT costo,max(inizio_validita)as validita
 							FROM regole_imballi
 							WHERE ".$lunghezza_lampada.">=da and a <=".$lunghezza_lampada.";
 
@@ -144,7 +157,7 @@
 
 	$prezzo_prodotto=$costo_prodotto + $sovraprezzo[0]['MOQ'];
 	
-
+    //RISPOSTE SERVER
 	$crud["prezzo"]=$prezzo_prodotto;
 	$crud["preventivo"]=$prezzo_prodotto*$qta_richiesta ;
 	$crud["costo"]=$costo_prodotto;

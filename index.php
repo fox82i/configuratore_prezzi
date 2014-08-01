@@ -419,51 +419,55 @@
                                 */
 
                                 if (event.args) {
-                                    var connettore_alimentazione= connettoreAlimentazioneAdapter.records[$('#connettore_alimentazione').jqxComboBox('getSelectedIndex')]['descrizione_connettore'];
-                                    var lunghezza_cavo  = connettoreAlimentazioneAdapter.records[$('#connettore_alimentazione').jqxComboBox('getSelectedIndex')]['lunghezza_cavo'];
-                                    var giunzione_MF    = connettoreAlimentazioneAdapter.records[$('#connettore_alimentazione').jqxComboBox('getSelectedIndex')]['giunzione_MF'];
-                                    var uscita_cavo     = connettoreAlimentazioneAdapter.records[$('#connettore_alimentazione').jqxComboBox('getSelectedIndex')]['uscita_cavo'];
-                                  
-                                  /*  $('#events').jqxPanel('clearcontent');
-                                    $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px;">Avanzamento: ' + connettoreAlimentazioneSource.costo + '</div>');
-                                    $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px;">Potenza lampada: ' + connettoreAlimentazioneSource.potenza_reel + 'W</div>');
-                              */
-                                    switch (connettore_alimentazione){
-                                        case 'Sliding':
-                                            alert('Procedi pure alla determinazione del prezzo');
+                                    var index = $("#connettore_alimentazione").jqxComboBox('selectedIndex');  
+                                    if (index != -1){
+
+                                        var connettore_alimentazione= connettoreAlimentazioneAdapter.records[$('#connettore_alimentazione').jqxComboBox('getSelectedIndex')]['descrizione_connettore'];
+                                        var lunghezza_cavo  = connettoreAlimentazioneAdapter.records[$('#connettore_alimentazione').jqxComboBox('getSelectedIndex')]['lunghezza_cavo'];
+                                        var giunzione_MF    = connettoreAlimentazioneAdapter.records[$('#connettore_alimentazione').jqxComboBox('getSelectedIndex')]['giunzione_MF'];
+                                        var uscita_cavo     = connettoreAlimentazioneAdapter.records[$('#connettore_alimentazione').jqxComboBox('getSelectedIndex')]['uscita_cavo'];
+                                      
+                                      /*  $('#events').jqxPanel('clearcontent');
+                                        $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px;">Avanzamento: ' + connettoreAlimentazioneSource.costo + '</div>');
+                                        $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px;">Potenza lampada: ' + connettoreAlimentazioneSource.potenza_reel + 'W</div>');
+                                  */
+                                        switch (connettore_alimentazione){
+                                            case 'Sliding':
+                                                alert('Procedi pure alla determinazione del prezzo');
+                                                break;
+                                            default:
+                                                if(lunghezza_cavo !=""){
+                                                    $('#lunghezza_cavo_alim').jqxInput({disabled: false });
+                                                    $('#lunghezza_cavo_alim').val(lunghezza_cavo);
+                                                }
+
+                                                switch(giunzione_MF){
+                                                    case 'SI':
+                                                        $("#giunzione_MF").jqxCheckBox({disabled:false});
+                                                        break;
+                                                    case 'STD':
+                                                        $('#giunzione_MF').jqxCheckBox('check');
+                                                        break;
+                                                }
+                                                switch (uscita_cavo){
+                                                    case 'REVER':
+                                                        var source_cable=['sinistra','destra'];
+                                                        
+                                                        $("#uscita_cavo").jqxComboBox({   source: source_cable});
+                                                        $("#uscita_cavo").jqxComboBox({ disabled: false, selectedIndex:0});                                  
+                                                        break;
+                                                    default:
+                                                        var source_cable=['sinistra'];
+                                                        
+                                                        $("#uscita_cavo").jqxComboBox({   source: source_cable});
+                                                          $("#uscita_cavo").jqxComboBox({selectedIndex: 0});   
+
+                                                        break;
+                                                }
                                             break;
-                                        default:
-                                            if(lunghezza_cavo !=""){
-                                                $('#lunghezza_cavo_alim').jqxInput({disabled: false });
-                                                $('#lunghezza_cavo_alim').val(lunghezza_cavo);
-                                            }
-
-                                            switch(giunzione_MF){
-                                                case 'SI':
-                                                    $("#giunzione_MF").jqxCheckBox({disabled:false});
-                                                    break;
-                                                case 'STD':
-                                                    $('#giunzione_MF').jqxCheckBox('check');
-                                                    break;
-                                            }
-                                            switch (uscita_cavo){
-                                                case 'REVER':
-                                                    var source_cable=['sinistra','destra'];
-                                                    
-                                                    $("#uscita_cavo").jqxComboBox({   source: source_cable});
-                                                    $("#uscita_cavo").jqxComboBox({ disabled: false, selectedIndex:0});                                  
-                                                    break;
-                                                default:
-                                                    var source_cable=['sinistra'];
-                                                    
-                                                    $("#uscita_cavo").jqxComboBox({   source: source_cable});
-                                                      $("#uscita_cavo").jqxComboBox({selectedIndex: 0});   
-
-                                                    break;
-                                            }
-                                        break;
+                                        }
                                     }
-                                    
+                                        
                                 }
                             });
 
@@ -524,9 +528,9 @@
                                             columns: 
                                             [
                                                 {datafield: "nome_prodotto",text: '<strong>Foto ' + nome_prodotto +'</strong>', width:110, cellsrenderer: imagerenderer },
-                                                {datafield: "costo",  text: "<strong>Costo (&euro;/pz)</strong>"},
-                                                {datafield: "prezzo", text: "<strong>Prezzo lordo (&euro;/pz)</strong>"},
-                                              //  {datafield: "preventivo", text: "Preventivo (&euro;)"},
+                                              //  {datafield: "costo",  text: "<strong>Costo (&euro;/pz)</strong>"},
+                                                {datafield: "costo", text: "<strong>Costo base (&euro;/pz)</strong>"},
+                                                {datafield: "prezzo", text: "<strong>Costo (&euro;)</strong>"},
                                                 {datafield: "potenza_reel",  text: "<strong>Potenza (W)</strong>"},                                             
                                                 {datafield: "lunghezza_reel",  text: "<strong>Lunghezza reel (mm)</strong>"}/*,
                                                 {datafield: "descrizione_aggiuntiva", text: "Note"}*/
@@ -642,10 +646,6 @@
                                 animationType:'slide'
                                 
                             }); 
-                             
-  
-
-
                         </script>
                     </html>
   

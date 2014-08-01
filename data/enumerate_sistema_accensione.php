@@ -68,7 +68,7 @@
 								sistemi_accensione.".$nome_campo_portata_max." as portata_max,
 								".$potenza_reel." as potenza_reel, 
 								'SI' as sdoppiabile, 
-								'Attenzione: ci sar&agrave; una doppia alimentazione. Se non si vuole la doppia alimentazione provare a passare ai 24V. <br/>Potenza reel nominale rilevata:".$potenza_reel."W' as errore
+								CONCAT_WS(' ','Attenzione: ci sar&agrave; una doppia alimentazione. Se non si vuole la doppia alimentazione provare a passare ai 24V. <br/>Potenza reel nominale rilevata:".$potenza_reel."W. Potenza massima consentia',CONCAT_WS('',sistemi_accensione.".$nome_campo_portata_max.",'W')) as errore
 					FROM 		prodotto_lineare_motore_led_accensione,sistemi_accensione
 					WHERE 		prodotto_lineare_motore_led_accensione.id_sistema_accensione=sistemi_accensione.id_accensione
 					    AND   	prodotto_lineare_motore_led_accensione.prodotto_lineare='".$nome_prodotto."'
