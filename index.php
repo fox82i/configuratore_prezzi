@@ -16,7 +16,7 @@
                         
                         
                         <title>Gestione preventivi L&amp;S</title>
-                        <style type="text/css">
+                         <style type="text/css">
                             html, body
                             {
                                 height: 100%;
@@ -43,7 +43,7 @@
                                 <span class="icon-bar"></span>
                               </button>
                               <a class="navbar-brand" href="#">Gestione preventivi </a>      
-                             <img height="50" width="45" src="images/logo.jpg"/>                        
+                            <!-- <img height="50" width="45" src="images/logo.jpg"/>                        -->
                             </div>
                             <div class="collapse navbar-collapse">
                               <ul class="nav navbar-nav">
@@ -629,6 +629,7 @@
                                 valueMember: 'id_sistema_accensione',
                                 animationType:'slide'
                             });    
+
                             $("#connettore_alimentazione").jqxComboBox({            
                                 width: 300,
                                 height: 25,
@@ -637,7 +638,8 @@
                                 displayMember: 'descrizione_connettore',
                                 valueMember: 'id_connettore',
                                 animationType:'slide'
-                            });  
+                            }); 
+                             
                              $("#uscita_cavo").jqxComboBox({            
                                 width: 300,
                                 height: 25,
