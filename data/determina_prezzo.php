@@ -25,6 +25,7 @@
  	$giunzione_MF=$_REQUEST['giunzione_MF'];
  	$qta_richiesta=$_REQUEST['qta_richiesta'];
  	$prezzo_prodotto=0;
+ 	$prezzo_listino=0;
 
  	#eseguo calcolo per la lunghezza di taglio reel e sua relativa potenza in funzione delle scelti precedenti
  	$ingombro=return_ingombro_tecnico($dbh,$nome_prodotto,$motore_led,$sistema_accensione,$sistema_fissaggio);
@@ -97,7 +98,8 @@
 	$clips_fissaggio=$clips->fetchAll(PDO::FETCH_ASSOC);	
 
 	foreach ($clips_fissaggio as $row) {
-		$costo_prodotto=$costo_prodotto+ (round($row['costo']*$row['qta'],2));
+		$costo_prodotto=$costo_prodotto+ (round($row['costo']*$row['qta'],2)); //0,14 è il costo lavorativo per fissare l'adesivo alla clips su vetro. E' stato inserito nel costo clips.
+																				//capire se vale la pena fare tabella a parte
 	}
 
 	//SISTEMA ACCENSIONE
@@ -111,6 +113,60 @@
 	$costo_prodotto=$costo_prodotto+$sistema_di_accensione[0]['costo'];
 
 	$app="";
+
+	//CONNETTORE
+	if($sistema_accensione==1){
+	
+		$connettore=$dbh->query(" SELECT costo
+								  FROM connettore_alimentazione
+								  WHERE id_connettore='".$connettore_alimentazione."';");
+
+		$tipo_connettore=$connettore->fetchAll(PDO::FETCH_ASSOC);
+		$costo_prodotto=$costo_prodotto+$tipo_connettore[0]['costo'];
+	}else{
+		#considerato che nel costo del sistema di accensione ci sta già parte del connettore
+		#Viene inserito a livello di codice le discriminanti per connettore con costo differente da quanto riportato in tabella.
+		# In futuro si cercherà di capire come sistemare
+		switch ($connettore_alimentazione) {
+			case '1': //twin
+				$costo_prodotto=$costo_prodotto + 0;
+				break;
+			case '2'://M-Track
+				$costo_prodotto=$costo_prodotto +1.14;
+				break;
+			#case '3'://Sliding non fattibile aggiungere un touch
+			#	$costo_prodotto=$costo_prodotto +;
+			#	break;
+			case '4'://Modular
+				$costo_prodotto=$costo_prodotto +1.64;
+				break;
+			
+		}
+	}
+	//IMBALLAGGIO
+
+	$imballo=$dbh->query(" 	SELECT *
+							FROM (	SELECT *,MAX(inizio_validita) as maxdata 
+									FROM regole_imballi 
+									WHERE da<=".$lunghezza_lampada." and a >=".$lunghezza_lampada." GROUP BY costo)as tb1 							
+							WHERE inizio_validita = maxdata ;
+
+						");
+	$tipo_imballo=$imballo->fetchAll(PDO::FETCH_ASSOC);
+	$costo_imballaggio=0;
+
+	foreach ($tipo_imballo as $row) {
+		$costo_imballaggio=$costo_imballaggio+ (round($row['costo']*$row['quantita'],2)); //0,14 è il costo lavorativo per fissare l'adesivo alla clips su vetro. E' stato inserito nel costo clips.
+																				//capire se vale la pena fare tabella a parte
+	}
+	
+	if ($lunghezza_lampada>1540){
+		$costo_prodotto=$costo_prodotto+Round(($costo_imballaggio*$lunghezza_lampada)/1000,2);
+	}else{
+		$costo_prodotto=$costo_prodotto+$costo_imballaggio;
+	}
+	
+
 
 	// LAVORAZIONE
 	if ($giunzione_MF==true){
@@ -129,23 +185,6 @@
 	$lavorazione_assemblaggio=$lavorazione->fetchAll(PDO::FETCH_ASSOC);	
 	$costo_prodotto=$costo_prodotto+$lavorazione_assemblaggio[0]['costo_lavorazione'];
 
-	//CONNETTORE
-	$connettore=$dbh->query(" SELECT costo
-							  FROM connettore_alimentazione
-							  WHERE id_connettore='".$connettore_alimentazione."';");
-
-	$tipo_connettore=$connettore->fetchAll(PDO::FETCH_ASSOC);
-	$costo_prodotto=$costo_prodotto+$tipo_connettore[0]['costo'];
-
-	//IMBALLAGGIO
-
-	$imballo=$dbh->query(" SELECT costo,max(inizio_validita)as validita
-							FROM regole_imballi
-							WHERE ".$lunghezza_lampada.">=da and a <=".$lunghezza_lampada.";
-
-						");
-	$tipo_imballo=$imballo->fetchAll(PDO::FETCH_ASSOC);
-	$costo_prodotto=$costo_prodotto+$tipo_imballo[0]['costo'];
 
 	//MOQ
 	$moq=$dbh->query("  SELECT MOQ
@@ -156,7 +195,22 @@
 
 
 	$prezzo_prodotto=$costo_prodotto + $sovraprezzo[0]['MOQ'];
+
+	//rincaro per il prezzo lordo da poi scontare
 	
+	$rincaro=$dbh->query(" SELECT 	rincaro
+							FROM 	rincaro_prodotto
+							WHERE 	nome_prodotto='".$nome_prodotto."' 
+							AND 	id_accensione=".$sistema_accensione."
+						");
+	$rincaro_effettivo=$rincaro->fetchAll(PDO::FETCH_ASSOC);
+	
+	
+	$prezzo_listino=Round($prezzo_prodotto*$rincaro_effettivo[0]['rincaro'],2);
+	
+		
+	
+
     //RISPOSTE SERVER
 	$crud["prezzo"]=$prezzo_prodotto;
 	$crud["preventivo"]=$prezzo_prodotto*$qta_richiesta ;
@@ -165,7 +219,9 @@
 	$crud["lunghezza_reel"]= $lunghezza_reel;
 	$crud["descrizione_aggiuntiva"]="";
 	$crud["nome_prodotto"]=$nome_prodotto;
-	
+	$crud["prezzo_listino"]=$prezzo_listino;
+
+
 
 	$results["rows"]=$crud;
 

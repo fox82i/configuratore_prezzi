@@ -494,7 +494,8 @@
                                                         { name: 'preventivo'},
                                                         { name: 'prezzo'},                                                       
                                                         { name: 'lunghezza_reel'},
-                                                        { name: 'nome_prodotto'}
+                                                        { name: 'nome_prodotto'},
+                                                        { name: 'prezzo_listino'}
                                                     ],
                                                     
                                                     root:'rows',
@@ -528,11 +529,12 @@
                                             columns: 
                                             [
                                                 {datafield: "nome_prodotto",text: '<strong>Foto ' + nome_prodotto +'</strong>', width:110, cellsrenderer: imagerenderer },
-                                              //  {datafield: "costo",  text: "<strong>Costo (&euro;/pz)</strong>"},
+                                              
                                                 {datafield: "costo", text: "<strong>Costo base (&euro;/pz)</strong>"},
-                                                {datafield: "prezzo", text: "<strong>Costo (&euro;)</strong>"},
+                                                {datafield: "prezzo", text: "<strong>Costo + MOQ(&euro;)</strong>"},
+                                                {datafield: "prezzo_listino", text: "<strong>Prezzo Listino &euro;</strong>"},
                                                 {datafield: "potenza_reel",  text: "<strong>Potenza (W)</strong>"},                                             
-                                                {datafield: "lunghezza_reel",  text: "<strong>Lunghezza reel (mm)</strong>"}/*,
+                                                {datafield: "lunghezza_reel",  text: "<strong>Reel (mm)</strong>"}/*,
                                                 {datafield: "descrizione_aggiuntiva", text: "Note"}*/
                                               
                                             ]
