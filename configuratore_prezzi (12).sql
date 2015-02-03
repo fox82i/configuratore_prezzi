@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Gen 30, 2015 alle 16:27
+-- Generation Time: Feb 03, 2015 alle 15:31
 -- Versione del server: 5.5.20
 -- PHP Version: 5.5.18
 
@@ -65,25 +65,35 @@ CREATE TABLE IF NOT EXISTS `costo_assemblaggio_lampada` (
   `costo` double NOT NULL COMMENT 'costo',
   `UM` varchar(3) COLLATE utf8_bin NOT NULL COMMENT 'unità di misura',
   `QTA` int(11) NOT NULL COMMENT 'quantità',
-  `tipo_lavorazione` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'tipo di lavorazione eseguita sulla lampada'
+  `tipo_lavorazione` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'tipo di lavorazione eseguita sulla lampada',
+  `nome_prodotto` varchar(50) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='costo di assemblaggio per la produzione di una lampada in produzione';
 
 --
 -- Dump dei dati per la tabella `costo_assemblaggio_lampada`
 --
 
-INSERT INTO `costo_assemblaggio_lampada` (`note`, `da`, `a`, `costo`, `UM`, `QTA`, `tipo_lavorazione`) VALUES
-('circa 240"', 0, 600, 1.24, 'PZ', 1, 'ASSEMBLAGGIO'),
-('circa 10" a profilo', 0, 1500, 0.05, 'PZ', 1, 'TAGLIO SCHERMO'),
-('circa 10" a profilo', 0, 2000, 0.05, 'PZ', 1, 'TAGLIO REELPLATE'),
-('circa 60" a profilo', 0, 2000, 0.16, 'PZ', 1, 'TAGLIO VERGA'),
-('inserimento giunzione MF, poi è da codificare ma al momento rimane così', 0, 3000, 0.5, 'PZ', 1, 'GIUNZIONE MF'),
-('circa 300"', 601, 1200, 1.55, 'PZ', 1, 'ASSEMBLAGGIO'),
-('circa 360"', 1201, 2000, 1.86, 'PZ', 1, 'ASSEMBLAGGIO'),
-('circa 20" a profilo', 1501, 3000, 0.1, 'PZ', 1, 'TAGLIO SCHERMO'),
-('circa 450"', 2001, 3000, 2.33, 'PZ', 1, 'ASSEMBLAGGIO'),
-('circa 20" a profilo', 2001, 4300, 0.1, 'PZ', 1, 'TAGLIO REELPLATE'),
-('circa 90" a profilo', 2001, 4300, 0.31, 'PZ', 1, 'TAGLIO VERGA');
+INSERT INTO `costo_assemblaggio_lampada` (`note`, `da`, `a`, `costo`, `UM`, `QTA`, `tipo_lavorazione`, `nome_prodotto`) VALUES
+('circa 240"', 0, 600, 1.24, 'PZ', 1, 'ASSEMBLAGGIO', 'BALI'),
+('circa 240"', 0, 600, 1.24, 'PZ', 1, 'ASSEMBLAGGIO', 'LEDO'),
+('circa 10" a schermo', 0, 1500, 0.05, 'PZ', 1, 'TAGLIO SCHERMO', 'BALI'),
+('circa 10" a profilo', 0, 1500, 0.05, 'PZ', 1, 'TAGLIO SCHERMO', 'LEDO'),
+('circa 10" a profilo', 0, 2000, 0.05, 'PZ', 1, 'TAGLIO REELPLATE', 'BALI'),
+('circa 10" a profilo', 0, 2000, 0.05, 'PZ', 1, 'TAGLIO REELPLATE', 'LEDO'),
+('circa 60" a profilo', 0, 2000, 0.16, 'PZ', 1, 'TAGLIO VERGA', 'LEDO'),
+('circa 60" a profilo', 0, 2000, 0.31, 'PZ', 1, 'TAGLIO VERGA + FRESATURA x USCITA CAVO', 'BALI'),
+('circa 300"', 601, 1200, 1.55, 'PZ', 1, 'ASSEMBLAGGIO', 'BALI'),
+('circa 300"', 601, 1200, 1.55, 'PZ', 1, 'ASSEMBLAGGIO', 'LEDO'),
+('circa 360"', 1201, 2000, 1.86, 'PZ', 1, 'ASSEMBLAGGIO', 'BALI'),
+('circa 360"', 1201, 2000, 1.86, 'PZ', 1, 'ASSEMBLAGGIO', 'LEDO'),
+('circa 20" a schermo', 1501, 3000, 0.1, 'PZ', 1, 'TAGLIO SCHERMO', 'BALI'),
+('circa 20" a profilo', 1501, 3000, 0.1, 'PZ', 1, 'TAGLIO SCHERMO', 'LEDO'),
+('circa 450"', 2001, 3000, 2.33, 'PZ', 1, 'ASSEMBLAGGIO', 'BALI'),
+('circa 450"', 2001, 3000, 2.33, 'PZ', 1, 'ASSEMBLAGGIO', 'LEDO'),
+('circa 20" a profilo', 2001, 3000, 0.1, 'PZ', 1, 'TAGLIO REELPLATE', 'BALI'),
+('circa 90" a profilo', 2001, 3000, 0.47, 'PZ', 1, 'TAGLIO VERGA + FRESATURA x USCITA CAVO', 'BALI'),
+('circa 20" a profilo', 2001, 4300, 0.1, 'PZ', 1, 'TAGLIO REELPLATE', 'LEDO'),
+('circa 90" a profilo', 2001, 4300, 0.31, 'PZ', 1, 'TAGLIO VERGA', 'LEDO');
 
 -- --------------------------------------------------------
 
@@ -109,14 +119,15 @@ CREATE TABLE IF NOT EXISTS `diba` (
 INSERT INTO `diba` (`nome_prodotto`, `posizione`, `codice_componente`, `descrizione_componente`, `UM`, `quantita`, `costo`, `inizio_validita`) VALUES
 ('BALI', 10, '40210081200', 'PROFILO BALI L=4300mm', 'PZV', 1, 4.6, '2013-04-22'),
 ('BALI', 11, '40211602000', 'PROF.REEL PLATE I L=4300mm GREZZO', 'PZV', 1, 1.45, '2013-04-23'),
-('BALI', 110, '81106000100', 'ETIC.IMB.SING. 75x45 PROD. CE', 'PZV', 1, 0, '2013-04-22'),
-('BALI', 120, '81106020100', 'ETIC.IMB.MULT.100x80 PROD. CE', 'PZV', 1, 0, '2013-04-22'),
-('BALI', 160, '81110391000', 'ETIC.13x35mm ''12VDC MAX1,5A''', 'PZ', 1, 0, '2013-04-22'),
-('BALI', 170, '81110621000', 'ETIC.15x8 SELEZIONE COLORE LED', 'PZ', 1, 0, '2013-04-22'),
-('BALI', 130, '81115301000', 'ETIC.13x70mm  DATI DI TARGA BALI ENEC', 'PZ', 1, 0, '2013-04-22'),
-('BALI', 40, '81900371000', 'TESTATA BALI', 'PZ', 2, 0, '2013-04-22'),
-('BALI', 60, '81900561000', 'FERMACAVO PRODOTTI LED-HE', 'PZ', 2, 0, '2013-04-22'),
-('BALI', 70, 'F01010500414', 'VITE AUTOFIL. 2,9x6,5mm TSP', 'PZ', 2, 0, '2013-04-22'),
+('BALI', 13, '41400610300', 'PASSACAVO IN PVC xFORI D=6mm', 'PZ', 1, 0.02, '2015-02-03'),
+('BALI', 110, '81106000100', 'ETIC.IMB.SING. 75x45 PROD. CE', 'PZV', 1, 0.006, '2013-04-22'),
+('BALI', 120, '81106020100', 'ETIC.IMB.MULT.100x80 PROD. CE', 'PZV', 1, 0.006, '2013-04-22'),
+('BALI', 160, '81110391000', 'ETIC.13x35mm ''12VDC MAX1,5A''', 'PZ', 1, 0.006, '2013-04-22'),
+('BALI', 170, '81110621000', 'ETIC.15x8 SELEZIONE COLORE LED', 'PZ', 1, 0.006, '2013-04-22'),
+('BALI', 130, '81115301000', 'ETIC.13x70mm  DATI DI TARGA BALI ENEC', 'PZ', 1, 0.006, '2013-04-22'),
+('BALI', 40, '81900371000', 'TESTATA BALI', 'PZ', 2, 0.02, '2013-04-22'),
+('BALI', 60, '81900561000', 'FERMACAVO PRODOTTI LED-HE', 'PZ', 2, 0.11, '2013-04-22'),
+('BALI', 70, 'F01010500414', 'VITE AUTOFIL. 2,9x6,5mm TSP', 'PZ', 2, 0.001, '2013-04-22'),
 ('LEDO', 10, '40211071201', 'PROFILO ALLUMINIO 4,3MT', 'PZV', 1, 3.46, '2014-07-24'),
 ('LEDO', 11, '40211602000', 'PROF. REEL PALTE ii L=4300mm GREZZO', 'PZV', 1, 1.45, '2014-07-24'),
 ('LEDO', 40, '40402626200', 'TESTATA LEDO INTERNA', 'PZ', 2, 0.06, '2014-07-24'),
@@ -861,6 +872,8 @@ INSERT INTO `prodotto_lineare_motore_led_accensione` (`prodotto_lineare`, `motor
 CREATE TABLE IF NOT EXISTS `regole_cavo_bipolare` (
   `codice_articolo` varchar(11) NOT NULL,
   `descrizione_articolo` varchar(500) NOT NULL,
+  `da` int(11) NOT NULL,
+  `a` int(11) NOT NULL,
   `UM` varchar(3) NOT NULL,
   `qta` int(11) NOT NULL,
   `costo` double NOT NULL,
@@ -873,9 +886,43 @@ CREATE TABLE IF NOT EXISTS `regole_cavo_bipolare` (
 -- Dump dei dati per la tabella `regole_cavo_bipolare`
 --
 
-INSERT INTO `regole_cavo_bipolare` (`codice_articolo`, `descrizione_articolo`, `UM`, `qta`, `costo`, `classe`, `note`, `inizio_validitia`) VALUES
-('31900220000', 'CAVO BIPOLARE 2XAWG24 AWM2468 TRASP.', 'MM', 1000, 0.5, 'MAGGIORE_STD', 'se è maggiore dello std ad ogni 1mt devo sommare il costo.Il costo comprende già la manodopera', '2014-07-29'),
-('31900220000', 'CAVO BIPOLARE 2XAWG24 AWM2468 TRASP.', 'PZ', 1, 0.36, 'MINORE_STD', 'se è minore dello std allora applico interamente questo costo. Il costo comprende già la manodopera', '2014-07-29');
+INSERT INTO `regole_cavo_bipolare` (`codice_articolo`, `descrizione_articolo`, `da`, `a`, `UM`, `qta`, `costo`, `classe`, `note`, `inizio_validitia`) VALUES
+('31900220000', 'CAVO BIPOLARE 2XAWG24 AWM2468 TRASP.', 3001, 9999, 'PZ', 1, 0.5, 'MAGGIORE_STD', 'se è maggiore dello std ad ogni 1mt devo sommare il costo.Il costo comprende già la manodopera', '2014-07-29'),
+('31900220000', 'CAVO BIPOLARE 2XAWG24 AWM2468 TRASP.', 1, 3000, 'PZ', 1, 0.36, 'MINORE_STD', 'se è minore dello std allora applico interamente questo costo. Il costo comprende già la manodopera', '2014-07-29');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `regole_clips_reel_plate`
+--
+
+CREATE TABLE IF NOT EXISTS `regole_clips_reel_plate` (
+  `nome_prodotto` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `costo` double NOT NULL,
+  `ordine` int(11) NOT NULL,
+  `codice_articolo_fissaggio` varchar(13) NOT NULL,
+  `descrizione_articolo` varchar(30) NOT NULL,
+  `UM` varchar(3) NOT NULL,
+  `da` int(11) NOT NULL,
+  `a` int(11) NOT NULL,
+  `qta` int(11) NOT NULL,
+  `inizio_validita` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dump dei dati per la tabella `regole_clips_reel_plate`
+--
+
+INSERT INTO `regole_clips_reel_plate` (`nome_prodotto`, `costo`, `ordine`, `codice_articolo_fissaggio`, `descrizione_articolo`, `UM`, `da`, `a`, `qta`, `inizio_validita`) VALUES
+('BALI', 0.02, 12, '40403940000', 'CLIP REEL PLATE I', 'PZ', 0, 600, 3, '2015-02-03'),
+('BALI', 0.02, 12, '40403940000', 'CLIP REEL PLATE I', 'PZ', 601, 900, 4, '2015-02-03'),
+('BALI', 0.02, 12, '40403940000', 'CLIP REEL PLATE I', 'PZ', 901, 1200, 5, '2015-02-03'),
+('BALI', 0.02, 12, '40403940000', 'CLIP REEL PLATE I', 'PZ', 1201, 1500, 6, '2015-02-03'),
+('BALI', 0.02, 12, '40403940000', 'CLIP REEL PLATE I', 'PZ', 1501, 1800, 7, '2015-02-03'),
+('BALI', 0.02, 12, '40403940000', 'CLIP REEL PLATE I', 'PZ', 1801, 2100, 8, '2015-02-03'),
+('BALI', 0.02, 12, '40403940000', 'CLIP REEL PLATE I', 'PZ', 2101, 2400, 9, '2015-02-03'),
+('BALI', 0.02, 12, '40403940000', 'CLIP REEL PLATE I', 'PZ', 2401, 2700, 10, '2015-02-03'),
+('BALI', 0.02, 12, '40403940000', 'CLIP REEL PLATE I', 'PZ', 2701, 2300, 11, '2015-02-03');
 
 -- --------------------------------------------------------
 
@@ -941,8 +988,8 @@ CREATE TABLE IF NOT EXISTS `regole_schermo` (
 
 INSERT INTO `regole_schermo` (`nome_prodotto`, `codice_schermo`, `ordine`, `codice_articolo_schermo`, `descrizione_schermo`, `UM`, `QTA`, `costo`, `standard`, `inizio_validita`) VALUES
 ('BALI', 'NA', 20, '0000000000', 'NESSUN SCHERMO', 'PZ', 1, 0, 0, '2014-07-28'),
+('BALI', 'OP', 20, '40302020100', 'SCHERMO TIFANY L=3mt VERGA OPALE', 'PZ', 1, 1.56, 0, '2014-07-27'),
 ('BALI', 'OP', 20, '40301990100', 'SCHERMO PRODOTTI XL L=3mt VERGA OPALE768', 'PZ', 1, 1.56, 0, '2014-07-28'),
-('BALI', 'OP', 20, '40302020100', 'SCHERMO TIFANY L=3mt VERGA OPALE', 'PZ', 1, 1.56, 0, '2014-07-28'),
 ('BALI', 'TR', 20, '40301990100', 'SCHERMO PRODOTTI XL L=3mt TRASPARENTE656', 'PZV', 1, 1.56, 0, '2013-04-22'),
 ('BRASILIA', 'NA', 20, '00000000000', 'NESSUN SCHERMO', 'PZ', 1, 0, 0, '2014-07-28'),
 ('BRASILIA', 'TR', 20, '40302000000', 'SCHERMO PRODOTTI XL L=3mt TRASPARENTE656', 'PZ', 1, 1.56, 0, '2014-07-28'),
@@ -1005,6 +1052,12 @@ CREATE TABLE IF NOT EXISTS `regole_sistema_fissaggio` (
 --
 
 INSERT INTO `regole_sistema_fissaggio` (`nome_prodotto`, `costo`, `tipo_fissaggio`, `ordine`, `codice_articolo_fissaggio`, `descrizione_articolo_fissaggio`, `descrizione_breve`, `UM`, `da`, `a`, `qta`, `inizio_validita`) VALUES
+('BALI', 0.25, 1, 73, '81000850000', 'CONF.FIX BALI 4 CLIPS TONDE', '', 'PZ', 0, 1200, '1', '2015-02-03'),
+('BALI', 0.25, 1, 73, '81000850000', 'CONF.FIX BALI 4 CLIPS TONDE', '', 'PZ', 1201, 2000, '1', '2015-02-03'),
+('BALI', 0.25, 1, 73, '81000850000', 'CONF.FIX BALI 4 CLIPS TONDE', '', 'PZ', 2001, 3000, '1', '2015-02-03'),
+('BALI', 0.55, 3, 73, '41400660900', 'MAGNETE SC35MA NI 20x11,6x4mm', '', 'PZ', 0, 1000, '2', '2015-02-03'),
+('BALI', 0.55, 3, 73, '41400660900', 'MAGNETE SC35MA NI 20x11,6x4mm', '', 'PZ', 1001, 2000, '3', '2015-02-03'),
+('BALI', 0.55, 3, 73, '41400660900', 'MAGNETE SC35MA NI 20x11,6x4mm', '', 'PZ', 2001, 3000, '4', '2015-02-03'),
 ('LEDO', 0.14, 1, 73, '40402570000', 'CLIPS FISSAGGIO SU LEGNO LEDO', '', 'PZ', 0, 1000, '2', '2014-07-24'),
 ('LEDO', 0.14, 1, 73, '40402570000', 'CLIPS FISS. SU LEGNO LEDO', '', 'PZ', 1001, 2000, '3', '2014-07-25'),
 ('LEDO', 0.14, 1, 73, '40402570000', 'CLIPS FISS. SU LEGNO LEDO', '', 'PZ', 2001, 3000, '4', '2014-07-25'),
@@ -1031,7 +1084,7 @@ INSERT INTO `regole_sistema_fissaggio` (`nome_prodotto`, `costo`, `tipo_fissaggi
 --
 
 CREATE TABLE IF NOT EXISTS `rincaro_prodotto` (
-  `nome_prodotto` varchar(50) NOT NULL COMMENT 'Nome del prodotto',
+  `nome_prodotto` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'Nome del prodotto',
   `id_accensione` int(11) NOT NULL COMMENT 'sistema di accensione',
   `rincaro` double NOT NULL COMMENT 'prezzo di rincaro in euro',
   `date_update` date NOT NULL COMMENT 'data aggiornamento'
@@ -1177,7 +1230,7 @@ ALTER TABLE `connettore_alimentazione`
 -- Indexes for table `costo_assemblaggio_lampada`
 --
 ALTER TABLE `costo_assemblaggio_lampada`
-  ADD PRIMARY KEY (`da`,`a`,`tipo_lavorazione`);
+  ADD PRIMARY KEY (`da`,`a`,`tipo_lavorazione`,`nome_prodotto`), ADD KEY `nome_prodotto` (`nome_prodotto`);
 
 --
 -- Indexes for table `diba`
@@ -1220,6 +1273,12 @@ ALTER TABLE `prodotto_lineare_motore_led_accensione`
 --
 ALTER TABLE `regole_cavo_bipolare`
   ADD PRIMARY KEY (`classe`);
+
+--
+-- Indexes for table `regole_clips_reel_plate`
+--
+ALTER TABLE `regole_clips_reel_plate`
+  ADD PRIMARY KEY (`nome_prodotto`,`codice_articolo_fissaggio`,`da`,`a`,`inizio_validita`);
 
 --
 -- Indexes for table `regole_imballi`
@@ -1304,6 +1363,12 @@ ALTER TABLE `tipo_luce`
 --
 
 --
+-- Limiti per la tabella `costo_assemblaggio_lampada`
+--
+ALTER TABLE `costo_assemblaggio_lampada`
+ADD CONSTRAINT `costo_assemblaggio_lampada_ibfk_1` FOREIGN KEY (`nome_prodotto`) REFERENCES `prodotti_lineari` (`nome_prodotto`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
 -- Limiti per la tabella `diba`
 --
 ALTER TABLE `diba`
@@ -1333,6 +1398,12 @@ ADD CONSTRAINT `prodotto_lineare_motore_led_accensione_ibfk_4` FOREIGN KEY (`id_
 ADD CONSTRAINT `prodotto_lineare_motore_led_accensione_ibfk_5` FOREIGN KEY (`id_connettore`) REFERENCES `connettore_alimentazione` (`id_connettore`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
+-- Limiti per la tabella `regole_clips_reel_plate`
+--
+ALTER TABLE `regole_clips_reel_plate`
+ADD CONSTRAINT `nome_prodotto` FOREIGN KEY (`nome_prodotto`) REFERENCES `prodotti_lineari` (`nome_prodotto`);
+
+--
 -- Limiti per la tabella `regole_schermo`
 --
 ALTER TABLE `regole_schermo`
@@ -1350,6 +1421,7 @@ ADD CONSTRAINT `regole_sistema_fissaggio_ibfk_2` FOREIGN KEY (`tipo_fissaggio`) 
 -- Limiti per la tabella `rincaro_prodotto`
 --
 ALTER TABLE `rincaro_prodotto`
+ADD CONSTRAINT `rincaro_prodotto_ibfk_2` FOREIGN KEY (`nome_prodotto`) REFERENCES `prodotti_lineari` (`nome_prodotto`) ON DELETE NO ACTION ON UPDATE CASCADE,
 ADD CONSTRAINT `rincaro_prodotto_ibfk_1` FOREIGN KEY (`id_accensione`) REFERENCES `sistemi_accensione` (`id_accensione`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
