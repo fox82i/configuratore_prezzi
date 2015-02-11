@@ -118,6 +118,11 @@
 	$clips_fissaggio=$clips->fetchAll(PDO::FETCH_ASSOC);	
 
 	foreach ($clips_fissaggio as $row) {
+
+		if ($nome_prodotto=="BRASILIA" and $row['UM']=='MT' and $sistema_fissaggio==2){ 
+			$costo_prodotto=$costo_prodotto+ round(($row['costo']*$LU*$row['qta'])/1000,2);#per prodotto Brasilia e calcolo biadesivo per la lunghezza della verga alluminio (lunghezza utile??)
+		}
+
 		$costo_prodotto=$costo_prodotto+ (round($row['costo']*$row['qta'],2)); //0,14 è il costo lavorativo per fissare l'adesivo alla clips su vetro. E' stato inserito nel costo clips.
 																				//capire se vale la pena fare tabella a parte
 	}
