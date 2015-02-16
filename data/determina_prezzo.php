@@ -103,7 +103,21 @@
 		}	
 	}
 	
+	//PIASTRINA  CAVI
+	$piastrina=$dbh->query("SELECT *,MAX(inizio_validita) as validita
+							FROM regole_piastrina_cavi
+							WHERE nome_prodotto='".$nome_prodotto."'
+						 		and da<='".$lunghezza_lampada."' and a>='".$lunghezza_lampada."'
+							GROUP BY nome_prodotto,codice_articolo_fissaggio
+							Order by ordine ASC
+						");
+	$piastrina_cavi=$piastrina->fetchAll(PDO::FETCH_ASSOC);	
 
+	if (count($piastrina_cavi)>0){
+		foreach ($piastrina_cavi as $row) {
+			$costo_prodotto=$costo_prodotto + (round($row['costo']*$row['qta'],2));
+		}	
+	}
 
 
 	//CLIPS FISSAGGIO
