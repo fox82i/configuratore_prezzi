@@ -28,6 +28,7 @@
 	# 		- se non sussiste cambio voltaggio, inculedere sempre la doppia alimentazione (sempre)
 	#		- se anche con la doppia alimentazione cmq la potenza nominale è superiore a quella consentita dal cavo, allora si deve cambiare misura o reel (andando su una reel più bassa)
 
+ 	#ingombro nominale, in quanto calcolo la potenza della reel senza nessun sistema di accensione. In base al risultato visualizzo o meno i sistemi di accensione disponibili
 	$ingombro=return_ingombro_tecnico($dbh,$nome_prodotto,$motore_led,1,$sistema_fissaggio);
 	$LU=$lunghezza_lampada-$ingombro;
 	$lunghezza_reel=return_lunghezza_reel($LU,$motore_led);
