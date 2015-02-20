@@ -189,21 +189,32 @@
 
 	//CAVO CONNESSIONE ALIMENTAZIONE PERSONALIZZATO
 	if ($lunghezza_cavo<>$tipo_connettore[0]['lunghezza_cavo']){
-		$sql=$dbh->query("	SELECT costo
-							FROM regole_cavo_bipolare
-							WHERE da<=".$lunghezza_cavo." and a >=".$lunghezza_cavo."
-						");
-		$costo_cavo=$sql->fetchAll(PDO::FETCH_ASSOC);
-
+		
 		switch (true) {
 			case ($lunghezza_cavo<$tipo_connettore[0]['lunghezza_cavo']):
+				$sql=$dbh->query("	SELECT costo
+									FROM regole_cavo_bipolare
+									WHERE classe='MINORE_STD'
+								");
+				$costo_cavo=$sql->fetchAll(PDO::FETCH_ASSOC);
+
 				$costo_prodotto=$costo_prodotto + $costo_cavo[0]['costo'];
 				break;
 			
 			case ($lunghezza_cavo>$tipo_connettore[0]['lunghezza_cavo']):
-				$costo_prodotto=$costo_prodotto + Round((($lunghezza_cavo-$tipo_connettore[0]['lunghezza_cavo'])* $costo_cavo[0]['costo'])/1000,2) ;
-				break;
+				$sql=$dbh->query("	SELECT costo
+									FROM regole_cavo_bipolare
+									WHERE classe='MAGGIORE_STD'
+								");
+				$costo_cavo=$sql->fetchAll(PDO::FETCH_ASSOC);
+				$costo_prodotto=$costo_prodotto + Round((($lunghezza_cavo-$tipo_connettore[0]['lunghezza_cavo'])* $costo_cavo[0]['costo'])/1000,2)+ $tipo_connettore[0]['costo'];
+			
+				
 		}
+	}else{
+
+		$costo_prodotto=$costo_prodotto + $tipo_connettore[0]['costo'];
+
 	}
 
 
@@ -276,7 +287,7 @@
 	if (count($rincaro_effettivo)>0){
 		$prezzo_listino=Round($prezzo_prodotto*$rincaro_effettivo[0]['rincaro'],2);	
 	}
-
+	
     //RISPOSTE SERVER
 	$crud["prezzo"]=$prezzo_prodotto;
 	$crud["preventivo"]=$prezzo_prodotto*$qta_richiesta ;
