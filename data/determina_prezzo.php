@@ -153,7 +153,7 @@
 
 	$costo_prodotto=$costo_prodotto+$sistema_di_accensione[0]['costo'];
 
-	$app="";
+
 
 
 	//CONNETTORE
@@ -251,12 +251,7 @@
 
 	$lavorazione=$dbh->query(" 	SELECT 	SUM(costo) as costo_lavorazione
 								FROM  	costo_assemblaggio_lampada
-								WHERE (		tipo_lavorazione='ASSEMBLAGGIO' 
-								       OR 	tipo_lavorazione='TAGLIO SCHERMO' 
-								       OR 	tipo_lavorazione='TAGLIO VERGA' 
-								       OR 	tipo_lavorazione='TAGLIO REELPLATE'
-								       ".$app.")
-								AND '".$lunghezza_lampada."'>=da and '".$lunghezza_lampada."'<=a
+								WHERE '".$lunghezza_lampada."'>=da and '".$lunghezza_lampada."'<=a
 								AND nome_prodotto='".$nome_prodotto."'
 						 
 					");
