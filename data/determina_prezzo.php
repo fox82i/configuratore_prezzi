@@ -9,6 +9,7 @@
 
  	$crud=array();
  	$results=array();
+ 	$voci_costo=array();
 
  	$costo_prodotto=0;
  	$lunghezza_reel=0;
@@ -26,6 +27,7 @@
  	$qta_richiesta=$_REQUEST['qta_richiesta'];
  	$prezzo_prodotto=0;
  	$prezzo_listino=0;
+ 	$costo_app=0;
 
  	#eseguo calcolo per la lunghezza di taglio reel e sua relativa potenza in funzione delle scelti precedenti
  	$ingombro=return_ingombro_tecnico($dbh,$nome_prodotto,$motore_led,$sistema_accensione,$sistema_fissaggio);
@@ -49,19 +51,24 @@
 	foreach ($diba_prodotto as $row) {
 		switch ($row['posizione']){
 			case '10'://verga alluminio
-					$costo_prodotto=$costo_prodotto + round($row['costo']/floor(4300/$LU),2);
-					
+				$costo_prodotto=$costo_prodotto + round($row['costo']/floor(4300/$LU),2);
+				$voci_costo[]=array('voce_costo'=>"Verga alluminio",'costo_singola_voce'=>round($row['costo']/floor(4300/$LU),2) );
 				break;
 			case '11'://lunghezza reel plate == reel
-					$costo_prodotto=$costo_prodotto + round(($row['costo']/4300)*$lunghezza_reel,2);
+				$costo_prodotto=$costo_prodotto + round(($row['costo']/4300)*$lunghezza_reel,2);
+				$voci_costo[]=array('voce_costo'=>"Reel plate",'costo_singola_voce'=>round(($row['costo']/4300)*$lunghezza_reel,2));
 				break;
 			default:
-					$costo_prodotto=$costo_prodotto + round($row['costo']*$row['quantita'],2);
+				$costo_prodotto=$costo_prodotto + round($row['costo']*$row['quantita'],2);
+				$costo_app=$costo_app+round($row['costo']*$row['quantita'],2);
 				break;
 		}
 		
 		
 	}
+	$voci_costo[]=array('voce_costo'=>"Voci fisse diba",'costo_singola_voce'=>$costo_app);
+	$costo_app=0;
+
 
 	//REEL
 
@@ -72,6 +79,8 @@
 
 	$costo_reel=$reel->fetchAll(PDO::FETCH_ASSOC);
 	$costo_prodotto=$costo_prodotto+(round($lunghezza_reel*$costo_reel[0]['costo'],2));
+	$voci_costo[]=array('voce_costo'=>"Reel led ",'costo_singola_voce'=>round($lunghezza_reel*$costo_reel[0]['costo'],2));
+
 
 	//SCHERMO
 	$schermo=$dbh->query("	SELECT 	regole_schermo.*,MAX(regole_schermo.inizio_validita)as validita 
@@ -84,6 +93,8 @@
 
 	foreach ($schermo_prodotto as $row) {
 		$costo_prodotto=$costo_prodotto + round($row['costo']/floor(3000/return_lunghezza_profilo_plastico($lunghezza_lampada,$nome_prodotto,$sistema_fissaggio)),2);
+		$voci_costo[]=array('voce_costo'=>"Schermo ",'costo_singola_voce'=>round($row['costo']/floor(3000/return_lunghezza_profilo_plastico($lunghezza_lampada,$nome_prodotto,$sistema_fissaggio)),2));
+
 	}
 
 	//CLIPS FISSAGGIO REEEL PLATE, in base al prodotto
@@ -100,6 +111,7 @@
 		foreach ($clips_reel_plate as $row) {
 			$costo_prodotto=$costo_prodotto+ (round($row['costo']*$row['qta'],2)); //0,14 è il costo lavorativo per fissare l'adesivo alla clips su vetro. E' stato inserito nel costo clips.
 																				//capire se vale la pena fare tabella a parte
+			$voci_costo[]=array('voce_costo'=>"Clips fissaggio reel plate",'costo_singola_voce'=>round($row['costo']*$row['qta'],2));
 		}	
 	}
 	
@@ -116,6 +128,7 @@
 	if (count($piastrina_cavi)>0){
 		foreach ($piastrina_cavi as $row) {
 			$costo_prodotto=$costo_prodotto + (round($row['costo']*$row['qta'],2));
+			$voci_costo[]=array('voce_costo'=>"Piastrina cavi",'costo_singola_voce'=>round($row['costo']*$row['qta'],2));
 		}	
 	}
 
@@ -135,12 +148,15 @@
 
 		if ($nome_prodotto=="BRASILIA" and $row['UM']=='MT' and $sistema_fissaggio==2){ 
 			$costo_prodotto=$costo_prodotto + round(($row['costo']*$LU*$row['qta'])/1000,2);#per prodotto Brasilia e calcolo biadesivo per la lunghezza della verga alluminio (lunghezza utile)
+			$voci_costo[]=array('voce_costo'=>"Clips fissaggio",'costo_singola_voce'=> round(($row['costo']*$LU*$row['qta'])/1000,2));
 		}
 		if ($nome_prodotto=="SKYLINE" and $row['UM']=='MT' and $sistema_fissaggio==2){ 
 			$costo_prodotto=$costo_prodotto + round(($LU-12)*($row['costo']*$row['qta'])/1000,2);#per prodotto Skyline e calcolo biadesivo per la lunghezza della verga alluminio meno 12mm, che sono le testate(lunghezza utile)
+			$voci_costo[]=array('voce_costo'=>"Clips fissaggio",'costo_singola_voce'=> round(($LU-12)*($row['costo']*$row['qta'])/1000,2));
 		}
 		$costo_prodotto=$costo_prodotto+ (round($row['costo']*$row['qta'],2)); //0,14 è il costo lavorativo per fissare l'adesivo alla clips su vetro. E' stato inserito nel costo clips.
 																				//capire se vale la pena fare tabella a parte
+		$voci_costo[]=array('voce_costo'=>"Clips fissaggio",'costo_singola_voce'=>  round($row['costo']*$row['qta'],2));
 	}
 
 	//SISTEMA ACCENSIONE
@@ -152,7 +168,7 @@
 	$sistema_di_accensione=$accensione->fetchAll(PDO::FETCH_ASSOC);	
 
 	$costo_prodotto=$costo_prodotto+$sistema_di_accensione[0]['costo'];
-
+	$voci_costo[]=array('voce_costo'=>"Sistema accensione",'costo_singola_voce'=>  $sistema_di_accensione[0]['costo']);
 
 
 
@@ -164,8 +180,9 @@
 
 	$tipo_connettore=$connettore->fetchAll(PDO::FETCH_ASSOC);
 
-	if($sistema_accensione==1){		
+	if($sistema_accensione==1){		#nessun sistema di accensione
 		$costo_prodotto=$costo_prodotto+$tipo_connettore[0]['costo'];
+		$voci_costo[]=array('voce_costo'=>"Connettore",'costo_singola_voce'=>  $tipo_connettore[0]['costo']);
 	}else{
 		#considerato che nel costo del sistema di accensione ci sta già parte del connettore
 		#Viene inserito a livello di codice le discriminanti per connettore con costo differente da quanto riportato in tabella.
@@ -176,12 +193,14 @@
 				break;
 			case '2'://M-Track
 				$costo_prodotto=$costo_prodotto +1.14;
+				$voci_costo[]=array('voce_costo'=>"Connettore",'costo_singola_voce'=>  1.14);
 				break;
 			#case '3'://Sliding non fattibile aggiungere un touch
 			#	$costo_prodotto=$costo_prodotto +;
 			#	break;
 			case '4'://Modular
 				$costo_prodotto=$costo_prodotto +1.64;
+				$voci_costo[]=array('voce_costo'=>"Connettore",'costo_singola_voce'=>  1.64);
 				break;
 			
 		}
@@ -199,6 +218,7 @@
 				$costo_cavo=$sql->fetchAll(PDO::FETCH_ASSOC);
 
 				$costo_prodotto=$costo_prodotto + $costo_cavo[0]['costo'];
+				$voci_costo[]=array('voce_costo'=>"Cavo connessione",'costo_singola_voce'=>  $costo_cavo[0]['costo']);
 				break;
 			
 			case ($lunghezza_cavo>$tipo_connettore[0]['lunghezza_cavo']):
@@ -207,15 +227,15 @@
 									WHERE classe='MAGGIORE_STD'
 								");
 				$costo_cavo=$sql->fetchAll(PDO::FETCH_ASSOC);
-				$costo_prodotto=$costo_prodotto + Round((($lunghezza_cavo-$tipo_connettore[0]['lunghezza_cavo'])* $costo_cavo[0]['costo'])/1000,2)+ $tipo_connettore[0]['costo'];
-			
-				
+				$costo_prodotto=$costo_prodotto + Round((($lunghezza_cavo-$tipo_connettore[0]['lunghezza_cavo'])* $costo_cavo[0]['costo'])/1000,2);
+				$voci_costo[]=array('voce_costo'=>"Cavo connessione",'costo_singola_voce'=>  Round((($lunghezza_cavo-$tipo_connettore[0]['lunghezza_cavo'])* $costo_cavo[0]['costo'])/1000,2));			
 		}
-	}else{
+	}/*else{
 
 		$costo_prodotto=$costo_prodotto + $tipo_connettore[0]['costo'];
+		$voci_costo[]=array('voce_costo'=>"Cavo connessione",'costo_singola_voce'=>  $tipo_connettore[0]['costo']);
 
-	}
+	}*/
 
 
 
@@ -234,12 +254,15 @@
 	foreach ($tipo_imballo as $row) {
 		$costo_imballaggio=$costo_imballaggio+ (round($row['costo']*$row['quantita'],2)); //0,14 è il costo lavorativo per fissare l'adesivo alla clips su vetro. E' stato inserito nel costo clips.
 																				//capire se vale la pena fare tabella a parte
+		
 	}
 	
 	if ($lunghezza_lampada>1540){
 		$costo_prodotto=$costo_prodotto+Round(($costo_imballaggio*$lunghezza_lampada)/1000,2);
+		$voci_costo[]=array('voce_costo'=>"Imballo",'costo_singola_voce'=> Round(($costo_imballaggio*$lunghezza_lampada)/1000,2));
 	}else{
 		$costo_prodotto=$costo_prodotto+$costo_imballaggio;
+		$voci_costo[]=array('voce_costo'=>"Imballo",'costo_singola_voce'=> $costo_imballaggio);
 	}
 	
 
@@ -247,6 +270,7 @@
 	// LAVORAZIONE
 	if ($giunzione_MF=='true'){
 		$costo_prodotto=$costo_prodotto + 0.5; //in futuro da mettere in tabella questa informazione sul costo...
+		$voci_costo[]=array('voce_costo'=>"Giunzione_MF",'costo_singola_voce'=>0.5);
 	}
 
 	$lavorazione=$dbh->query(" 	SELECT 	SUM(costo) as costo_lavorazione
@@ -256,7 +280,8 @@
 						 
 					");
 	$lavorazione_assemblaggio=$lavorazione->fetchAll(PDO::FETCH_ASSOC);	
-	$costo_prodotto=$costo_prodotto+$lavorazione_assemblaggio[0]['costo_lavorazione'];
+	$costo_prodotto=$costo_prodotto+Round($lavorazione_assemblaggio[0]['costo_lavorazione'],2);
+	$voci_costo[]=array('voce_costo'=>"Lavorazione",'costo_singola_voce'=> Round($lavorazione_assemblaggio[0]['costo_lavorazione'],2));
 
 
 	//MOQ
@@ -269,6 +294,7 @@
 
 
 	$prezzo_prodotto=$costo_prodotto + $sovraprezzo[0]['MOQ'];
+	$voci_costo[]=array('voce_costo'=>"MOQ",'costo_singola_voce'=> $sovraprezzo[0]['MOQ']);
 
 	//rincaro per il prezzo lordo da poi scontare
 	
@@ -282,6 +308,7 @@
 	if (count($rincaro_effettivo)>0){
 		$prezzo_listino=Round($prezzo_prodotto*$rincaro_effettivo[0]['rincaro'],2);	
 	}
+
 	
     //RISPOSTE SERVER
 	$crud["prezzo"]=$prezzo_prodotto;
@@ -292,12 +319,17 @@
 	$crud["descrizione_aggiuntiva"]="";
 	$crud["nome_prodotto"]=$nome_prodotto;
 	$crud["prezzo_listino"]=$prezzo_listino;
-
+	$crud["dati_singoli"]=$voci_costo;
 
 
 	$results["rows"]=$crud;
 
 	echo json_encode($results);
+
+	function array_push_assoc($array, $key, $value){
+		$array[$key] = $value;
+		return $array;
+	}
 
 
 ?>

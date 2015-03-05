@@ -61,7 +61,7 @@
                        
                          <div class="container theme-showcase" role="main">
                             <div class="row">
-                                <div class="col-md-6 col-sm-6">
+                                <div class="col-md-5 col-sm-5">
                                     <form  role="form" id="calcolo_prezzo" action="./">
                                         <div class="form-group">
                                             <label for="prodotto">Prodotto:</label>
@@ -120,7 +120,7 @@
                                         </p>
                                     </form>
                                 </div>
-                                <div class="col-md-6 col-sm-6">
+                                <div class="col-md-7 col-sm-7">
                                     <div style='font-size: 12px; font-family: Verdana; margin-left: 5px; margin-top: 10px; float: left;'>
                                         <span>
                                             Messaggi server:</span>
@@ -129,10 +129,12 @@
                                            
                                     </div>
                                      
-                                    <div id='results'>
+                                    <div id='results' style="margin-left:10px">
                                        <div id='tab_risultati'></div>                                        
                                     </div> 
-                                   
+                                    <div id='voci_costo' style="margin-top:10px;margin-left:10px">
+                                       <div id='tab_costo'></div>                                        
+                                    </div> 
                                 </div>
                             </div>
                                                               
@@ -167,6 +169,13 @@
 
 
                                 $("#tab_risultati").on('columnresized', function (event) {
+                                                        var column = event.args.columntext;
+                                                        var newwidth = event.args.newwidth
+                                                        var oldwidth = event.args.oldwidth;
+                                                        console.log("Column: " + column + ", " + "New Width: " + newwidth + ", Old Width: " + oldwidth);
+                                                    });
+
+                                $("#tab_costo").on('columnresized', function (event) {
                                                         var column = event.args.columntext;
                                                         var newwidth = event.args.newwidth
                                                         var oldwidth = event.args.oldwidth;
@@ -495,7 +504,12 @@
                                                         { name: 'prezzo'},                                                       
                                                         { name: 'lunghezza_reel'},
                                                         { name: 'nome_prodotto'},
-                                                        { name: 'prezzo_listino'}
+                                                        { name: 'prezzo_listino'},
+                                                        { name: 'dati_singoli'},
+                                                        { name: 'voce_costo', map: 'dati_singoli>voce_costo'},
+                                                        { name: 'costo_singola_voce', map: 'dati_singoli>costo_singola_voce'}
+                                                       
+                                                       
                                                     ],
                                                     
                                                     root:'rows',
@@ -514,11 +528,36 @@
 
                                                     }
                                         };
+                                        var costoResultSource={
+                                                    dataType: "json",
+                                                    dataFields: [                                                       
+                                                        { name: 'voce_costo'},
+                                                        { name: 'costo_singola_voce'}                                                       
+                                                    ],
+                                                    
+                                                    root:'dati_singoli',
+                                                    url: 'data/determina_prezzo.php',
+                                                    data:{
+                                                        prodotto:nome_prodotto,
+                                                        lunghezza_lampada:lunghezza_prodotto,
+                                                        motore_led:codice_motore_led,
+                                                        tipo_schermo:tipo_schermo,
+                                                        sistema_fissaggio:sistema_fissaggio,
+                                                        sistema_accensione:sistema_accensione,
+                                                        connettore_alimentazione:connettore_alimentazione,
+                                                        lunghezza_cavo:lunghezza_cavo,
+                                                        giunzione_MF:giunzione_MF,
+                                                        qta_richiesta:qta_richiesta
+
+                                                    }
+                                        };
+
 
                                         risultatoFinaleAdapter=new $.jqx.dataAdapter(productResultSource);
                                         var imagerenderer = function (row, datafield, value) {
                                             return '<img style="margin-left: 5px;  margin-top: 5px" height="100" width="100" src="images/prodotti/' + value + '.jpg"/>';
                                         };
+                                        risultatoCostiEsplosiAdapter=new $.jqx.dataAdapter(costoResultSource);
 
                                         $("#tab_risultati").jqxGrid({ 
                                             source: risultatoFinaleAdapter,                                           
@@ -534,8 +573,20 @@
                                                 {datafield: "prezzo", text: "<strong>Costo + MOQ(&euro;)</strong>"},
                                                 {datafield: "prezzo_listino", text: "<strong>Prezzo Listino &euro;</strong>"},
                                                 {datafield: "potenza_reel",  text: "<strong>Potenza (W)</strong>"},                                             
-                                                {datafield: "lunghezza_reel",  text: "<strong>Reel (mm)</strong>"}/*,
+                                                {datafield: "lunghezza_reel",  text: "<strong>Reel (mm)</strong>"},/*,
                                                 {datafield: "descrizione_aggiuntiva", text: "Note"}*/
+                                              
+                                            ]
+                                        });
+                                        $("#tab_costo").jqxGrid({ 
+                                            source: risultatoCostiEsplosiAdapter,                                           
+                                                                                   
+                                            autoheight: true,
+                                            width: 300,
+                                            columns: 
+                                            [ 
+                                                {datafield: 'voce_costo', text: "<strong>Singola voce DiBa</strong>",align:'center', width: 200},
+                                                {datafield: 'costo_singola_voce', text: "<strong>Costo (&euro;)</strong>",align:'center',cellsalign: 'center', width: 100}
                                               
                                             ]
                                         });

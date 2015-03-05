@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 16, 2015 alle 12:47
+-- Generation Time: Mar 05, 2015 alle 16:24
 -- Versione del server: 5.5.20
 -- PHP Version: 5.5.18
 
@@ -47,10 +47,10 @@ CREATE TABLE IF NOT EXISTS `connettore_alimentazione` (
 --
 
 INSERT INTO `connettore_alimentazione` (`id_connettore`, `descrizione_connettore`, `data_inserimento`, `lunghezza_cavo`, `portata_max_12V`, `portata_max_24V`, `sdoppiabile`, `codice_articolo`, `descrizione_articolo`, `um`, `qta`, `costo`, `data_validita`) VALUES
-(1, 'Twin', '2014-06-09', 3000, 24, 48, 1, '30903560000', 'CONNECTION CORD X REEL L=3mt + INPUT 12V', 'PZ', 1, 0.73, '2014-07-28'),
-(2, 'M-Track', '2014-06-09', 600, 24, 48, 0, '80000000001', 'PROLUNGA MINITRACK LED L=700mm (xREEL)', 'PZ', 1, 1.9, '2014-07-28'),
-(3, 'Sliding', '2014-06-09', 0, 24, 48, 0, '80000000002', 'N.2 TESTATE SLIDING + CONTATTI (xREEL)', 'PZ', 1, 3.29, '2014-07-28'),
-(4, 'Modular', '2014-06-09', 500, 24, 48, 0, '80000000003', 'PROLUNGA MODULAR LED L=600mm (xREEL)', 'PZ', 1, 2, '2014-07-28');
+(1, 'Twin', '2014-06-09', 3000, 36, 72, 1, '30903560000', 'CONNECTION CORD X REEL L=3mt + INPUT 12V', 'PZ', 1, 0.73, '2014-07-28'),
+(2, 'M-Track', '2014-06-09', 600, 36, 72, 0, '80000000001', 'PROLUNGA MINITRACK LED L=700mm (xREEL)', 'PZ', 1, 1.9, '2014-07-28'),
+(3, 'Sliding', '2014-06-09', 0, 36, 72, 0, '80000000002', 'N.2 TESTATE SLIDING + CONTATTI (xREEL)', 'PZ', 1, 3.29, '2014-07-28'),
+(4, 'Modular', '2014-06-09', 500, 36, 72, 0, '80000000003', 'PROLUNGA MODULAR LED L=600mm (xREEL)', 'PZ', 1, 2, '2014-07-28');
 
 -- --------------------------------------------------------
 
@@ -109,13 +109,13 @@ INSERT INTO `costo_assemblaggio_lampada` (`note`, `da`, `a`, `costo`, `UM`, `QTA
 ('circa 60" a profilo', 0, 2000, 0.16, 'PZ', 1, 'TAGLIO VERGA', 'LEDO'),
 ('circa 30" a profilo', 0, 2000, 0.16, 'PZ', 1, 'TAGLIO VERGA', 'SKYLINE'),
 ('circa 150" a profilo', 0, 2000, 0.78, 'PZ', 1, 'TAGLIO VERGA + FRESATURA x SENSORE', 'PERTH'),
-('circa 60" a profilo', 0, 2000, 0.31, 'PZ', 1, 'TAGLIO VERGA + FRESATURA x USCITA CAVO', 'BALI'),
 ('circa 150" a profilo', 0, 2000, 0.39, 'PZ', 1, 'TAGLIO VERGA + FRESATURA x USCITA CAVO', 'DERBY'),
 ('circa 75" a profilo', 0, 2000, 0.39, 'PZ', 1, 'TAGLIO VERGA + FRESATURA x USCITA CAVO', 'GENEVE'),
 ('circa 75" a profilo', 0, 2000, 0.39, 'PZ', 1, 'TAGLIO VERGA + FRESATURA x USCITA CAVO', 'LUGANO'),
 ('circa 30" a profilo', 0, 2000, 0.16, 'PZ', 1, 'TAGLIO VERGA + FRESATURA x USCITA CAVO', 'MALINDI'),
 ('circa 30" a profilo', 0, 2000, 0.16, 'PZ', 1, 'TAGLIO VERGA + FRESATURA x USCITA CAVO', 'MALINDI-in'),
 ('circa 30" a profilo', 0, 2000, 0.16, 'PZ', 1, 'TAGLIO VERGA + FRESATURA x USCITA CAVO', 'MANILA'),
+('circa 20" a profilo', 0, 2000, 0.1, 'PZ', 1, 'TAGLIO VERGA + PUNZONATURA x USCITA CAVO', 'BALI'),
 ('circa 300"', 601, 1200, 1.55, 'PZ', 1, 'ASSEMBLAGGIO', 'BALI'),
 ('circa 300"', 601, 1200, 1.24, 'PZ', 1, 'ASSEMBLAGGIO', 'BRASILIA'),
 ('circa 450"', 601, 1200, 2.17, 'PZ', 1, 'ASSEMBLAGGIO', 'DERBY'),
@@ -171,13 +171,13 @@ INSERT INTO `costo_assemblaggio_lampada` (`note`, `da`, `a`, `costo`, `UM`, `QTA
 ('circa 60" a profilo', 2001, 3000, 0.31, 'PZ', 1, 'TAGLIO VERGA', 'BRASILIA'),
 ('circa 60" a profilo', 2001, 3000, 0.31, 'PZ', 1, 'TAGLIO VERGA', 'SKYLINE'),
 ('circa 180" a profilo', 2001, 3000, 0.93, 'PZ', 1, 'TAGLIO VERGA + FRESATURA x SENSORE', 'PERTH'),
-('circa 90" a profilo', 2001, 3000, 0.47, 'PZ', 1, 'TAGLIO VERGA + FRESATURA x USCITA CAVO', 'BALI'),
 ('circa 180" a profilo', 2001, 3000, 0.54, 'PZ', 1, 'TAGLIO VERGA + FRESATURA x USCITA CAVO', 'DERBY'),
 ('circa 105" a profilo', 2001, 3000, 0.54, 'PZ', 1, 'TAGLIO VERGA + FRESATURA x USCITA CAVO', 'GENEVE'),
 ('circa 105" a profilo', 2001, 3000, 0.54, 'PZ', 1, 'TAGLIO VERGA + FRESATURA x USCITA CAVO', 'LUGANO'),
 ('circa 60" a profilo', 2001, 3000, 0.31, 'PZ', 1, 'TAGLIO VERGA + FRESATURA x USCITA CAVO', 'MALINDI'),
 ('circa 60" a profilo', 2001, 3000, 0.31, 'PZ', 1, 'TAGLIO VERGA + FRESATURA x USCITA CAVO', 'MALINDI-in'),
 ('circa 60" a profilo', 2001, 3000, 0.31, 'PZ', 1, 'TAGLIO VERGA + FRESATURA x USCITA CAVO', 'MANILA'),
+('circa 40" a profilo', 2001, 3000, 0.21, 'PZ', 1, 'TAGLIO VERGA + PUNZONATURA x USCITA CAVO', 'BALI'),
 ('circa 20" a profilo', 2001, 4300, 0.1, 'PZ', 1, 'TAGLIO REELPLATE', 'LEDO'),
 ('circa 90" a profilo', 2001, 4300, 0.31, 'PZ', 1, 'TAGLIO VERGA', 'LEDO');
 
@@ -251,7 +251,7 @@ INSERT INTO `diba` (`nome_prodotto`, `posizione`, `codice_componente`, `descrizi
 ('GENEVE', 60, '81900561000', 'FERMACAVO PRODOTTI LED-HE', 'PZ', 2, 0.11, '2015-02-10'),
 ('GENEVE', 70, 'F01010500414', 'VITE AUTOFIL. 2,9x6,5mm TSP', 'PZ', 2, 0.04, '2015-02-10'),
 ('LEDO', 10, '40211071201', 'PROFILO ALLUMINIO 4,3MT', 'PZV', 1, 3.46, '2014-07-24'),
-('LEDO', 11, '40211602000', 'PROF. REEL PALTE ii L=4300mm GREZZO', 'PZV', 1, 1.45, '2014-07-24'),
+('LEDO', 11, '40211612000', 'PROF. REEL PALTE ii L=4300mm GREZZO', 'PZV', 1, 0.9, '2014-07-24'),
 ('LEDO', 40, '40402626200', 'TESTATA LEDO INTERNA', 'PZ', 2, 0.06, '2014-07-24'),
 ('LEDO', 42, '40402636500', 'TAPPO COPRIFILO LEDO', 'PZ', 2, 0.06, '2014-07-24'),
 ('LEDO', 43, '40402646500', 'TAPPO COPRIVITE LEDO', 'PZ', 2, 0.06, '2014-07-24'),
@@ -346,7 +346,8 @@ INSERT INTO `lavorazioni_prodotto` (`tipo_lavorazione`) VALUES
 ('TAGLIO SCHERMO + FRESATA'),
 ('TAGLIO VERGA'),
 ('TAGLIO VERGA + FRESATURA x SENSORE'),
-('TAGLIO VERGA + FRESATURA x USCITA CAVO');
+('TAGLIO VERGA + FRESATURA x USCITA CAVO'),
+('TAGLIO VERGA + PUNZONATURA x USCITA CAVO');
 
 -- --------------------------------------------------------
 
@@ -394,14 +395,14 @@ CREATE TABLE IF NOT EXISTS `motore_led` (
 INSERT INTO `motore_led` (`codice_motore_led`, `descrizione_motore`, `data_inserimento`, `VDC`, `versione_led`, `obsoleta`, `lunghezza_bobina`, `costo_bobina_reel`) VALUES
 ('A', '60 LED/mt', '2012-11-14', '12Vdc', '3528', 0, 5000, 0),
 ('B', '120 LED/mt', '2012-11-14', '12Vdc', '3528', 0, 0, 0),
-('C', '108 LED/mt', '2014-03-12', '12Vdc', '3528', 0, 5000, 27.16),
+('C', '108 LED/mt', '2014-03-12', '12Vdc', '3528', 0, 5000, 28),
 ('D', '60 LED/mt', '2014-05-27', '12Vdc', '5050', 0, 5000, 30.46),
 ('E', '156 LED/mt', '2014-05-27', '12Vdc', '3528', 0, 5000, 37.07),
 ('F', '120/120 EMOTION', '2014-05-27', '12Vdc', '3014', 0, 10000, 67.2),
-('G', '72 LED/mt', '2014-05-27', '12Vdc', '3528', 0, 5000, 20.72),
+('G', '72 LED/mt', '2014-05-27', '12Vdc', '3528', 0, 5000, 22.06),
 ('I', '156 LED/mt', '2014-05-27', '24Vdc', '3528', 0, 5000, 37.07),
-('M', '108 LED/mt', '2014-05-27', '24Vdc', '3528', 0, 5000, 27.16),
-('N', '72 LED/mt', '2014-05-27', '24Vdc', '3528', 0, 5000, 20.72);
+('M', '108 LED/mt', '2014-05-27', '24Vdc', '3528', 0, 5000, 28),
+('N', '72 LED/mt', '2014-05-27', '24Vdc', '3528', 0, 5000, 22.06);
 
 -- --------------------------------------------------------
 
@@ -481,7 +482,7 @@ INSERT INTO `prodotti_lineari` (`nome_prodotto`, `codice_articolo`, `lunghezza_m
 ('PERTH', NULL, 150, 3000, NULL, '2014-05-27', 0),
 ('SKYLINE', NULL, 150, 3000, NULL, '2014-05-27', 0),
 ('TIFANY', NULL, 150, 3000, NULL, '2014-05-27', 0),
-('VENICE', '15800000000', 150, 3000, 'SI', '2015-02-10', 0);
+('VENICE', '15800000000', 150, 3000, 'SI', '2015-02-10', 1);
 
 -- --------------------------------------------------------
 
@@ -1258,7 +1259,6 @@ CREATE TABLE IF NOT EXISTS `regole_schermo` (
 
 INSERT INTO `regole_schermo` (`nome_prodotto`, `codice_schermo`, `ordine`, `codice_articolo_schermo`, `descrizione_schermo`, `UM`, `QTA`, `costo`, `standard`, `inizio_validita`) VALUES
 ('BALI', 'NA', 20, '0000000000', 'NESSUN SCHERMO', 'PZ', 1, 0, 0, '2014-07-28'),
-('BALI', 'OP', 20, '40302020100', 'SCHERMO TIFANY L=3mt VERGA OPALE', 'PZ', 1, 1.56, 0, '2014-07-27'),
 ('BALI', 'OP', 20, '40301990100', 'SCHERMO PRODOTTI XL L=3mt VERGA OPALE768', 'PZ', 1, 1.56, 0, '2014-07-28'),
 ('BALI', 'TR', 20, '40301990100', 'SCHERMO PRODOTTI XL L=3mt TRASPARENTE656', 'PZV', 1, 1.56, 0, '2013-04-22'),
 ('BRASILIA', 'NA', 20, '00000000000', 'NESSUN SCHERMO', 'PZ', 1, 0, 0, '2014-07-28'),
@@ -1482,12 +1482,12 @@ CREATE TABLE IF NOT EXISTS `sistemi_accensione` (
 --
 
 INSERT INTO `sistemi_accensione` (`id_accensione`, `descrizione`, `descrizione_breve`, `corrente`, `portata_max_12V`, `portata_max_24V`, `UM`, `QTA`, `costo`, `codice_articolo`) VALUES
-(1, 'NESSUNO', 'N.A.', '', 24, 48, '', 0, 0, ''),
-(2, 'TOUCH', 'TC', '2A', 24, 48, '', 0, 5.3, '32800640100'),
-(3, 'PIR PANASONIC', 'SL', '2A', 24, 48, '', 0, 12.9, '12807530000'),
-(4, 'TOUCH EMOTION', 'TE', '2A', 24, 48, '', 0, 8.4, '32800820300'),
-(5, 'IR MECCANO', 'IR', '2A', 24, 48, '', 0, 0, ''),
-(6, 'PIR MURATA', 'PM', '2A', 24, 48, '', 0, 8.32, '80707160101');
+(1, 'NESSUNO', 'N.A.', '', 36, 72, '', 0, 0, ''),
+(2, 'TOUCH', 'TC', '2A', 36, 60, '', 0, 5.15, '32800640100'),
+(3, 'PIR PANASONIC', 'SL', '3A', 36, 72, '', 0, 12.9, '12807530000'),
+(4, 'TOUCH EMOTION', 'TE', '2A', 36, 60, '', 0, 8.4, '32800820300'),
+(5, 'IR MECCANO', 'IR', '3A', 36, 72, '', 0, 0, ''),
+(6, 'PIR MURATA', 'PM', '3A', 36, 72, '', 0, 8.32, '80707160101');
 
 -- --------------------------------------------------------
 
