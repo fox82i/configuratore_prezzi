@@ -48,7 +48,7 @@
                             <div class="collapse navbar-collapse">
                               <ul class="nav navbar-nav">
                                 <li class="active" ><a href="index.php">Home</a></li>
-                                <li><a href="statistiche.php">Statistiche</a></li>
+                               <!-- <li><a href="statistiche.php">Statistiche</a></li>-->
                                 <li><a href="amministrazione.php">Amministrazione</a></li>
                                 <li><a href="controller/logout.php">Log out</a></li>
 
@@ -442,14 +442,29 @@
                                   */
                                         switch (connettore_alimentazione){
                                             case 'Sliding':
-                                                alert('Procedi pure alla determinazione del prezzo');
+                                                //alert('Procedi pure alla determinazione del prezzo');
+                                                $('#lunghezza_cavo_alim').jqxInput({disabled: true});
+                                                $('#lunghezza_cavo_alim').val(lunghezza_cavo);
+                                                $("#uscita_cavo").jqxComboBox({ disabled: true});                                  
+                                                $("#giunzione_MF").jqxCheckBox({disabled:true});
+                                                $('#giunzione_MF').jqxCheckBox({checked:false});
+
+                                                switch(giunzione_MF){
+                                                    case 'SI':
+                                                        $("#giunzione_MF").jqxCheckBox({disabled:false});
+                                                        break;
+                                                    case 'STD':
+                                                        $('#giunzione_MF').jqxCheckBox('check');
+                                                        break;
+                                                }
                                                 break;
                                             default:
+                                                
                                                 if(lunghezza_cavo !=""){
                                                     $('#lunghezza_cavo_alim').jqxInput({disabled: false });
                                                     $('#lunghezza_cavo_alim').val(lunghezza_cavo);
                                                 }
-
+                                                $('#giunzione_MF').jqxCheckBox({checked:false});
                                                 switch(giunzione_MF){
                                                     case 'SI':
                                                         $("#giunzione_MF").jqxCheckBox({disabled:false});

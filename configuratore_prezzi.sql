@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 05, 2015 alle 16:24
+-- Generation Time: Mar 06, 2015 alle 16:23
 -- Versione del server: 5.5.20
 -- PHP Version: 5.5.18
 
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `connettore_alimentazione` (
 INSERT INTO `connettore_alimentazione` (`id_connettore`, `descrizione_connettore`, `data_inserimento`, `lunghezza_cavo`, `portata_max_12V`, `portata_max_24V`, `sdoppiabile`, `codice_articolo`, `descrizione_articolo`, `um`, `qta`, `costo`, `data_validita`) VALUES
 (1, 'Twin', '2014-06-09', 3000, 36, 72, 1, '30903560000', 'CONNECTION CORD X REEL L=3mt + INPUT 12V', 'PZ', 1, 0.73, '2014-07-28'),
 (2, 'M-Track', '2014-06-09', 600, 36, 72, 0, '80000000001', 'PROLUNGA MINITRACK LED L=700mm (xREEL)', 'PZ', 1, 1.9, '2014-07-28'),
-(3, 'Sliding', '2014-06-09', 0, 36, 72, 0, '80000000002', 'N.2 TESTATE SLIDING + CONTATTI (xREEL)', 'PZ', 1, 3.29, '2014-07-28'),
+(3, 'Sliding', '2014-06-09', 0, 36, 72, 0, '80000000002', 'N.2 TESTATE SLIDING + CONTATTI (xREEL)', 'PZ', 1, 2.8, '2014-07-28'),
 (4, 'Modular', '2014-06-09', 500, 36, 72, 0, '80000000003', 'PROLUNGA MODULAR LED L=600mm (xREEL)', 'PZ', 1, 2, '2014-07-28');
 
 -- --------------------------------------------------------
@@ -825,32 +825,32 @@ INSERT INTO `prodotto_lineare_motore_led_accensione` (`prodotto_lineare`, `motor
 ('LUGANO', 'M', 2, 114, 1, 1, 'SI', 'STD', 'sinistra', '2014-05-30'),
 ('LUGANO', 'N', 1, 77, 1, 1, 'SI', 'STD', 'sinistra', '2014-05-27'),
 ('LUGANO', 'N', 2, 114, 1, 1, 'SI', 'STD', 'sinistra', '2014-05-30'),
-('MALINDI', 'C', 1, 53, 1, 1, 'STD', 'REVER', '', '2014-03-12'),
-('MALINDI', 'C', 1, 53, 1, 3, 'STD', 'REVER', '', '2014-06-09'),
+('MALINDI', 'C', 1, 53, 1, 1, 'NO', 'REVER', '', '2014-03-12'),
+('MALINDI', 'C', 1, 53, 1, 3, 'NO', 'REVER', '', '2014-06-09'),
 ('MALINDI', 'C', 2, 90, 1, 1, 'STD', 'REVER', '', '2014-05-30'),
-('MALINDI', 'C', 2, 90, 1, 3, 'STD', 'REVER', '', '2014-06-09'),
-('MALINDI', 'E', 1, 53, 1, 1, 'STD', 'REVER', '', '2014-05-27'),
-('MALINDI', 'E', 1, 53, 1, 3, 'STD', 'REVER', '', '2014-06-09'),
+('MALINDI', 'C', 2, 90, 1, 3, 'NO', 'REVER', '', '2014-06-09'),
+('MALINDI', 'E', 1, 53, 1, 1, 'NO', 'REVER', '', '2014-05-27'),
+('MALINDI', 'E', 1, 53, 1, 3, 'NO', 'REVER', '', '2014-06-09'),
 ('MALINDI', 'E', 2, 90, 1, 1, 'STD', 'REVER', '', '2014-05-30'),
-('MALINDI', 'E', 2, 90, 1, 3, 'STD', 'REVER', '', '2014-06-09'),
-('MALINDI', 'F', 1, 53, 1, 1, 'STD', 'REVER', '', '2014-05-27'),
+('MALINDI', 'E', 2, 90, 1, 3, 'NO', 'REVER', '', '2014-06-09'),
+('MALINDI', 'F', 1, 53, 1, 1, 'NO', 'REVER', '', '2014-05-27'),
 ('MALINDI', 'F', 4, 0, 1, 1, 'STD', 'REVER', '', '2014-05-30'),
-('MALINDI', 'G', 1, 53, 1, 1, 'STD', 'REVER', '', '2014-05-27'),
-('MALINDI', 'G', 1, 53, 1, 3, 'STD', 'REVER', '', '2014-06-09'),
+('MALINDI', 'G', 1, 53, 1, 1, 'NO', 'REVER', '', '2014-05-27'),
+('MALINDI', 'G', 1, 53, 1, 3, 'NO', 'REVER', '', '2014-06-09'),
 ('MALINDI', 'G', 2, 90, 1, 1, 'STD', 'REVER', '', '2014-05-30'),
-('MALINDI', 'G', 2, 90, 1, 3, 'STD', 'REVER', '', '2014-06-09'),
-('MALINDI', 'I', 1, 53, 1, 1, 'STD', 'REVER', '', '2014-05-27'),
-('MALINDI', 'I', 1, 53, 1, 3, 'STD', 'REVER', '', '2014-06-09'),
+('MALINDI', 'G', 2, 90, 1, 3, 'NO', 'REVER', '', '2014-06-09'),
+('MALINDI', 'I', 1, 53, 1, 1, 'NO', 'REVER', '', '2014-05-27'),
+('MALINDI', 'I', 1, 53, 1, 3, 'NO', 'REVER', '', '2014-06-09'),
 ('MALINDI', 'I', 2, 90, 1, 1, 'STD', 'REVER', '', '2014-05-30'),
-('MALINDI', 'I', 2, 90, 1, 3, 'STD', 'REVER', '', '2014-06-09'),
-('MALINDI', 'M', 1, 53, 1, 1, 'STD', 'REVER', '', '2014-05-27'),
-('MALINDI', 'M', 1, 53, 1, 3, 'STD', 'REVER', '', '2014-06-09'),
+('MALINDI', 'I', 2, 90, 1, 3, 'NO', 'REVER', '', '2014-06-09'),
+('MALINDI', 'M', 1, 53, 1, 1, 'NO', 'REVER', '', '2014-05-27'),
+('MALINDI', 'M', 1, 53, 1, 3, 'NO', 'REVER', '', '2014-06-09'),
 ('MALINDI', 'M', 2, 90, 1, 1, 'STD', 'REVER', '', '2014-05-30'),
-('MALINDI', 'M', 2, 90, 1, 3, 'STD', 'REVER', '', '2014-06-09'),
-('MALINDI', 'N', 1, 53, 1, 1, 'STD', 'REVER', '', '2014-05-27'),
-('MALINDI', 'N', 1, 53, 1, 3, 'STD', 'REVER', '', '2014-06-09'),
+('MALINDI', 'M', 2, 90, 1, 3, 'NO', 'REVER', '', '2014-06-09'),
+('MALINDI', 'N', 1, 53, 1, 1, 'NO', 'REVER', '', '2014-05-27'),
+('MALINDI', 'N', 1, 53, 1, 3, 'NO', 'REVER', '', '2014-06-09'),
 ('MALINDI', 'N', 2, 90, 1, 1, 'STD', 'REVER', '', '2014-05-30'),
-('MALINDI', 'N', 2, 90, 1, 3, 'STD', 'REVER', '', '2014-06-09'),
+('MALINDI', 'N', 2, 90, 1, 3, 'NO', 'REVER', '', '2014-06-09'),
 ('MALINDI-in', 'C', 1, 41, 1, 1, 'SI', 'REVER', '', '2014-05-27'),
 ('MALINDI-in', 'C', 1, 41, 1, 3, 'SI', 'REVER', '', '2014-06-09'),
 ('MALINDI-in', 'C', 2, 78, 1, 1, 'SI', 'REVER', '', '2014-05-30'),
@@ -879,7 +879,7 @@ INSERT INTO `prodotto_lineare_motore_led_accensione` (`prodotto_lineare`, `motor
 ('MALINDI-in', 'N', 2, 78, 1, 3, 'SI', 'REVER', '', '2014-06-09'),
 ('MANILA', 'C', 1, 53, 1, 1, 'SI', 'REVER', '', '2014-05-27'),
 ('MANILA', 'C', 2, 90, 1, 1, 'SI', 'REVER', '', '2014-05-30'),
-('MANILA', 'E', 1, 59, 1, 1, 'SI', 'REVER', '', '2014-05-27'),
+('MANILA', 'E', 1, 53, 1, 1, 'SI', 'REVER', '', '2014-05-27'),
 ('MANILA', 'E', 2, 90, 1, 1, 'SI', 'REVER', '', '2014-05-30'),
 ('MANILA', 'F', 1, 53, 1, 1, 'SI', 'REVER', '', '2014-05-27'),
 ('MANILA', 'F', 4, 0, 1, 1, 'SI', 'REVER', '', '2014-05-30'),

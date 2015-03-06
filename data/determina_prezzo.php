@@ -51,6 +51,7 @@
 	foreach ($diba_prodotto as $row) {
 		switch ($row['posizione']){
 			case '10'://verga alluminio
+				# VIENE TENUTO CONTO LO SFRIDO
 				$costo_prodotto=$costo_prodotto + round($row['costo']/floor(4300/$LU),2);
 				$voci_costo[]=array('voce_costo'=>"Verga alluminio",'costo_singola_voce'=>round($row['costo']/floor(4300/$LU),2) );
 				break;
@@ -66,6 +67,8 @@
 		
 		
 	}
+
+	
 	$voci_costo[]=array('voce_costo'=>"Voci fisse diba",'costo_singola_voce'=>$costo_app);
 	$costo_app=0;
 
@@ -92,6 +95,7 @@
 	$schermo_prodotto=$schermo->fetchAll(PDO::FETCH_ASSOC);
 
 	foreach ($schermo_prodotto as $row) {
+		# VIENE TENUTO CONTO LO SFRIDO
 		$costo_prodotto=$costo_prodotto + round($row['costo']/floor(3000/return_lunghezza_profilo_plastico($lunghezza_lampada,$nome_prodotto,$sistema_fissaggio)),2);
 		$voci_costo[]=array('voce_costo'=>"Schermo ",'costo_singola_voce'=>round($row['costo']/floor(3000/return_lunghezza_profilo_plastico($lunghezza_lampada,$nome_prodotto,$sistema_fissaggio)),2));
 
@@ -195,9 +199,10 @@
 				$costo_prodotto=$costo_prodotto +1.14;
 				$voci_costo[]=array('voce_costo'=>"Connettore",'costo_singola_voce'=>  1.14);
 				break;
-			#case '3'://Sliding non fattibile aggiungere un touch
-			#	$costo_prodotto=$costo_prodotto +;
-			#	break;
+			case '3'://Sliding 
+				$costo_prodotto=$costo_prodotto +$tipo_connettore[0]['costo'];
+				$voci_costo[]=array('voce_costo'=>"Connettore",'costo_singola_voce'=> $tipo_connettore[0]['costo']);
+				break;
 			case '4'://Modular
 				$costo_prodotto=$costo_prodotto +1.64;
 				$voci_costo[]=array('voce_costo'=>"Connettore",'costo_singola_voce'=>  1.64);
@@ -236,7 +241,6 @@
 		$voci_costo[]=array('voce_costo'=>"Cavo connessione",'costo_singola_voce'=>  $tipo_connettore[0]['costo']);
 
 	}*/
-
 
 
 	//IMBALLAGGIO
