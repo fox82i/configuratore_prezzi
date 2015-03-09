@@ -29,9 +29,14 @@
  	$prezzo_listino=0;
  	$costo_app=0;
 
+ 	#lunghezza reale della verga di allumino da tagliare
+ 	$LU_alluminio=return_lunghezza_profilo_alluminio($lunghezza_lampada,$nome_prodotto,$sistema_fissaggio,$connettore_alimentazione);
+
+
  	#eseguo calcolo per la lunghezza di taglio reel e sua relativa potenza in funzione delle scelti precedenti
  	$ingombro=return_ingombro_tecnico($dbh,$nome_prodotto,$motore_led,$sistema_accensione,$sistema_fissaggio);
- 	
+ 		
+
  	#lunghezza lampada effettiva utile poi anche come base di partenza per la reel
 	$LU=$lunghezza_lampada-$ingombro;
 
@@ -52,8 +57,8 @@
 		switch ($row['posizione']){
 			case '10'://verga alluminio
 				# VIENE TENUTO CONTO LO SFRIDO
-				$costo_prodotto=$costo_prodotto + round($row['costo']/floor(4300/$LU),2);
-				$voci_costo[]=array('voce_costo'=>"Verga alluminio",'costo_singola_voce'=>round($row['costo']/floor(4300/$LU),2) );
+				$costo_prodotto=$costo_prodotto + round($row['costo']/floor(4300/$LU_alluminio),2);
+				$voci_costo[]=array('voce_costo'=>"Verga alluminio",'costo_singola_voce'=>round($row['costo']/floor(4300/$LU_alluminio),2) );
 				break;
 			case '11'://lunghezza reel plate == reel
 				$costo_prodotto=$costo_prodotto + round(($row['costo']/4300)*$lunghezza_reel,2);

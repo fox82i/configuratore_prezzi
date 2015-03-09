@@ -108,6 +108,76 @@
  		}
  	}
 
+ 	function return_lunghezza_profilo_alluminio($lunghezza_lampada,$nome_prodotto,$tipo_fissaggio,$tipo_connettore){
+ 		$app=0;
+ 		switch ($nome_prodotto){
+ 			case 'BALI':
+ 				$app=4;
+ 				break;
+ 			case 'BRASILIA':
+ 				switch ($tipo_fissaggio) {
+ 					case '1':#LEGNO
+ 						$app=24;
+ 						break;
+ 					case '2':#VETRO
+ 						$app=16;
+ 						break;
+ 					case '3':#METALLO
+ 						$app=32;
+ 						break; 					
+ 				} 				 				
+ 				break;
+ 			case 'DERBY':
+ 				$app=8;
+ 				break;
+ 			case 'GENEVE':
+ 				$app=4;
+ 				break;
+ 			case 'LEDO':
+ 				$app=13;
+ 				break;
+ 			case 'LUGANO':
+ 				$app=4;
+ 				break;
+ 			case 'MALINDI':
+ 				$app=16;
+ 				break;
+ 			case 'MALINDI-in':
+ 				$app=4;
+ 				break;
+ 			case 'MANILA':
+ 				$app=16;
+ 				break;
+ 			case 'MISKA':
+ 				$app=0;
+ 				break;
+ 			case 'PERTH':
+ 				$app=8;
+ 				break;
+ 			case 'SKYLINE':
+ 				switch (true) {
+ 					case ($tipo_fissaggio=='1' && $tipo_connettore<>'3'):#LEGNO
+ 						$app=22;
+ 						break;
+ 					case ($tipo_fissaggio=='2' && $tipo_connettore<>'3'):#VETRO
+ 						$app=12;
+ 						break;
+ 					case ($tipo_fissaggio=='1' && $tipo_connettore<>'3'):#METALLO
+ 						$app=30;
+ 						break; 					
+ 					case ($tipo_connettore==3):
+ 						$app=32;
+ 						break; 					 					
+ 				} 				
+ 				break;
+ 			case 'TIFANY':
+ 				$app=16;
+ 				break;
+ 			
+ 		}
+ 		return ($lunghezza_lampada-$app);
+ 	}
+
  	function return_lunghezza_profilo_plastico($lunghezza_lampada,$nome_prodotto,$tipo_fissaggio){
  		$app=0;
  		switch ($nome_prodotto) {
@@ -120,25 +190,25 @@
  			case 'BRASILIA': 
  				switch ($tipo_fissaggio) {
  					case '1':
- 						$app=24;
+ 						$app=25.5;
  						break;
  					case '2':
- 						$app=16;
+ 						$app=17.5;
  						break;
  					case '3':
- 						$app=32;
+ 						$app=33.5;
  						break; 					
  				} 				
  				break;
  			case 'SKYLINE': 
  				switch ($tipo_fissaggio) {
- 					case '1':
+ 					case '1':#LEGNO
  						$app=22;
  						break;
- 					case '2':
+ 					case '2':#VETRO
  						$app=12;
  						break;
- 					case '3':
+ 					case '3':#METALLO
  						$app=30;
  						break; 					
  				} 				
