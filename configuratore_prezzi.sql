@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 06, 2015 alle 16:23
+-- Generation Time: Mar 10, 2015 alle 16:02
 -- Versione del server: 5.5.20
 -- PHP Version: 5.5.18
 
@@ -224,19 +224,19 @@ INSERT INTO `diba` (`nome_prodotto`, `posizione`, `codice_componente`, `descrizi
 ('BRASILIA', 130, '81116061000', 'ETIC.13x70mm DATI DI TARGA LUGANO NO ENE', 'PZ', 1, 0.006, '2015-02-10'),
 ('DERBY', 10, '40210781200', 'PROF.ESTR. DERBY/PERTH 4300mm', 'PZV', 1, 6.75, '2015-02-16'),
 ('DERBY', 11, '40211602000', 'PROF.REEL PLATE I L=4300mm GREZZO', 'PZV', 1, 1.45, '2015-02-16'),
+('DERBY', 44, '50200100100', 'DIMA PERTH', 'PZ', 1, 0.4, '2015-03-10'),
 ('DERBY', 110, '81106000100', 'ETIC.IMB.SING. 75x45 PROD. CE', 'PZV', 1, 0.006, '2015-02-16'),
 ('DERBY', 120, '81106020100', 'ETIC.IMB.MULT.100x80 PROD. CE', 'PZV', 1, 0.006, '2015-02-16'),
 ('DERBY', 160, '81110391000', 'ETIC.13x35mm ''12VDC MAX1,5A''', 'PZ', 1, 0.006, '2015-02-16'),
 ('DERBY', 170, '81110621000', 'ETIC.15x8 SELEZIONE COLORE LED', 'PZ', 1, 0.006, '2015-02-16'),
 ('DERBY', 130, '81116061000', 'ETIC.13x70mm DATI DI TARGA LUGANO NO ENE', 'PZ', 1, 0.006, '2015-02-16'),
-('DERBY', 43, '81201066500', 'TESTATA DERBY DX', 'PZ', 1, 0.03, '2015-02-16'),
-('DERBY', 42, '81201076500', 'TESTATA DERBY SX', 'PZ', 1, 0.03, '2015-02-16'),
+('DERBY', 43, '81201066500', 'TESTATA DERBY DX', 'PZ', 1, 0.3, '2015-02-16'),
+('DERBY', 42, '81201076500', 'TESTATA DERBY SX', 'PZ', 1, 0.3, '2015-02-16'),
 ('DERBY', 60, '81900561000', 'FERMACAVO PRODOTTI LED-HE', 'PZ', 2, 0.11, '2015-02-16'),
-('DERBY', 61, '81900881000', 'FERMACAVO DERBY-PERTH', 'PZ', 2, 0.08, '2015-02-16'),
-('DERBY', 40, '81900911000', 'PIASTRINA TESTATA DERBY SX', 'PZ', 1, 0.08, '2015-02-16'),
-('DERBY', 41, '81900921000', 'PIASTRINA TESTATA DERBY DX', 'PZ', 1, 0.08, '2015-02-16'),
-('DERBY', 70, 'F01010500414', 'VITE AUTOFIL. 2,9x6,5mm TSP', 'PZ', 3, 0.04, '2015-02-16'),
-('DERBY', 71, 'F01010500438', 'VITE AUTOFIL. 2,9x9,5mm TSP', 'PZ', 2, 0.01, '2015-02-16'),
+('DERBY', 40, '81900911000', 'PIASTRINA TESTATA DERBY SX', 'PZ', 1, 0.15, '2015-02-16'),
+('DERBY', 41, '81900921000', 'PIASTRINA TESTATA DERBY DX', 'PZ', 1, 0.15, '2015-02-16'),
+('DERBY', 70, 'F01010500414', 'VITE AUTOFIL. 2,9x6,5mm TSP', 'PZ', 2, 0.004, '2015-02-16'),
+('DERBY', 71, 'F01010500438', 'VITE AUTOFIL. 2,9x9,5mm TSP', 'PZ', 2, 0.005, '2015-02-16'),
 ('GENEVE', 10, '40211411200', 'PROF.GENEVE - LUGANO L=4300mm ANODIZZATO', 'PZV', 1, 4.43, '2015-02-10'),
 ('GENEVE', 11, '40211602000', 'PROF.REEL PLATE I L=4300mm GREZZO', 'PZV', 1, 1.45, '2015-02-10'),
 ('GENEVE', 40, '40402781000', 'TESTATA INTERNA SX GENEVE', 'PZ', 1, 0.08, '2015-02-10'),
@@ -305,19 +305,20 @@ INSERT INTO `diba` (`nome_prodotto`, `posizione`, `codice_componente`, `descrizi
 ('MANILA', 70, 'F01010500414', 'VITE AUTOFIL. 2,9x6,5mm TSP', 'PZ', 2, 0.04, '2012-11-19'),
 ('PERTH', 10, '40210781200', 'PROF.ESTR. DERBY/PERTH 4300mm', 'PZV', 1, 6.75, '2015-02-10'),
 ('PERTH', 11, '40211602000', 'PROF.REEL PLATE I L=4300mm GREZZO', 'PZV', 1, 1.45, '2015-02-10'),
+('PERTH', 44, '50200100100', 'DIMA PERTH', 'PZ', 1, 0.4, '2015-03-10'),
 ('PERTH', 110, '81106000100', 'ETIC.IMB.SING. 75x45 PROD. CE', 'PZV', 1, 0.006, '2015-02-10'),
 ('PERTH', 120, '81106020100', 'ETIC.IMB.MULT.100x80 PROD. CE', 'PZV', 1, 0.006, '2015-02-10'),
 ('PERTH', 160, '81110391000', 'ETIC.13x35mm ''12VDC MAX1,5A''', 'PZ', 1, 0.006, '2015-02-10'),
 ('PERTH', 170, '81110621000', 'ETIC.15x8 SELEZIONE COLORE LED', 'PZ', 1, 0.006, '2015-02-10'),
 ('PERTH', 130, '81116061000', 'ETIC.13x70mm DATI DI TARGA LUGANO NO ENE', 'PZ', 1, 0.006, '2015-02-10'),
-('PERTH', 43, '81201046500', 'TESTATA PERTH DX', 'PZ', 1, 0.03, '2015-02-10'),
-('PERTH', 42, '81201056500', 'TESTATA PERTH SX', 'PZ', 1, 0.03, '2015-02-10'),
+('PERTH', 43, '81201046500', 'TESTATA PERTH DX', 'PZ', 1, 0.3, '2015-02-10'),
+('PERTH', 42, '81201056500', 'TESTATA PERTH SX', 'PZ', 1, 0.3, '2015-02-10'),
 ('PERTH', 60, '81900561000', 'FERMACAVO PRODOTTI LED-HE', 'PZ', 2, 0.11, '2015-02-10'),
-('PERTH', 61, '81900881000', 'FERMACAVO DERBY-PERTH', 'PZ', 2, 0.08, '2015-02-10'),
+('PERTH', 61, '81900881000', 'FERMACAVO DERBY-PERTH', 'PZ', 1, 0.08, '2015-02-10'),
 ('PERTH', 40, '81900891000', 'PIASTRINA TESTATA PERTH SX', 'PZ', 1, 0.08, '2015-02-10'),
 ('PERTH', 41, '81900901000', 'PIASTRINA TESTATA PERTH DX', 'PZ', 1, 0.08, '2015-02-10'),
-('PERTH', 70, 'F01010500414', 'VITE AUTOFIL. 2,9x6,5mm TSP', 'PZ', 3, 0.04, '2015-02-10'),
-('PERTH', 71, 'F01010500438', 'VITE AUTOFIL. 2,9x9,5mm TSP', 'PZ', 2, 0.01, '2015-02-10'),
+('PERTH', 70, 'F01010500414', 'VITE AUTOFIL. 2,9x6,5mm TSP', 'PZ', 3, 0.004, '2015-02-10'),
+('PERTH', 71, 'F01010500438', 'VITE AUTOFIL. 2,9x9,5mm TSP', 'PZ', 2, 0.001, '2015-02-10'),
 ('SKYLINE', 10, '40211631200', 'PROF.SKYLINE L=4300mm ANODIZZATO', 'PZV', 1, 3.43, '2015-02-16'),
 ('SKYLINE', 110, '81106000100', 'ETIC.IMB.SING. 75x45 PROD. CE', 'PZV', 1, 0.006, '2015-02-16'),
 ('SKYLINE', 120, '81106020100', 'ETIC.IMB.MULT.100x80 PROD. CE', 'PZV', 1, 0.006, '2015-02-16'),
@@ -932,19 +933,19 @@ INSERT INTO `prodotto_lineare_motore_led_accensione` (`prodotto_lineare`, `motor
 ('MISKA', 'N', 1, 75, 1, 1, 'STD', 'STD', 'sinistra', '2014-05-27'),
 ('MISKA', 'N', 3, 78, 1, 1, 'STD', 'STD', 'sinistra', '2014-05-30'),
 ('PERTH', 'C', 1, 53, 1, 1, 'SI', 'STD', 'sinistra', '2015-02-10'),
-('PERTH', 'C', 3, 53, 1, 1, 'SI', 'STD', 'sinistra', '2014-05-30'),
+('PERTH', 'C', 7, 53, 1, 1, 'SI', 'STD', 'sinistra', '2014-05-30'),
 ('PERTH', 'D', 1, 53, 1, 1, 'SI', 'STD', 'sinistra', '2015-02-10'),
-('PERTH', 'D', 3, 53, 1, 1, 'SI', 'STD', 'sinistra', '2014-05-30'),
+('PERTH', 'D', 7, 53, 1, 1, 'SI', 'STD', 'sinistra', '2014-05-30'),
 ('PERTH', 'E', 1, 53, 1, 1, 'SI', 'STD', 'sinistra', '2015-02-10'),
-('PERTH', 'E', 3, 53, 1, 1, 'SI', 'STD', 'sinistra', '2014-05-30'),
+('PERTH', 'E', 7, 53, 1, 1, 'SI', 'STD', 'sinistra', '2014-05-30'),
 ('PERTH', 'G', 1, 53, 1, 1, 'SI', 'STD', 'sinistra', '2015-02-10'),
-('PERTH', 'G', 3, 53, 1, 1, 'SI', 'STD', 'sinistra', '2014-05-30'),
+('PERTH', 'G', 7, 53, 1, 1, 'SI', 'STD', 'sinistra', '2014-05-30'),
 ('PERTH', 'I', 1, 53, 1, 1, 'SI', 'STD', 'sinistra', '2015-02-10'),
-('PERTH', 'I', 3, 53, 1, 1, 'SI', 'STD', 'sinistra', '2014-05-30'),
+('PERTH', 'I', 7, 53, 1, 1, 'SI', 'STD', 'sinistra', '2014-05-30'),
 ('PERTH', 'M', 1, 53, 1, 1, 'SI', 'STD', 'sinistra', '2015-02-10'),
-('PERTH', 'M', 3, 53, 1, 1, 'SI', 'STD', 'sinistra', '2014-05-30'),
+('PERTH', 'M', 7, 53, 1, 1, 'SI', 'STD', 'sinistra', '2014-05-30'),
 ('PERTH', 'N', 1, 53, 1, 1, 'SI', 'STD', 'sinistra', '2015-02-10'),
-('PERTH', 'N', 3, 53, 1, 1, 'SI', 'STD', 'sinistra', '2014-05-30'),
+('PERTH', 'N', 7, 53, 1, 1, 'SI', 'STD', 'sinistra', '2014-05-30'),
 ('SKYLINE', 'C', 1, 46, 1, 1, '', '', '', '2014-05-27'),
 ('SKYLINE', 'C', 1, 46, 1, 2, 'SI', 'STD', 'sinistra', '2014-06-09'),
 ('SKYLINE', 'C', 1, 46, 1, 3, 'SI', 'STD', 'sinistra', '2014-06-09'),
@@ -1292,7 +1293,7 @@ INSERT INTO `regole_schermo` (`nome_prodotto`, `codice_schermo`, `ordine`, `codi
 ('PERTH', 'TR', 20, '40301990000', 'SCHERMO PRODOTTI XL L=3mt TRASPARENTE656', 'PZV', 1, 1.41, 0, '2014-07-24'),
 ('SKYLINE', 'NA', 20, '00000000000', 'NESSUN SCHERMO', 'PZ', 1, 0, 0, '2014-07-28'),
 ('SKYLINE', 'OP', 20, '40301990100', 'SCHERMO PRODOTTI XL L=3mt OPALE768', 'PZ', 1, 1.56, 0, '2014-07-28'),
-('SKYLINE', 'TR', 20, '40301990000', 'SCHERMO PRODOTTI XL L=3mt TRASPARENTE656', 'PZ', 1, 1.56, 0, '2014-07-28'),
+('SKYLINE', 'TR', 20, '40301990000', 'SCHERMO PRODOTTI XL L=3mt TRASPARENTE656', 'PZ', 1, 1.41, 0, '2014-07-28'),
 ('TIFANY', 'NA', 20, '0000000000', 'NESSUN SCHERMO', 'PZ', 1, 0, 0, '2014-07-28'),
 ('TIFANY', 'OP', 20, '40302020100', 'SCHERMO TIFANY L=3mt OPALE', 'PZ', 1, 1.56, 0, '2014-07-28');
 
@@ -1434,8 +1435,16 @@ CREATE TABLE IF NOT EXISTS `rincaro_prodotto` (
 INSERT INTO `rincaro_prodotto` (`nome_prodotto`, `id_accensione`, `rincaro`, `date_update`) VALUES
 ('BALI', 1, 6, '2015-02-05'),
 ('BALI', 2, 5.2, '2015-02-05'),
+('BRASILIA', 1, 4.2, '2015-03-10'),
+('DERBY', 1, 4.3, '2015-03-10'),
+('DERBY', 2, 4.3, '2015-03-10'),
+('GENEVE', 1, 4.2, '2015-03-10'),
 ('LEDO', 1, 6, '2015-01-30'),
-('LEDO', 2, 5.2, '2015-01-30');
+('LEDO', 2, 5.2, '2015-01-30'),
+('LUGANO', 1, 4.2, '2015-03-10'),
+('LUGANO', 2, 4.2, '2015-03-10'),
+('MALINDI', 1, 4.9, '2015-03-10'),
+('MALINDI', 2, 4.5, '2015-03-10');
 
 -- --------------------------------------------------------
 
@@ -1475,7 +1484,7 @@ CREATE TABLE IF NOT EXISTS `sistemi_accensione` (
   `QTA` int(11) NOT NULL,
   `costo` double DEFAULT NULL,
   `codice_articolo` varchar(11) COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Accessori per i prodotti lineari';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Accessori per i prodotti lineari';
 
 --
 -- Dump dei dati per la tabella `sistemi_accensione`
@@ -1483,11 +1492,12 @@ CREATE TABLE IF NOT EXISTS `sistemi_accensione` (
 
 INSERT INTO `sistemi_accensione` (`id_accensione`, `descrizione`, `descrizione_breve`, `corrente`, `portata_max_12V`, `portata_max_24V`, `UM`, `QTA`, `costo`, `codice_articolo`) VALUES
 (1, 'NESSUNO', 'N.A.', '', 36, 72, '', 0, 0, ''),
-(2, 'TOUCH', 'TC', '2A', 36, 60, '', 0, 5.15, '32800640100'),
-(3, 'PIR PANASONIC', 'SL', '3A', 36, 72, '', 0, 12.9, '12807530000'),
-(4, 'TOUCH EMOTION', 'TE', '2A', 36, 60, '', 0, 8.4, '32800820300'),
+(2, 'TOUCH', 'TC', '2A', 36, 60, '', 1, 5.15, '32800640100'),
+(3, 'PIR PANASONIC', 'SL', '3A', 36, 72, '', 1, 12.9, '12807530000'),
+(4, 'TOUCH EMOTION', 'TE', '2A', 36, 60, '', 1, 8.4, '32800820300'),
 (5, 'IR MECCANO', 'IR', '3A', 36, 72, '', 0, 0, ''),
-(6, 'PIR MURATA', 'PM', '3A', 36, 72, '', 0, 8.32, '80707160101');
+(6, 'PIR MURATA', 'PM', '3A', 36, 72, '', 1, 8.32, '80707160101'),
+(7, 'PIR PERTH', 'PP', '3A', 36, 72, 'PZ', 1, 9.9, '80708420100');
 
 -- --------------------------------------------------------
 
@@ -1698,7 +1708,7 @@ ALTER TABLE `connettore_alimentazione`
 -- AUTO_INCREMENT for table `sistemi_accensione`
 --
 ALTER TABLE `sistemi_accensione`
-  MODIFY `id_accensione` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `id_accensione` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `sistemi_fissaggio`
 --

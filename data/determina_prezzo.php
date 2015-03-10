@@ -154,20 +154,35 @@
 	$clips_fissaggio=$clips->fetchAll(PDO::FETCH_ASSOC);	
 
 	foreach ($clips_fissaggio as $row) {
-
-		if ($nome_prodotto=="BRASILIA" and $row['UM']=='MT' and $sistema_fissaggio==2){ 
-			$costo_prodotto=$costo_prodotto + round(($row['costo']*$LU*$row['qta'])/1000,2);#per prodotto Brasilia e calcolo biadesivo per la lunghezza della verga alluminio (lunghezza utile)
-			$voci_costo[]=array('voce_costo'=>"Clips fissaggio",'costo_singola_voce'=> round(($row['costo']*$LU*$row['qta'])/1000,2));
+		switch (true) {
+			case ($nome_prodotto=="BRASILIA" and $row['UM']=='MT' and $sistema_fissaggio==2):
+				$costo_prodotto=$costo_prodotto + round(($row['costo']*$LU_alluminio*$row['qta'])/1000,2);#per prodotto Brasilia e calcolo biadesivo per la lunghezza della verga alluminio (lunghezza utile)
+				$costo_app=$costo_app+round(($row['costo']*$LU_alluminio*$row['qta'])/1000,2);	
+				break;
+			case ($nome_prodotto=="SKYLINE" and $row['UM']=='MT' and $sistema_fissaggio==2):
+				$costo_prodotto=$costo_prodotto + round(($LU_alluminio)*($row['costo']*$row['qta'])/1000,2);#per prodotto Skyline e calcolo biadesivo per la lunghezza della verga alluminio meno 12mm, che sono le testate(lunghezza utile)
+				$costo_app=$costo_app+ round(($LU_alluminio)*($row['costo']*$row['qta'])/1000,2);
+				break;
+			default:
+				$costo_prodotto=$costo_prodotto+ (round($row['costo']*$row['qta'],2)); #classico calcolo
+				$costo_app=$costo_app+  round($row['costo']*$row['qta'],2);
+				break;
+		}
+	
+	/*	if ($nome_prodotto=="BRASILIA" and $row['UM']=='MT' and $sistema_fissaggio==2){ 
+			$costo_prodotto=$costo_prodotto + round(($row['costo']*$LU_alluminio*$row['qta'])/1000,2);#per prodotto Brasilia e calcolo biadesivo per la lunghezza della verga alluminio (lunghezza utile)
+			$voci_costo[]=array('voce_costo'=>"Clips fissaggio",'costo_singola_voce'=> round(($row['costo']*$LU_alluminio*$row['qta'])/1000,2));
 		}
 		if ($nome_prodotto=="SKYLINE" and $row['UM']=='MT' and $sistema_fissaggio==2){ 
-			$costo_prodotto=$costo_prodotto + round(($LU-12)*($row['costo']*$row['qta'])/1000,2);#per prodotto Skyline e calcolo biadesivo per la lunghezza della verga alluminio meno 12mm, che sono le testate(lunghezza utile)
-			$voci_costo[]=array('voce_costo'=>"Clips fissaggio",'costo_singola_voce'=> round(($LU-12)*($row['costo']*$row['qta'])/1000,2));
+			$costo_prodotto=$costo_prodotto + round(($LU_alluminiob)*($row['costo']*$row['qta'])/1000,2);#per prodotto Skyline e calcolo biadesivo per la lunghezza della verga alluminio meno 12mm, che sono le testate(lunghezza utile)
+			$voci_costo[]=array('voce_costo'=>"Clips fissaggio",'costo_singola_voce'=> round(($LU_alluminio)*($row['costo']*$row['qta'])/1000,2));
 		}
 		$costo_prodotto=$costo_prodotto+ (round($row['costo']*$row['qta'],2)); //0,14 è il costo lavorativo per fissare l'adesivo alla clips su vetro. E' stato inserito nel costo clips.
 																				//capire se vale la pena fare tabella a parte
-		$voci_costo[]=array('voce_costo'=>"Clips fissaggio",'costo_singola_voce'=>  round($row['costo']*$row['qta'],2));
+		$voci_costo[]=array('voce_costo'=>"Clips fissaggio",'costo_singola_voce'=>  round($row['costo']*$row['qta'],2));*/
 	}
-
+	$voci_costo[]=array('voce_costo'=>"Clips fissaggio",'costo_singola_voce'=>  $costo_app);
+	$costo_app=0;
 	//SISTEMA ACCENSIONE
 	$accensione=$dbh->query(" 	SELECT *
 								fROM sistemi_accensione
