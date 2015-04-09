@@ -6,7 +6,6 @@
     $dbh = dbConn::getConnection();
 
 ?>
-
                     <!DOCTYPE html>
                     <html lang="en">
                     <head>
@@ -17,13 +16,13 @@
                         
                         <title>Gestione preventivi L&amp;S</title>
                          <style type="text/css">
-                            html, body
+                           /* html, body
                             {
                                 height: 100%;
                                 width: 100%;
                                 margin: 0px;
                                 padding: 0px;
-                            }
+                            }*/
                             body{
                                 position: relative;
                                 top: 71px;
@@ -48,9 +47,9 @@
                             <div class="collapse navbar-collapse">
                               <ul class="nav navbar-nav">
                                 <li class="active" ><a href="index.php">Home</a></li>
-                               <!-- <li><a href="statistiche.php">Statistiche</a></li>-->
+                               <!-- <li><a href="statistiche.php">Statistiche</a></li>
                                 <li><a href="amministrazione.php">Amministrazione</a></li>
-                                <li><a href="controller/logout.php">Log out</a></li>
+                                <li><a href="controller/logout.php">Log out</a></li>-->
 
                               </ul>
                       
@@ -116,22 +115,30 @@
                                             <input type="text" class="form-control"   style="width:300px" id="qta"   maxlength="3" />
                                         </div>
                                         <p>
+                                            <input type="button" class="btn btn-primary" value="Reset Form" id="resetButton" />
                                             <input type="button"  class="btn btn-primary" value="Determina prezzo" id="sendButton" />
+
                                         </p>
                                     </form>
                                 </div>
                                 <div class="col-md-7 col-sm-7">
-                                    <div style='font-size: 12px; font-family: Verdana; margin-left: 5px; margin-top: 10px; float: left;'>
-                                        <span>
-                                            Messaggi server:</span>
-                                            <div id='events'></div>      
-                                                                         
+                                    <div id='contenitore' style='font-size: 12px; font-family: Verdana; margin-left: 5px; margin-top: 10px; float: left;'>
+                                      
+                                         <div id='notifica_evento' style="margin-left:10px">
+                                            <div><span id='evento' style="font-weight: bold;"></span></div>
+                                         </div>                                
                                            
                                     </div>
                                      
                                     <div id='results' style="margin-left:10px">
                                        <div id='tab_risultati'></div>                                        
                                     </div> 
+                                    
+                                    <div id='conteggi_sconto' style="margin-top:10px;margin-left:10px">
+                                       
+                                        <div id='sconti_possibili'></div> 
+                                        <div id='prezzo_scontato'></div>
+                                    </div>
                                     <div id='voci_costo' style="margin-top:10px;margin-left:10px">
                                        <div id='tab_costo'></div>                                        
                                     </div> 
@@ -145,15 +152,33 @@
 
                         <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
                         <script type="text/javascript" src="js/jqwidgets/jqx-all.js"></script>                     
+                        <script type="text/javascript" src="js/data_adapter.js"></script>                     
+                        <script type="text/javascript" src="js/funzioni.js"></script>                     
                         <script type="text/javascript" src="js/bootstrap/bootstrap.min.js"></script>
                         <script type="text/javascript">
+                           
                             var costo_prodotto=0;
+                            var sconti_applicabili = [                                    
+                                    "50+20",
+                                    "50+15",
+                                    "50+10",
+                                    "50+5",
+                                    "50",
+                                    "40+10",
+                                    "40+20",
+                                    "40+20+10"
+                                ];
                             $(document).ready(function () {
-                                //$('#mainSplitter').jqxSplitter({width: '100%', height: '100%', panels: [{ size: '260', min: 150 }, { size: '80%'}] });
-                              
+                                                            
                                 $("#giunzione_MF").jqxCheckBox({ width: 150, height: 25, disabled:true });
-                                $('#events').jqxPanel({  height: '100px', width: '800px' });
-                                $('#events').css('border', 'none');
+                                                        
+                                $('#prezzo_scontato').jqxPanel({  height: '25px', width: '200px'});
+                                $('#testo_sconto').css('border', 'none');
+                                $('#prezzo_scontato').css('border', 'none');
+                                $("#notifica_evento").jqxNotification({
+                                        width: "auto", appendContainer: "#contenitore",
+                                        opacity: 0.9, autoOpen: false, autoClose: true, autoCloseDelay: 15000, template: "success"
+                                });
 
                                 $('#results').jqxPanel({ height: '150px' , width: '800px' });
                                 $('#results').css('border', 'none');
@@ -181,104 +206,10 @@
                                                         var oldwidth = event.args.oldwidth;
                                                         console.log("Column: " + column + ", " + "New Width: " + newwidth + ", Old Width: " + oldwidth);
                                                     });
+                                
                             });
 
-                            var productsSource ={
-                                                    dataType: "json",
-                                                    dataFields: [
-                                                        { name: 'prodotto'},
-                                                        { name: 'lunghezza_massima_accettata'},
-                                                        { name: 'lunghezza_minima_accettata'}
-                                                    ],
-                                                    id:'prodotto',
-                                                    root:'rows',
-
-                                                    url: 'data/enumerate_products.php'
-                                                };
-                            var productssAdapter = new $.jqx.dataAdapter(productsSource);
-
-                            var motoreLedSource ={
-                                                dataType: "json",
-                                                dataFields: [
-                                                    { name: 'codice_motore_led'},
-                                                    { name: 'descrizione'},
-                                                    { name: 'VDC'}
-                                                ],
-                                                url: 'data/enumerate_motore_led.php'
-                                            };
-                           // var motoreLedAdapter = new $.jqx.dataAdapter(motoreLedSource);
-
-
-                            var coloreLuceSource ={
-                                                dataType: "json",
-                                                dataFields: [
-                                                    { name: 'codice_motore_led'},
-                                                    { name: 'descrizione_colore'}
-                                                ],
-                                                url: 'data/enumerate_temperatura_luce.php'
-                                            };
-                          //  var coloreLuceAdapter = new $.jqx.dataAdapter(coloreLuceSource);
-
-                            var schermoSource ={
-                                                dataType: "json",
-                                                dataFields: [
-                                                    { name: 'codice_schermo'},
-                                                    { name: 'descrizione_schermo'}
-                                                ],
-                                                url: 'data/enumerate_schermo.php'
-                                            };
-                           // var schermoAdapter = new $.jqx.dataAdapter(schermoSource);
-
-                            var sistemaFissaggioSource ={
-                                                dataType: "json",
-                                                dataFields: [
-                                                    { name: 'id_sistema_fissaggio'},
-                                                    { name: 'descrizione_sistema_fissaggio'}
-                                                ],
-                                                url: 'data/enumerate_sistema_fissaggio.php'
-                                            };
-                          //  var sistemaFissaggioAdapter = new $.jqx.dataAdapter(sistemaFissaggioSource);
-
-
-                            var sistemaAccensioneSource ={
-                                                dataType: "json",
-                                                dataFields: [
-                                                    { name: 'id_sistema_accensione'},
-                                                    { name: 'descrizione'}  ,
-                                                    {name : 'potenza_reel'} ,                                                
-                                                    {name : 'portata_max'}  ,
-                                                    {name: 'errore'} ,                                                  
-                                                    { name: 'sdoppiabile'}                                                  
-
-                                                ],
-                                                root:'rows',
-                                                id:'id_sistema_accensione',
-                                                url: 'data/enumerate_sistema_accensione.php',
-                                              
-                                            };
-                           // var sistemaAccensioneAdapter = new $.jqx.dataAdapter(sistemaAccensioneSource);
-
-                            var connettoreAlimentazioneSource ={
-                                                dataType: "json",
-                                                dataFields: [
-                                                    { name: 'id_connettore'},
-                                                    { name: 'descrizione_connettore'} ,                                                  
-                                                    { name: 'giunzione_MF'} ,                                                  
-                                                    { name: 'uscita_cavo'} ,                                                  
-                                                    { name: 'lunghezza_cavo'}                                      
-                                                                                            
-
-                                                ],
-                                                root:'rows',
-                                                id:'id_connettore',
-                                                url: 'data/enumerate_connettore_alimentazione.php',
-
-                                              /*  beforeprocessing: function (data) {
-                                                  connettoreAlimentazioneSource.costo = data.costo;
-                                                  connettoreAlimentazioneSource.potenza_reel=data.potenza_reel;
-                                                } */
-                                              
-                                            };
+                            
                        //     var connettoreAlimentazioneAdapter = new $.jqx.dataAdapter(connettoreAlimentazioneSource) ;
 
                              $("#prodotto").bind('select', function(event){
@@ -336,6 +267,7 @@
                                         var lunghezza_prodotto= $('#lunghezza').val();
                                         var nome_prodotto=$("#prodotto").jqxComboBox('getSelectedItem').value;
                                         var codice_motore_led=$("#motore_led").jqxComboBox('getSelectedItem').value;
+                                        var tipo_schermo=$("#tipo_schermo").jqxComboBox('getSelectedItem').value;
                                        
                                         
                                         var vdc=motoreLedAdapter.records[$("#motore_led").jqxComboBox('getSelectedIndex')]['VDC'];
@@ -347,6 +279,7 @@
                                             motore_led:codice_motore_led,
                                             lunghezza_lampada:lunghezza_prodotto,
                                             sistema_fissaggio:sistema_fissaggio,
+                                            tipo_schermo:tipo_schermo,
                                             vdc:vdc
                                         };
 
@@ -354,26 +287,39 @@
                                         $("#sistema_accensione").jqxComboBox({   source: sistemaAccensioneAdapter});
                                         $("#sistema_accensione").on('bindingComplete', function (event) {
 
-                                            var messaggio=sistemaAccensioneAdapter.records['0']['errore'];
-                                            var sdoppiato=sistemaAccensioneAdapter.records['0']['sdoppiabile'];
-                                            var reel_w=sistemaAccensioneAdapter.records['0']['potenza_reel'];
-
-
-                                             $('#events').jqxPanel('clearcontent');
+                                            var messaggio='';
+                                            var sdoppiato='';
+                                            var reel_w='';
+                                            
+                                            sdoppiato=sistemaAccensioneAdapter.records['0']['sdoppiabile'];
+                                            reel_w=sistemaAccensioneAdapter.records['0']['potenza_reel'];
+                                             //$('#events').jqxPanel('clearcontent');
+                                            
 
                                              switch(sdoppiato){
-                                                case 'errore':
-                                                    $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px;color:red">'+ messaggio + '</div>');
+                                                case 'errore': 
+                                                    $("evento").text("");
+                                                     $("#evento").text(sistemaAccensioneAdapter.records['0']['errore']);
+                                                    //$("#evento").text(messaggio);
+                                                    // messaggio=sistemaAccensioneAdapter.records['0']['errore'];                                                  
+                                                    $("#notifica_evento").jqxNotification({ template: "error" });
+                                                     $("#notifica_evento").jqxNotification("open");
                                                     break;
-                                                case 'SI':
-                                                    $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px;color:red">'+ messaggio + '</div>');
+                                                case 'SI':  
+                                                    $("evento").text("");
+                                                    $("#evento").text(sistemaAccensioneAdapter.records['0']['errore']);                                                  
+                                                    $("#notifica_evento").jqxNotification({ template: "warning" });
+                                                    $("#notifica_evento").jqxNotification("open");
                                                     break;
                                                 default:
-                                                    $('#events').jqxPanel('prepend',  '<div style="margin-top: 5px;">Potenza reel nominale rilevata ' + reel_w + 'W </div>');
+                                                   // $("#evento").text();
+                                                   $("evento").text("");
+                                                    $("#evento").text("Potenza reel nominale rilevata " + reel_w +"W");
+                                                    $("#notifica_evento").jqxNotification("open");
                                                     break;
-                                             }
+                                             }                                       
                                            
-                                          });
+                                      });
 
                                     }
 
@@ -484,7 +430,7 @@
                                                         var source_cable=['sinistra'];
                                                         
                                                         $("#uscita_cavo").jqxComboBox({   source: source_cable});
-                                                          $("#uscita_cavo").jqxComboBox({selectedIndex: 0});   
+                                                        $("#uscita_cavo").jqxComboBox({selectedIndex: 0});   
 
                                                         break;
                                                 }
@@ -494,7 +440,17 @@
                                         
                                 }
                             });
-
+                            $('#resetButton').on('click',function(){
+                             
+                                $("#prodotto").jqxComboBox('clearSelection');
+                                $('#motore_led').jqxComboBox('clearSelection');
+                                $('#colore_luce').jqxComboBox('clearSelection');
+                                $('#tipo_schermo').jqxComboBox('clearSelection');
+                                $('#sistema_fissaggio').jqxComboBox('clearSelection');
+                                $('#sistema_accensione').jqxComboBox('clearSelection');
+                                $('#connettore_alimentazione').jqxComboBox('clearSelection');
+                                document.getElementById("calcolo_prezzo").reset();
+                            });
                              $('#sendButton').on('click', function () {
                                     if($('#calcolo_prezzo').jqxValidator('validate')){  
                                       
@@ -521,9 +477,8 @@
                                                         { name: 'nome_prodotto'},
                                                         { name: 'prezzo_listino'},
                                                         { name: 'dati_singoli'},
-                                                        { name: 'voce_costo', map: 'dati_singoli>voce_costo'},
-                                                        { name: 'costo_singola_voce', map: 'dati_singoli>costo_singola_voce'}
-                                                       
+                                                        { name: 'voce_costo',map:'dati_singoli>voce_costo'},
+                                                        { name: 'costo_singola_voce',map:'dati_singoli>costo_singola_voce'}
                                                        
                                                     ],
                                                     
@@ -568,12 +523,11 @@
                                         };
 
 
-                                        risultatoFinaleAdapter=new $.jqx.dataAdapter(productResultSource);
+                                        risultatoFinaleAdapter=new $.jqx.dataAdapter(productResultSource);                                    
+                                        
                                         var imagerenderer = function (row, datafield, value) {
                                             return '<img style="margin-left: 5px;  margin-top: 5px" height="100" width="100" src="images/prodotti/' + value + '.jpg"/>';
                                         };
-                                        risultatoCostiEsplosiAdapter=new $.jqx.dataAdapter(costoResultSource);
-
                                         $("#tab_risultati").jqxGrid({ 
                                             source: risultatoFinaleAdapter,                                           
                                             columnsresize: true,
@@ -593,9 +547,10 @@
                                               
                                             ]
                                         });
+                                        
+                                        risultatoCostiEsplosiAdapter=new $.jqx.dataAdapter(costoResultSource);
                                         $("#tab_costo").jqxGrid({ 
                                             source: risultatoCostiEsplosiAdapter,                                           
-                                                                                   
                                             autoheight: true,
                                             width: 300,
                                             columns: 
@@ -605,19 +560,35 @@
                                               
                                             ]
                                         });
-                                       
+                                        
 
+                                        
+                                        $("#sconti_possibili").jqxComboBox({ source: sconti_applicabili, selectedIndex:-1, width: '200', height: '25',disabled: false});
+
+                                      
+                                        $("#sconti_possibili").bind('select', function (event) {
+                                            if (event.args) {
+                                                var item = event.args.item;
+                                                if (item){
+                                                   // $("prezzo_scontato").append(item.value);                                                   
+                                                    num=calcolo_sconto(risultatoFinaleAdapter.records[0]['prezzo_listino'],item.value);
+                                                    console.log(num.toFixed(2));
+                                                }
+                                            }
+                                        });
                                     }else{
                                         $('#calcolo_prezzo').jqxValidator('validate');
                                     }
                                });
+                            /* $("#sconti_possibili").jbind('select',function(event){
 
-
+                             });*/
+        
                             $("#prodotto").jqxComboBox({
                                 source: productssAdapter,   
                                 width: 300,
                                 height: 25,
-                                promptText: "Select a products...",
+                                promptText: "Select a product...",
                                 displayMember: 'prodotto',
                                 valueMember: 'prodotto',
                                 animationType:'slide',
@@ -633,7 +604,7 @@
                                 width: 300,
                                 height: 25,
                                 disabled: true,
-                                promptText: "Select type of led...",
+                                promptText: "Select type of led-engine...",
                                 displayMember: 'descrizione',
                                 valueMember: 'codice_motore_led'
                             });
@@ -675,7 +646,7 @@
                                 width: 300,
                                 height: 25,
                                 disabled: true,
-                                promptText: "Select type of fix system...",
+                                promptText: "Select type of fixing system...",
                                 displayMember: 'descrizione_sistema_fissaggio',
                                 valueMember: 'id_sistema_fissaggio',
                                 animationType:'slide',
@@ -702,7 +673,7 @@
                                 width: 300,
                                 height: 25,
                                 disabled: true,
-                                promptText: "Select type of connector...",
+                                promptText: "Select of connector...",
                                 displayMember: 'descrizione_connettore',
                                 valueMember: 'id_connettore',
                                 animationType:'slide'
@@ -712,7 +683,7 @@
                                 width: 300,
                                 height: 25,
                                 disabled: true,
-                                promptText: "Select type of cable exit...",
+                                promptText: "Select type of outlet...",
                                 animationType:'slide'
                                 
                             }); 

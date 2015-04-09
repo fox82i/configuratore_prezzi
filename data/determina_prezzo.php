@@ -34,7 +34,7 @@
 
 
  	#eseguo calcolo per la lunghezza di taglio reel e sua relativa potenza in funzione delle scelti precedenti
- 	$ingombro=return_ingombro_tecnico($dbh,$nome_prodotto,$motore_led,$sistema_accensione,$sistema_fissaggio);
+ 	$ingombro=return_ingombro_tecnico($dbh,$nome_prodotto,$motore_led,$sistema_accensione,$connettore_alimentazione,$sistema_fissaggio);
  		
 
  	#lunghezza lampada effettiva utile poi anche come base di partenza per la reel
@@ -101,8 +101,8 @@
 
 	foreach ($schermo_prodotto as $row) {
 		# VIENE TENUTO CONTO LO SFRIDO
-		$costo_prodotto=$costo_prodotto + round($row['costo']/floor(3000/return_lunghezza_profilo_plastico($lunghezza_lampada,$nome_prodotto,$sistema_fissaggio)),2);
-		$voci_costo[]=array('voce_costo'=>"Schermo ",'costo_singola_voce'=>round($row['costo']/floor(3000/return_lunghezza_profilo_plastico($lunghezza_lampada,$nome_prodotto,$sistema_fissaggio)),2));
+		$costo_prodotto=$costo_prodotto + round($row['costo']/floor(3000/return_lunghezza_profilo_plastico($lunghezza_lampada,$nome_prodotto,$sistema_fissaggio,$sistema_accensione)),2);
+		$voci_costo[]=array('voce_costo'=>"Schermo ",'costo_singola_voce'=>round($row['costo']/floor(3000/return_lunghezza_profilo_plastico($lunghezza_lampada,$nome_prodotto,$sistema_fissaggio,$sistema_accensione)),2));
 
 	}
 
@@ -142,7 +142,7 @@
 	}
 
 
-	//CLIPS FISSAGGIO
+	//SISTEMA DI FISSAGGIO
 	$clips=$dbh->query(" SELECT *,MAX(inizio_validita) as validita
 						fROM regole_sistema_fissaggio
 						WHERE nome_prodotto='".$nome_prodotto."'
@@ -163,26 +163,20 @@
 				$costo_prodotto=$costo_prodotto + round(($LU_alluminio)*($row['costo']*$row['qta'])/1000,2);#per prodotto Skyline e calcolo biadesivo per la lunghezza della verga alluminio meno 12mm, che sono le testate(lunghezza utile)
 				$costo_app=$costo_app+ round(($LU_alluminio)*($row['costo']*$row['qta'])/1000,2);
 				break;
+			case ($nome_prodotto=="BORNEO" and $row['UM']=='MT' and ($sistema_fissaggio==1 or $sistema_fissaggio==3)):
+				$costo_prodotto=$costo_prodotto + round(($LU_alluminio)*($row['costo']*$row['qta'])/1000,2);#per prodotto Skyline e calcolo biadesivo per la lunghezza della verga alluminio meno 12mm, che sono le testate(lunghezza utile)
+				$costo_app=$costo_app+ round(($LU_alluminio)*($row['costo']*$row['qta'])/1000,2);
+				break;			
 			default:
 				$costo_prodotto=$costo_prodotto+ (round($row['costo']*$row['qta'],2)); #classico calcolo
 				$costo_app=$costo_app+  round($row['costo']*$row['qta'],2);
 				break;
 		}
-	
-	/*	if ($nome_prodotto=="BRASILIA" and $row['UM']=='MT' and $sistema_fissaggio==2){ 
-			$costo_prodotto=$costo_prodotto + round(($row['costo']*$LU_alluminio*$row['qta'])/1000,2);#per prodotto Brasilia e calcolo biadesivo per la lunghezza della verga alluminio (lunghezza utile)
-			$voci_costo[]=array('voce_costo'=>"Clips fissaggio",'costo_singola_voce'=> round(($row['costo']*$LU_alluminio*$row['qta'])/1000,2));
-		}
-		if ($nome_prodotto=="SKYLINE" and $row['UM']=='MT' and $sistema_fissaggio==2){ 
-			$costo_prodotto=$costo_prodotto + round(($LU_alluminiob)*($row['costo']*$row['qta'])/1000,2);#per prodotto Skyline e calcolo biadesivo per la lunghezza della verga alluminio meno 12mm, che sono le testate(lunghezza utile)
-			$voci_costo[]=array('voce_costo'=>"Clips fissaggio",'costo_singola_voce'=> round(($LU_alluminio)*($row['costo']*$row['qta'])/1000,2));
-		}
-		$costo_prodotto=$costo_prodotto+ (round($row['costo']*$row['qta'],2)); //0,14 è il costo lavorativo per fissare l'adesivo alla clips su vetro. E' stato inserito nel costo clips.
-																				//capire se vale la pena fare tabella a parte
-		$voci_costo[]=array('voce_costo'=>"Clips fissaggio",'costo_singola_voce'=>  round($row['costo']*$row['qta'],2));*/
+		
 	}
-	$voci_costo[]=array('voce_costo'=>"Clips fissaggio",'costo_singola_voce'=>  $costo_app);
+	$voci_costo[]=array('voce_costo'=>"Sistema di fissaggio",'costo_singola_voce'=>  $costo_app);
 	$costo_app=0;
+
 	//SISTEMA ACCENSIONE
 	$accensione=$dbh->query(" 	SELECT *
 								fROM sistemi_accensione
@@ -326,6 +320,7 @@
 							FROM 	rincaro_prodotto
 							WHERE 	nome_prodotto='".$nome_prodotto."' 
 							AND 	id_accensione=".$sistema_accensione."
+							AND 	'".$lunghezza_lampada."'>=da and '".$lunghezza_lampada."'<=a
 						");
 	$rincaro_effettivo=$rincaro->fetchAll(PDO::FETCH_ASSOC);
 	

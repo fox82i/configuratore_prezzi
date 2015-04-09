@@ -69,7 +69,10 @@
                                     </ul>
                                      <div style="margin-top: 15px; margin-left: 10px;">
                                         <p>Breve spiegazione di come si esegue il lavoro dell'amministratore</p>
+                                        <div id="jqxNotification">
+                                            Welcome to our website!</div>
                                      </div>
+                                      
                                 </div>
                             </div>
                         </div>
@@ -78,32 +81,7 @@
                     </body>
 
                         <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
-                        <script type="text/javascript" src="js/jqwidgets/jqxcore.js"></script>
-                        <script type="text/javascript" src="js/jqwidgets/jqxdata.js"></script>
-                        <script type="text/javascript" src="js/jqwidgets/jqxsplitter.js"></script>
-                        <script type="text/javascript" src="js/jqwidgets/jqxnavigationbar.js"></script>
-                        <script type="text/javascript" src="js/jqwidgets/jqxtabs.js"></script>
-                        <script type="text/javascript" src="js/jqwidgets/jqxgrid.js"></script>
-                        <script type="text/javascript" src="js/jqwidgets/jqxvalidator.js"></script> 
-                        
-                        <script type="text/javascript" src="js/jqwidgets/jqxscrollbar.js"></script>
-                        <script type="text/javascript" src="js/jqwidgets/jqxbuttons.js"></script>
-                        <script type="text/javascript" src="js/jqwidgets/jqxdropdownlist.js"></script>
-                        <script type="text/javascript" src="js/jqwidgets/jqxlistbox.js"></script>
-                        <script type="text/javascript" src="js/jqwidgets/jqxcombobox.js"></script>
-                        <script type="text/javascript" src="js/jqwidgets/jqxmenu.js"></script>
-                        <script type="text/javascript" src="js/jqwidgets/jqxvalidator.js"></script> 
-                        <script type="text/javascript" src="js/jqwidgets/jqxinput.js"></script>
-
-                        <script type="text/javascript" src="js/jqwidgets/jqxgrid.selection.js"></script>
-                        <script type="text/javascript" src="js/jqwidgets/jqxgrid.pager.js"></script>
-                        <script type="text/javascript" src="js/jqwidgets/jqxdata.export.js"></script> 
-                        <script type="text/javascript" src="js/jqwidgets/jqxgrid.export.js"></script> 
-                        <script type="text/javascript" src="js/jqwidgets/jqxgrid.filter.js"></script> 
-                        <script type="text/javascript" src="js/jqwidgets/jqxgrid.sort.js"></script> 
-                        
-                        <script type="text/javascript" src="js/jqwidgets/jqxgrid.columnsresize.js"></script> 
-                     
+                        <script type="text/javascript" src="js/jqwidgets/jqx-all.js"></script>         
                         <script type="text/javascript" src="js/bootstrap/bootstrap.min.js"></script>
                         <script type="text/javascript">
 
@@ -147,6 +125,9 @@
                                 $("#jqxnavigationbar_amministrazione").jqxNavigationBar({ width: '100%', expandMode: 'multiple', expandedIndexes: [0, 0]});
                                 $('#jqxTabsAdmin').jqxTabs({ height: '100%', width: '100%', showCloseButtons: true, animationType: 'fade',scrollPosition: 'both'});
                                
+                               $("#jqxNotification").jqxNotification({ width: "auto", position: "top-left",
+                                    opacity: 0.9, autoOpen: true, autoClose: false, template: "info"
+                                    });
                             });
 
                            

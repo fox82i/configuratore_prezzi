@@ -29,7 +29,7 @@
     
     # da capire se in futuro mettere anche il tipo di connettore. 
     # è stato messo un GROUP BY altrimenti il risultato veniva sdoppiato (appunto perchè manca il tipo connettore)
- 	function return_ingombro_tecnico($dbh,$nome_prodotto,$motore_led,$sistema_accensione,$sistema_fissaggio){
+ 	function return_ingombro_tecnico($dbh,$nome_prodotto,$motore_led,$sistema_accensione,$connettore,$sistema_fissaggio){
 
  		$sql=$dbh->query("	SELECT  ingombro_tecnico
  							FROM 	prodotto_lineare_motore_led_accensione
@@ -37,6 +37,7 @@
  								AND motore_led='".$motore_led."'
  								AND id_sistema_accensione='".$sistema_accensione."'
  								AND id_sistema_fissaggio='".$sistema_fissaggio."'
+ 								AND id_connettore='".$connettore."'
  							 GROUP BY ingombro_tecnico
 					 ");
 
@@ -155,7 +156,7 @@
  				$app=8;
  				break;
  			case 'SKYLINE':
- 				switch (true) {
+ 				switch (true){
  					case ($tipo_fissaggio=='1' && $tipo_connettore<>'3'):#LEGNO
  						$app=22;
  						break;
@@ -173,19 +174,33 @@
  			case 'TIFANY':
  				$app=16;
  				break;
+ 			case 'VENICE':
+ 				$app=18;
+ 				break;
+ 			case 'BORNEO':
+ 				$app=0;
+ 				break;
  			
  		}
  		return ($lunghezza_lampada-$app);
  	}
 
- 	function return_lunghezza_profilo_plastico($lunghezza_lampada,$nome_prodotto,$tipo_fissaggio){
+ 	function return_lunghezza_profilo_plastico($lunghezza_lampada,$nome_prodotto,$tipo_fissaggio,$tipo_sistema_accensione){
  		$app=0;
  		switch ($nome_prodotto) {
  			case 'LEDO': 
  				$app=13;
  				break;
  			case 'BORNEO': 
- 				$app=0;
+ 				switch ($tipo_fissaggio) {
+ 					case '1':
+ 						$app=0;		
+ 						break; 					
+ 					case '3':
+ 						$app=11;
+ 						break;
+ 				}
+ 				
  				break;
  			case 'BRASILIA': 
  				switch ($tipo_fissaggio) {
@@ -244,9 +259,20 @@
  			case 'MISKA': 
  				$app=0;
  				break;
+ 			case 'VENICE':
+ 				switch ($tipo_sistema_accensione) {
+ 					case '3': //pir panasonic
+ 						$app=42;
+ 						break; 					
+ 					default:
+ 						$app=35;
+ 						break;
+ 				} 				
+ 				break;
  		}
  		return ($lunghezza_lampada-$app);
 
  	}
 
+ 	
 ?>

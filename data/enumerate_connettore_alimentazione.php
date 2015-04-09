@@ -21,7 +21,8 @@
  	$nome_campo_portata_max='';
  	$sql="";
  	#eseguo calcolo per la lunghezza di taglio reel e sua relativa potenza in funzione delle scelti precedenti
- 	$ingombro=return_ingombro_tecnico($dbh,$nome_prodotto,$motore_led,$sistema_accensione,$sistema_fissaggio);
+ 	#il connettore metto per default twin
+ 	$ingombro=return_ingombro_tecnico($dbh,$nome_prodotto,$motore_led,$sistema_accensione,1,$sistema_fissaggio);
  	#lunghezza lampada effettiva
 	$LU=$lunghezza_lampada-$ingombro;
 
