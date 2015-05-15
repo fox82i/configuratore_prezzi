@@ -125,7 +125,7 @@
                                     <div id='contenitore' style='font-size: 12px; font-family: Verdana; margin-left: 5px; margin-top: 10px; float: left;'>
                                       
                                          <div id='notifica_evento' style="margin-left:10px">
-                                            <div><span id='evento' style="font-weight: bold;"></span></div>
+                                            <div ><span id='evento' style="font-weight: bold;"></span></div>
                                          </div>                                
                                            
                                     </div>
@@ -282,7 +282,7 @@
                                             tipo_schermo:tipo_schermo,
                                             vdc:vdc
                                         };
-                                        $('#notifica_evento').jqxNotification('destroy'); 
+
                                         sistemaAccensioneAdapter=new $.jqx.dataAdapter(sistemaAccensioneSource);
                                         $("#sistema_accensione").jqxComboBox({   source: sistemaAccensioneAdapter});
                                         $("#sistema_accensione").on('bindingComplete', function (event) {
@@ -297,15 +297,15 @@
                                             
 
                                              switch(sdoppiato){
-                                                case 'errore': 
+                                                case "errore": 
                                                     $("evento").text("");
                                                      $("#evento").text(sistemaAccensioneAdapter.records['0']['errore']);
                                                     //$("#evento").text(messaggio);
                                                     // messaggio=sistemaAccensioneAdapter.records['0']['errore'];                                                  
                                                     $("#notifica_evento").jqxNotification({ template: "error" });
-                                                     $("#notifica_evento").jqxNotification("open");
+                                                    $("#notifica_evento").jqxNotification("open");
                                                     break;
-                                                case 'SI':  
+                                                case "SI":  
                                                     $("evento").text("");
                                                     $("#evento").text(sistemaAccensioneAdapter.records['0']['errore']);                                                  
                                                     $("#notifica_evento").jqxNotification({ template: "warning" });
@@ -313,7 +313,7 @@
                                                     break;
                                                 default:
                                                    // $("#evento").text();
-                                                   $("evento").text("");
+                                                    $("evento").text("");
                                                     $("#evento").text("Potenza reel nominale rilevata " + reel_w +"W");
                                                     $("#notifica_evento").jqxNotification("open");
                                                     break;

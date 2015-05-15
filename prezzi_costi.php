@@ -115,7 +115,7 @@
                                             <input type="text" class="form-control"   style="width:300px" id="qta"   maxlength="3" />
                                         </div>
                                         <p>
-                                          <!--  <input type="button" class="btn btn-primary" value="Reset Form" id="resetButton" />-->
+                                           <!-- <input type="button" class="btn btn-primary" value="Reset Form" id="resetButton" />-->
                                             <input type="button"  class="btn btn-primary" value="Determina prezzo" id="sendButton" />
 
                                         </p>
@@ -282,7 +282,7 @@
                                             tipo_schermo:tipo_schermo,
                                             vdc:vdc
                                         };
-                                        $('#notifica_evento').jqxNotification('destroy'); 
+
                                         sistemaAccensioneAdapter=new $.jqx.dataAdapter(sistemaAccensioneSource);
                                         $("#sistema_accensione").jqxComboBox({   source: sistemaAccensioneAdapter});
                                         $("#sistema_accensione").on('bindingComplete', function (event) {
@@ -476,7 +476,10 @@
                                                         { name: 'lunghezza_reel'},
                                                         { name: 'nome_prodotto'},
                                                         { name: 'prezzo_listino'},
-                                                      
+                                                        { name: 'dati_singoli'},
+                                                        { name: 'voce_costo',map:'dati_singoli>voce_costo'},
+                                                        { name: 'costo_singola_voce',map:'dati_singoli>costo_singola_voce'}
+                                                       
                                                     ],
                                                     
                                                     root:'rows',
@@ -495,7 +498,29 @@
 
                                                     }
                                         };
-                                       
+                                        var costoResultSource={
+                                                    dataType: "json",
+                                                    dataFields: [                                                       
+                                                        { name: 'voce_costo'},
+                                                        { name: 'costo_singola_voce'}                                                       
+                                                    ],
+                                                    
+                                                    root:'dati_singoli',
+                                                    url: 'data/determina_prezzo.php',
+                                                    data:{
+                                                        prodotto:nome_prodotto,
+                                                        lunghezza_lampada:lunghezza_prodotto,
+                                                        motore_led:codice_motore_led,
+                                                        tipo_schermo:tipo_schermo,
+                                                        sistema_fissaggio:sistema_fissaggio,
+                                                        sistema_accensione:sistema_accensione,
+                                                        connettore_alimentazione:connettore_alimentazione,
+                                                        lunghezza_cavo:lunghezza_cavo,
+                                                        giunzione_MF:giunzione_MF,
+                                                        qta_richiesta:qta_richiesta
+
+                                                    }
+                                        };
 
 
                                         risultatoFinaleAdapter=new $.jqx.dataAdapter(productResultSource);                                    
@@ -508,21 +533,33 @@
                                             columnsresize: true,
                                             rowsheight: 110,
                                             autoheight: true,
-                                            width: 560,
+                                            width: '100%',
                                             columns: 
                                             [
                                                 {datafield: "nome_prodotto",text: '<strong>Foto ' + nome_prodotto +'</strong>', width:110, cellsrenderer: imagerenderer },
                                               
-                                               /* {datafield: "costo", text: "<strong>Costo base (&euro;/pz)</strong>"},
-                                                {datafield: "prezzo", text: "<strong>Costo + MOQ(&euro;)</strong>"},*/
-                                                {datafield: "prezzo_listino", text: "<strong>Prezzo Listino &euro;</strong>",width:150},
-                                                {datafield: "potenza_reel",  text: "<strong>Potenza (W)</strong>",width:150},                                             
-                                                {datafield: "lunghezza_reel",  text: "<strong>Reel (mm)</strong>",width:150},/*,
+                                                {datafield: "costo", text: "<strong>Costo base (&euro;/pz)</strong>"},
+                                                {datafield: "prezzo", text: "<strong>Costo + MOQ(&euro;)</strong>"},
+                                                {datafield: "prezzo_listino", text: "<strong>Prezzo Listino &euro;</strong>"},
+                                                {datafield: "potenza_reel",  text: "<strong>Potenza (W)</strong>"},                                             
+                                                {datafield: "lunghezza_reel",  text: "<strong>Reel (mm)</strong>"},/*,
                                                 {datafield: "descrizione_aggiuntiva", text: "Note"}*/
                                               
                                             ]
                                         });
                                         
+                                        risultatoCostiEsplosiAdapter=new $.jqx.dataAdapter(costoResultSource);
+                                        $("#tab_costo").jqxGrid({ 
+                                            source: risultatoCostiEsplosiAdapter,                                           
+                                            autoheight: true,
+                                            width: 300,
+                                            columns: 
+                                            [ 
+                                                {datafield: 'voce_costo', text: "<strong>Singola voce DiBa</strong>",align:'center', width: 200},
+                                                {datafield: 'costo_singola_voce', text: "<strong>Costo (&euro;)</strong>",align:'center',cellsalign: 'center', width: 100}
+                                              
+                                            ]
+                                        });
                                         
 
                                         
@@ -533,11 +570,10 @@
                                             if (event.args) {
                                                 var item = event.args.item;
                                                 if (item){
-                                                    num=calcolo_sconto(risultatoFinaleAdapter.records[0]['prezzo_listino'],item.value);
+                                                   num=calcolo_sconto(risultatoFinaleAdapter.records[0]['prezzo_listino'],item.value);
                                                     $('#prezzo_scontato').jqxPanel('clearcontent');
                                                     $('#prezzo_scontato').jqxPanel('append', "<p><strong>Prezzo scontato " + num.toFixed(2)+ "&euro;</strong></p>");
-                                                   // $("prezzo_scontato").append(item.value);                                                                                                      
-                                                   // console.log(num.toFixed(2));
+                                                   //console.log(num.toFixed(2));
                                                 }
                                             }
                                         });
