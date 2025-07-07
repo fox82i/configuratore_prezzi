@@ -1,8 +1,13 @@
 <?php
     session_start();
     require_once('config/dbconfig.inc.php');
-  
-    
+
+    $distIndex = __DIR__ . '/public/dist/index.html';
+    if (file_exists($distIndex)) {
+        readfile($distIndex);
+        return;
+    }
+
     $dbh = dbConn::getConnection();
 
 ?>
