@@ -1,0 +1,18 @@
+{
+    "name": "configuratore_prezzi/project",
+    "description": "Configuratore Prezzi",
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^10"
+    },
+    "autoload": {
+        "files": ["Utility/data_utility.php"]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
