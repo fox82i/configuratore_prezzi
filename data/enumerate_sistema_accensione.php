@@ -1,7 +1,6 @@
 <?php
- 	require_once('../config/dbconfig.inc.php');
-
- 	include ('../Utility/data_utility.php');
+require_once('../config/dbconfig.inc.php');
+require_once('../Utility/DataUtility.php');
 
 
  	$dbh = dbConn::getConnection();
@@ -33,10 +32,10 @@
 
  	#ingombro nominale, in quanto calcolo la potenza della reel senza nessun sistema di accensione. In base al risultato visualizzo o meno i sistemi di accensione disponibili
  	#il connettore metto twin per la base
-	$ingombro=return_ingombro_tecnico($dbh,$nome_prodotto,$motore_led,1,1,$sistema_fissaggio);
+        $ingombro=DataUtility::returnIngombroTecnico($dbh,$nome_prodotto,$motore_led,1,1,$sistema_fissaggio);
 	$LU=$lunghezza_lampada-$ingombro;
-	$lunghezza_reel=return_lunghezza_reel($LU,$motore_led);
-	$potenza_reel=return_potenza_reel($lunghezza_reel,$motore_led);
+        $lunghezza_reel=DataUtility::returnLunghezzaReel($LU,$motore_led);
+        $potenza_reel=DataUtility::returnPotenzaReel($lunghezza_reel,$motore_led);
 
 	# pre configuro la stringa sql nel caso in cui l'utente seleziona nessun schermo. La stringa verrà messa nel caso in cui la potenza nominale non supera i 3A
 	if ($tipo_schermo=='NA'){
