@@ -163,7 +163,7 @@
  					case ($tipo_fissaggio=='2' && $tipo_connettore<>'3'):#VETRO
  						$app=12;
  						break;
- 					case ($tipo_fissaggio=='1' && $tipo_connettore<>'3'):#METALLO
+ 					case ($tipo_fissaggio=='3' && $tipo_connettore<>'3'):#METALLO
  						$app=30;
  						break; 					
  					case ($tipo_connettore==3):
