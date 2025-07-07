@@ -1,7 +1,6 @@
 <?php
-	require_once('../config/dbconfig.inc.php');
-
- 	include ('../Utility/data_utility.php');
+require_once('../config/dbconfig.inc.php');
+require_once('../Utility/DataUtility.php');
 
 
  	$dbh = dbConn::getConnection();
@@ -20,10 +19,10 @@
  	$vdc=$_REQUEST['vdc'];
 
  	#eseguo calcolo per la lunghezza di taglio reel e sua relativa potenza in funzione delle scelti precedenti
- 	$ingombro=return_ingombro_tecnico($dbh,$nome_prodotto,$motore_led,$sistema_accensione,$sistema_fissaggio);
+        $ingombro=DataUtility::returnIngombroTecnico($dbh,$nome_prodotto,$motore_led,$sistema_accensione,$sistema_fissaggio);
 	$LU=$lunghezza_lampada-$ingombro;
-	$lunghezza_reel=return_lunghezza_reel($LU,$motore_led);
-	$potenza_reel=return_potenza_reel($lunghezza_reel,$motore_led);
+        $lunghezza_reel=DataUtility::returnLunghezzaReel($LU,$motore_led);
+        $potenza_reel=DataUtility::returnPotenzaReel($lunghezza_reel,$motore_led);
 
 
 	if ($vdc=='12Vdc'){
