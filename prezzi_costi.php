@@ -148,13 +148,13 @@
                            
                         </div>
 
+    <div id="app"></div>
                     </body>
 
                         <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
                         <script type="text/javascript" src="js/jqwidgets/jqx-all.js"></script>                     
-                        <script type="text/javascript" src="js/data_adapter.js"></script>                     
-                        <script type="text/javascript" src="js/funzioni.js"></script>                     
                         <script type="text/javascript" src="js/bootstrap/bootstrap.min.js"></script>
+    <script type="module" src="js/vue/app.js"></script>
                         <script type="text/javascript">
                            
                             var costo_prodotto=0;
