@@ -12,6 +12,9 @@
                         <link rel="icon" href="favicon.ico" type="image/x-icon">                       
                         <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css" />
                         <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css" type="text/css" />
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@3/dist/vuetify.min.css">
+                        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+                        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.x/css/materialdesignicons.min.css" rel="stylesheet">
                         
                         
                         <title>Gestione preventivi L&amp;S</title>
@@ -149,12 +152,14 @@
                         </div>
 
     <div id="app"></div>
+    <div id="products-app" class="mt-5"></div>
                     </body>
 
                         <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
                         <script type="text/javascript" src="js/jqwidgets/jqx-all.js"></script>                     
                         <script type="text/javascript" src="js/bootstrap/bootstrap.min.js"></script>
     <script type="module" src="js/vue/app.js"></script>
+    <script type="module" src="js/vue/productsApp.js"></script>
                         <script type="text/javascript">
                            
                             var costo_prodotto=0;
