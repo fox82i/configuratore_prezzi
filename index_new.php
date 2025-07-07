@@ -10,7 +10,7 @@
     <meta name="author" content="Alessandro Fornasier">
     <link rel="icon" href="favicon.ico">
 
-    <title>Login - Confgiuratore Prezzi</title>
+    <title>Login - Configuratore Prezzi</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
