@@ -17,7 +17,11 @@ class dbConn{
 		try {
 		// assign PDO object to db variable
 			#self::$db = new PDO( 'mysql:host=localhost;dbname=DBNAME', 'USERNAME', 'PASSWORD' );
-			self::$db = new PDO( 'mysql:host=localhost;dbname=configuratore_prezzi', 'root', 'claudias82!' );
+                        $host = getenv('DB_HOST') ?: 'localhost';
+                        $name = getenv('DB_NAME') ?: 'configuratore_prezzi';
+                        $user = getenv('DB_USER') ?: 'root';
+                        $pass = getenv('DB_PASS') ?: '';
+                        self::$db = new PDO( "mysql:host={$host};dbname={$name}", $user, $pass );
 			self::$db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 		}
 		catch (PDOException $e) {
