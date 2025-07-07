@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="js/jqwidgets/styles/jqx.base.css">
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/jqwidgets/jqx-all.js"></script>
+</head>
+<body>
+    <h2>Ricerca lampade</h2>
+    <form id="ricercaForm">
+        Lunghezza: <input type="text" id="lunghezza"/><br/>
+        Motore LED: <input type="text" id="motore_led"/><br/>
+        Sistema fissaggio: <input type="text" id="sistema_fissaggio"/><br/>
+        Sistema accensione: <input type="text" id="sistema_accensione"/><br/>
+        Connettore: <input type="text" id="connettore"/><br/>
+        <button type="button" id="cerca">Cerca</button>
+    </form>
+    <div id="risultati" style="margin-top:20px"></div>
+<script>
+$(function(){
+  $("#cerca").on('click',function(){
+    var source = {
+      datatype: 'json',
+      datafields: [
+        { name: 'nome_prodotto' },
+        { name: 'prezzo_listino' }
+      ],
+      url: 'data/ricerca_lampade.php',
+      data: {
+        lunghezza_lampada: $("#lunghezza").val(),
+        motore_led: $("#motore_led").val(),
+        sistema_fissaggio: $("#sistema_fissaggio").val(),
+        sistema_accensione: $("#sistema_accensione").val(),
+        connettore_alimentazione: $("#connettore").val()
+      }
+    };
+    var adapter = new $.jqx.dataAdapter(source);
+    $("#risultati").jqxGrid({
+      source: adapter,
+      columnsresize: true,
+      autoheight: true,
+      columns: [
+        { text: 'Prodotto', datafield: 'nome_prodotto', width: 200 },
+        { text: 'Prezzo Listino', datafield: 'prezzo_listino', width: 150 }
+      ]
+    });
+  });
+});
+</script>
+</body>
+</html>
